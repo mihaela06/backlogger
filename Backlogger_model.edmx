@@ -1,0 +1,590 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BackloggerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Authors">
+          <Key>
+            <PropertyRef Name="AuthorID" />
+          </Key>
+          <Property Name="AuthorID" Type="int" Nullable="false" />
+          <Property Name="AuthorName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Genres">
+          <Key>
+            <PropertyRef Name="GenreID" />
+          </Key>
+          <Property Name="GenreID" Type="int" Nullable="false" />
+          <Property Name="GenreName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Hobbies">
+          <Key>
+            <PropertyRef Name="HobbyID" />
+          </Key>
+          <Property Name="HobbyID" Type="int" Nullable="false" />
+          <Property Name="HobbyName" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="MaterialAuthors">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+            <PropertyRef Name="AuthorID" />
+          </Key>
+          <Property Name="MaterialID" Type="int" Nullable="false" />
+          <Property Name="AuthorID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="MaterialFormats">
+          <Key>
+            <PropertyRef Name="MaterialFormatID" />
+          </Key>
+          <Property Name="MaterialFormatID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FormatType" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="MaterialGenres">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+            <PropertyRef Name="GenreID" />
+          </Key>
+          <Property Name="MaterialID" Type="int" Nullable="false" />
+          <Property Name="GenreID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Materials">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+          </Key>
+          <Property Name="MaterialID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="HobbyID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="MaterialFormatID" Type="int" Nullable="false" />
+          <Property Name="Price" Type="money" />
+          <Property Name="SubscriptionID" Type="int" />
+          <Property Name="TimeSpent" Type="int" />
+          <Property Name="Rating" Type="smallint" />
+          <Property Name="DateReleased" Type="date" />
+          <Property Name="Info" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Statuses">
+          <Key>
+            <PropertyRef Name="StatusID" />
+          </Key>
+          <Property Name="StatusID" Type="int" Nullable="false" />
+          <Property Name="StatusName" Type="varchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="StatusUpdates">
+          <Key>
+            <PropertyRef Name="UpdateID" />
+          </Key>
+          <Property Name="UpdateID" Type="int" Nullable="false" />
+          <Property Name="MaterialID" Type="int" Nullable="false" />
+          <Property Name="DateModified" Type="datetime" Nullable="false" />
+          <Property Name="StatusID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Subscriptions">
+          <Key>
+            <PropertyRef Name="SubscriptionID" />
+          </Key>
+          <Property Name="SubscriptionID" Type="int" Nullable="false" />
+          <Property Name="SubscriptionName" Type="nvarchar(max)" />
+          <Property Name="Price" Type="money" Nullable="false" />
+          <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="MaterialAuthorsAuthorsFK">
+          <End Role="Authors" Type="Self.Authors" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MaterialAuthors" Type="Self.MaterialAuthors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Authors">
+              <PropertyRef Name="AuthorID" />
+            </Principal>
+            <Dependent Role="MaterialAuthors">
+              <PropertyRef Name="AuthorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MaterialAuthorsMaterialsFK">
+          <End Role="Materials" Type="Self.Materials" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MaterialAuthors" Type="Self.MaterialAuthors" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materials">
+              <PropertyRef Name="MaterialID" />
+            </Principal>
+            <Dependent Role="MaterialAuthors">
+              <PropertyRef Name="MaterialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MaterialGenresGenresFK">
+          <End Role="Genres" Type="Self.Genres" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MaterialGenres" Type="Self.MaterialGenres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Genres">
+              <PropertyRef Name="GenreID" />
+            </Principal>
+            <Dependent Role="MaterialGenres">
+              <PropertyRef Name="GenreID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MaterialGenresMaterialsFK">
+          <End Role="Materials" Type="Self.Materials" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="MaterialGenres" Type="Self.MaterialGenres" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materials">
+              <PropertyRef Name="MaterialID" />
+            </Principal>
+            <Dependent Role="MaterialGenres">
+              <PropertyRef Name="MaterialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MaterialsHobbiesFK">
+          <End Role="Hobbies" Type="Self.Hobbies" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Materials" Type="Self.Materials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hobbies">
+              <PropertyRef Name="HobbyID" />
+            </Principal>
+            <Dependent Role="Materials">
+              <PropertyRef Name="HobbyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MaterialsMaterialFormatsFK">
+          <End Role="MaterialFormats" Type="Self.MaterialFormats" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Materials" Type="Self.Materials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaterialFormats">
+              <PropertyRef Name="MaterialFormatID" />
+            </Principal>
+            <Dependent Role="Materials">
+              <PropertyRef Name="MaterialFormatID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MaterialsSubscriptionFK">
+          <End Role="Subscriptions" Type="Self.Subscriptions" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Materials" Type="Self.Materials" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subscriptions">
+              <PropertyRef Name="SubscriptionID" />
+            </Principal>
+            <Dependent Role="Materials">
+              <PropertyRef Name="SubscriptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="StatusUpdatesMaterialsFK">
+          <End Role="Materials" Type="Self.Materials" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StatusUpdates" Type="Self.StatusUpdates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materials">
+              <PropertyRef Name="MaterialID" />
+            </Principal>
+            <Dependent Role="StatusUpdates">
+              <PropertyRef Name="MaterialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="StatusUpdatesStatusesFK">
+          <End Role="Statuses" Type="Self.Statuses" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StatusUpdates" Type="Self.StatusUpdates" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Statuses">
+              <PropertyRef Name="StatusID" />
+            </Principal>
+            <Dependent Role="StatusUpdates">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BackloggerModelStoreContainer">
+          <EntitySet Name="Authors" EntityType="Self.Authors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Genres" EntityType="Self.Genres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hobbies" EntityType="Self.Hobbies" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MaterialAuthors" EntityType="Self.MaterialAuthors" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MaterialFormats" EntityType="Self.MaterialFormats" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="MaterialGenres" EntityType="Self.MaterialGenres" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Materials" EntityType="Self.Materials" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Statuses" EntityType="Self.Statuses" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="StatusUpdates" EntityType="Self.StatusUpdates" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Subscriptions" EntityType="Self.Subscriptions" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="MaterialAuthorsAuthorsFK" Association="Self.MaterialAuthorsAuthorsFK">
+            <End Role="Authors" EntitySet="Authors" />
+            <End Role="MaterialAuthors" EntitySet="MaterialAuthors" />
+          </AssociationSet>
+          <AssociationSet Name="MaterialAuthorsMaterialsFK" Association="Self.MaterialAuthorsMaterialsFK">
+            <End Role="Materials" EntitySet="Materials" />
+            <End Role="MaterialAuthors" EntitySet="MaterialAuthors" />
+          </AssociationSet>
+          <AssociationSet Name="MaterialGenresGenresFK" Association="Self.MaterialGenresGenresFK">
+            <End Role="Genres" EntitySet="Genres" />
+            <End Role="MaterialGenres" EntitySet="MaterialGenres" />
+          </AssociationSet>
+          <AssociationSet Name="MaterialGenresMaterialsFK" Association="Self.MaterialGenresMaterialsFK">
+            <End Role="Materials" EntitySet="Materials" />
+            <End Role="MaterialGenres" EntitySet="MaterialGenres" />
+          </AssociationSet>
+          <AssociationSet Name="MaterialsHobbiesFK" Association="Self.MaterialsHobbiesFK">
+            <End Role="Hobbies" EntitySet="Hobbies" />
+            <End Role="Materials" EntitySet="Materials" />
+          </AssociationSet>
+          <AssociationSet Name="MaterialsMaterialFormatsFK" Association="Self.MaterialsMaterialFormatsFK">
+            <End Role="MaterialFormats" EntitySet="MaterialFormats" />
+            <End Role="Materials" EntitySet="Materials" />
+          </AssociationSet>
+          <AssociationSet Name="MaterialsSubscriptionFK" Association="Self.MaterialsSubscriptionFK">
+            <End Role="Subscriptions" EntitySet="Subscriptions" />
+            <End Role="Materials" EntitySet="Materials" />
+          </AssociationSet>
+          <AssociationSet Name="StatusUpdatesMaterialsFK" Association="Self.StatusUpdatesMaterialsFK">
+            <End Role="Materials" EntitySet="Materials" />
+            <End Role="StatusUpdates" EntitySet="StatusUpdates" />
+          </AssociationSet>
+          <AssociationSet Name="StatusUpdatesStatusesFK" Association="Self.StatusUpdatesStatusesFK">
+            <End Role="Statuses" EntitySet="Statuses" />
+            <End Role="StatusUpdates" EntitySet="StatusUpdates" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BackloggerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Author">
+          <Key>
+            <PropertyRef Name="AuthorID" />
+          </Key>
+          <Property Name="AuthorID" Type="Int32" Nullable="false" />
+          <Property Name="AuthorName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Materials" Relationship="Self.MaterialAuthors" FromRole="Authors" ToRole="Materials" />
+        </EntityType>
+        <EntityType Name="Genre">
+          <Key>
+            <PropertyRef Name="GenreID" />
+          </Key>
+          <Property Name="GenreID" Type="Int32" Nullable="false" />
+          <Property Name="GenreName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Materials" Relationship="Self.MaterialGenres" FromRole="Genres" ToRole="Materials" />
+        </EntityType>
+        <EntityType Name="Hobby">
+          <Key>
+            <PropertyRef Name="HobbyID" />
+          </Key>
+          <Property Name="HobbyID" Type="Int32" Nullable="false" />
+          <Property Name="HobbyName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Materials" Relationship="Self.MaterialsHobbiesFK" FromRole="Hobbies" ToRole="Materials" />
+        </EntityType>
+        <EntityType Name="MaterialFormat">
+          <Key>
+            <PropertyRef Name="MaterialFormatID" />
+          </Key>
+          <Property Name="MaterialFormatID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FormatType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Materials" Relationship="Self.MaterialsMaterialFormatsFK" FromRole="MaterialFormats" ToRole="Materials" />
+        </EntityType>
+        <EntityType Name="Material">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+          </Key>
+          <Property Name="MaterialID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HobbyID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="MaterialFormatID" Type="Int32" Nullable="false" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="SubscriptionID" Type="Int32" />
+          <Property Name="TimeSpent" Type="Int32" />
+          <Property Name="Rating" Type="Int16" />
+          <Property Name="DateReleased" Type="DateTime" Precision="0" />
+          <Property Name="Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Hobby" Relationship="Self.MaterialsHobbiesFK" FromRole="Materials" ToRole="Hobbies" />
+          <NavigationProperty Name="MaterialFormat" Relationship="Self.MaterialsMaterialFormatsFK" FromRole="Materials" ToRole="MaterialFormats" />
+          <NavigationProperty Name="Subscription" Relationship="Self.MaterialsSubscriptionFK" FromRole="Materials" ToRole="Subscriptions" />
+          <NavigationProperty Name="StatusUpdates" Relationship="Self.StatusUpdatesMaterialsFK" FromRole="Materials" ToRole="StatusUpdates" />
+          <NavigationProperty Name="Authors" Relationship="Self.MaterialAuthors" FromRole="Materials" ToRole="Authors" />
+          <NavigationProperty Name="Genres" Relationship="Self.MaterialGenres" FromRole="Materials" ToRole="Genres" />
+        </EntityType>
+        <EntityType Name="Status">
+          <Key>
+            <PropertyRef Name="StatusID" />
+          </Key>
+          <Property Name="StatusID" Type="Int32" Nullable="false" />
+          <Property Name="StatusName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="StatusUpdates" Relationship="Self.StatusUpdatesStatusesFK" FromRole="Statuses" ToRole="StatusUpdates" />
+        </EntityType>
+        <EntityType Name="StatusUpdate">
+          <Key>
+            <PropertyRef Name="UpdateID" />
+          </Key>
+          <Property Name="UpdateID" Type="Int32" Nullable="false" />
+          <Property Name="MaterialID" Type="Int32" Nullable="false" />
+          <Property Name="DateModified" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StatusID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Material" Relationship="Self.StatusUpdatesMaterialsFK" FromRole="StatusUpdates" ToRole="Materials" />
+          <NavigationProperty Name="Status" Relationship="Self.StatusUpdatesStatusesFK" FromRole="StatusUpdates" ToRole="Statuses" />
+        </EntityType>
+        <EntityType Name="Subscription">
+          <Key>
+            <PropertyRef Name="SubscriptionID" />
+          </Key>
+          <Property Name="SubscriptionID" Type="Int32" Nullable="false" />
+          <Property Name="SubscriptionName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Materials" Relationship="Self.MaterialsSubscriptionFK" FromRole="Subscriptions" ToRole="Materials" />
+        </EntityType>
+        <Association Name="MaterialsHobbiesFK">
+          <End Role="Hobbies" Type="Self.Hobby" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Materials" Type="Self.Material" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hobbies">
+              <PropertyRef Name="HobbyID" />
+            </Principal>
+            <Dependent Role="Materials">
+              <PropertyRef Name="HobbyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MaterialsMaterialFormatsFK">
+          <End Role="MaterialFormats" Type="Self.MaterialFormat" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Materials" Type="Self.Material" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MaterialFormats">
+              <PropertyRef Name="MaterialFormatID" />
+            </Principal>
+            <Dependent Role="Materials">
+              <PropertyRef Name="MaterialFormatID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MaterialsSubscriptionFK">
+          <End Role="Subscriptions" Type="Self.Subscription" Multiplicity="0..1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Materials" Type="Self.Material" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Subscriptions">
+              <PropertyRef Name="SubscriptionID" />
+            </Principal>
+            <Dependent Role="Materials">
+              <PropertyRef Name="SubscriptionID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="StatusUpdatesMaterialsFK">
+          <End Role="Materials" Type="Self.Material" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StatusUpdates" Type="Self.StatusUpdate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materials">
+              <PropertyRef Name="MaterialID" />
+            </Principal>
+            <Dependent Role="StatusUpdates">
+              <PropertyRef Name="MaterialID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="StatusUpdatesStatusesFK">
+          <End Role="Statuses" Type="Self.Status" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="StatusUpdates" Type="Self.StatusUpdate" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Statuses">
+              <PropertyRef Name="StatusID" />
+            </Principal>
+            <Dependent Role="StatusUpdates">
+              <PropertyRef Name="StatusID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="MaterialAuthors">
+          <End Role="Authors" Type="Self.Author" Multiplicity="*" />
+          <End Role="Materials" Type="Self.Material" Multiplicity="*" />
+        </Association>
+        <Association Name="MaterialGenres">
+          <End Role="Genres" Type="Self.Genre" Multiplicity="*" />
+          <End Role="Materials" Type="Self.Material" Multiplicity="*" />
+        </Association>
+        <EntityContainer Name="BackloggerEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Authors" EntityType="Self.Author" />
+          <EntitySet Name="Genres" EntityType="Self.Genre" />
+          <EntitySet Name="Hobbies" EntityType="Self.Hobby" />
+          <EntitySet Name="MaterialFormats" EntityType="Self.MaterialFormat" />
+          <EntitySet Name="Materials" EntityType="Self.Material" />
+          <EntitySet Name="Statuses" EntityType="Self.Status" />
+          <EntitySet Name="StatusUpdates" EntityType="Self.StatusUpdate" />
+          <EntitySet Name="Subscriptions" EntityType="Self.Subscription" />
+          <AssociationSet Name="MaterialsHobbiesFK" Association="Self.MaterialsHobbiesFK">
+            <End Role="Hobbies" EntitySet="Hobbies" />
+            <End Role="Materials" EntitySet="Materials" />
+          </AssociationSet>
+          <AssociationSet Name="MaterialsMaterialFormatsFK" Association="Self.MaterialsMaterialFormatsFK">
+            <End Role="MaterialFormats" EntitySet="MaterialFormats" />
+            <End Role="Materials" EntitySet="Materials" />
+          </AssociationSet>
+          <AssociationSet Name="MaterialsSubscriptionFK" Association="Self.MaterialsSubscriptionFK">
+            <End Role="Subscriptions" EntitySet="Subscriptions" />
+            <End Role="Materials" EntitySet="Materials" />
+          </AssociationSet>
+          <AssociationSet Name="StatusUpdatesMaterialsFK" Association="Self.StatusUpdatesMaterialsFK">
+            <End Role="Materials" EntitySet="Materials" />
+            <End Role="StatusUpdates" EntitySet="StatusUpdates" />
+          </AssociationSet>
+          <AssociationSet Name="StatusUpdatesStatusesFK" Association="Self.StatusUpdatesStatusesFK">
+            <End Role="Statuses" EntitySet="Statuses" />
+            <End Role="StatusUpdates" EntitySet="StatusUpdates" />
+          </AssociationSet>
+          <AssociationSet Name="MaterialAuthors" Association="Self.MaterialAuthors">
+            <End Role="Authors" EntitySet="Authors" />
+            <End Role="Materials" EntitySet="Materials" />
+          </AssociationSet>
+          <AssociationSet Name="MaterialGenres" Association="Self.MaterialGenres">
+            <End Role="Genres" EntitySet="Genres" />
+            <End Role="Materials" EntitySet="Materials" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BackloggerModelStoreContainer" CdmEntityContainer="BackloggerEntities">
+          <EntitySetMapping Name="Authors">
+            <EntityTypeMapping TypeName="BackloggerModel.Author">
+              <MappingFragment StoreEntitySet="Authors">
+                <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
+                <ScalarProperty Name="AuthorName" ColumnName="AuthorName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Genres">
+            <EntityTypeMapping TypeName="BackloggerModel.Genre">
+              <MappingFragment StoreEntitySet="Genres">
+                <ScalarProperty Name="GenreID" ColumnName="GenreID" />
+                <ScalarProperty Name="GenreName" ColumnName="GenreName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Hobbies">
+            <EntityTypeMapping TypeName="BackloggerModel.Hobby">
+              <MappingFragment StoreEntitySet="Hobbies">
+                <ScalarProperty Name="HobbyID" ColumnName="HobbyID" />
+                <ScalarProperty Name="HobbyName" ColumnName="HobbyName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MaterialFormats">
+            <EntityTypeMapping TypeName="BackloggerModel.MaterialFormat">
+              <MappingFragment StoreEntitySet="MaterialFormats">
+                <ScalarProperty Name="MaterialFormatID" ColumnName="MaterialFormatID" />
+                <ScalarProperty Name="FormatType" ColumnName="FormatType" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Materials">
+            <EntityTypeMapping TypeName="BackloggerModel.Material">
+              <MappingFragment StoreEntitySet="Materials">
+                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+                <ScalarProperty Name="HobbyID" ColumnName="HobbyID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="MaterialFormatID" ColumnName="MaterialFormatID" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
+                <ScalarProperty Name="TimeSpent" ColumnName="TimeSpent" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="DateReleased" ColumnName="DateReleased" />
+                <ScalarProperty Name="Info" ColumnName="Info" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Statuses">
+            <EntityTypeMapping TypeName="BackloggerModel.Status">
+              <MappingFragment StoreEntitySet="Statuses">
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="StatusUpdates">
+            <EntityTypeMapping TypeName="BackloggerModel.StatusUpdate">
+              <MappingFragment StoreEntitySet="StatusUpdates">
+                <ScalarProperty Name="UpdateID" ColumnName="UpdateID" />
+                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Subscriptions">
+            <EntityTypeMapping TypeName="BackloggerModel.Subscription">
+              <MappingFragment StoreEntitySet="Subscriptions">
+                <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
+                <ScalarProperty Name="SubscriptionName" ColumnName="SubscriptionName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="MaterialAuthors" TypeName="BackloggerModel.MaterialAuthors" StoreEntitySet="MaterialAuthors">
+            <EndProperty Name="Authors">
+              <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
+            </EndProperty>
+            <EndProperty Name="Materials">
+              <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+            </EndProperty>
+          </AssociationSetMapping>
+          <AssociationSetMapping Name="MaterialGenres" TypeName="BackloggerModel.MaterialGenres" StoreEntitySet="MaterialGenres">
+            <EndProperty Name="Genres">
+              <ScalarProperty Name="GenreID" ColumnName="GenreID" />
+            </EndProperty>
+            <EndProperty Name="Materials">
+              <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
