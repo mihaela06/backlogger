@@ -12,22 +12,11 @@ namespace Backlogger
     using System;
     using System.Collections.ObjectModel;
     
-    public partial class Subscription
+    public partial class GamesSubscription
     {
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Subscription()
-        {
-            this.Materials = new ObservableCollection<Material>();
-        }
-    
         public int SubscriptionID { get; set; }
         public string SubscriptionName { get; set; }
         public decimal Price { get; set; }
         public bool IsActive { get; set; }
-        public int HobbyID { get; set; }
-    
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ObservableCollection<Material> Materials { get; set; }
-        public virtual Hobby Hobby { get; set; }
     }
 }

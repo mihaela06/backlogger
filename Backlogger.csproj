@@ -61,18 +61,54 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=4.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>packages\Extended.Wpf.Toolkit.4.0.1\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=4.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>packages\Extended.Wpf.Toolkit.4.0.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=4.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>packages\Extended.Wpf.Toolkit.4.0.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=4.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>packages\Extended.Wpf.Toolkit.4.0.1\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=4.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>packages\Extended.Wpf.Toolkit.4.0.1\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AddDialog.xaml.cs">
+      <DependentUpon>AddDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="AddSubscriptionDialog.xaml.cs">
+      <DependentUpon>AddSubscriptionDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Author.cs">
       <DependentUpon>Backlogger_model.tt</DependentUpon>
     </Compile>
     <Compile Include="Backlogger_model.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
+      <DependentUpon>Backlogger_model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Book.cs">
+      <DependentUpon>Backlogger_model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="BooksSubscription.cs">
+      <DependentUpon>Backlogger_model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="CollectionWindow.xaml.cs">
+      <DependentUpon>CollectionWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Game.cs">
+      <DependentUpon>Backlogger_model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="GamesSubscription.cs">
       <DependentUpon>Backlogger_model.tt</DependentUpon>
     </Compile>
     <Compile Include="Genre.cs">
@@ -87,6 +123,12 @@
     <Compile Include="MaterialFormat.cs">
       <DependentUpon>Backlogger_model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Movie.cs">
+      <DependentUpon>Backlogger_model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="MoviesSubscription.cs">
+      <DependentUpon>Backlogger_model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Status.cs">
       <DependentUpon>Backlogger_model.tt</DependentUpon>
     </Compile>
@@ -96,6 +138,21 @@
     <Compile Include="Subscription.cs">
       <DependentUpon>Backlogger_model.tt</DependentUpon>
     </Compile>
+    <Compile Include="SubscriptionsDialog.xaml.cs">
+      <DependentUpon>SubscriptionsDialog.xaml</DependentUpon>
+    </Compile>
+    <Page Include="AddDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="AddSubscriptionDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="CollectionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -118,6 +175,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="SubscriptionsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -145,6 +206,14 @@
       <DependentUpon>Backlogger_model.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
+    <None Include="Properties\DataSources\Author.datasource" />
+    <None Include="Properties\DataSources\Genre.datasource" />
+    <None Include="Properties\DataSources\Hobby.datasource" />
+    <None Include="Properties\DataSources\Material.datasource" />
+    <None Include="Properties\DataSources\MaterialFormat.datasource" />
+    <None Include="Properties\DataSources\Status.datasource" />
+    <None Include="Properties\DataSources\StatusUpdate.datasource" />
+    <None Include="Properties\DataSources\Subscription.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

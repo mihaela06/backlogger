@@ -5,8 +5,30 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Backlogger"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="Backlogger" Height="600" Width="800"
+        Name="MainWin">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Button Name="BooksButton" Grid.Column="0" Height="200" Width="200" Click="BooksButton_Click">Books</Button>
+            <Button Name="MoviesButton" Grid.Column="1" Height="200" Width="200" Click="MoviesButton_Click">Movies</Button>
+            <Button Name="GamesButton" Grid.Column="2" Height="200" Width="200" Click="GamesButton_Click">Games</Button>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="1*" />
+            </Grid.ColumnDefinitions>
+            <Button Grid.Column="0" Height="150" Width="300">Suggest me something</Button>
+            <Button Grid.Column="1" Height="150" Width="300">Statistics</Button>
+        </Grid>
     </Grid>
 </Window>

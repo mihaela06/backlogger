@@ -18,7 +18,6 @@ namespace Backlogger
         public BackloggerEntities()
             : base("name=BackloggerEntities")
         {
-            Database.SetInitializer<BackloggerEntities>(new CreateDatabaseIfNotExists<BackloggerEntities>());
         }
     
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
@@ -34,5 +33,11 @@ namespace Backlogger
         public virtual DbSet<Status> Statuses { get; set; }
         public virtual DbSet<StatusUpdate> StatusUpdates { get; set; }
         public virtual DbSet<Subscription> Subscriptions { get; set; }
+        public virtual DbSet<Book> Books { get; set; }
+        public virtual DbSet<Game> Games { get; set; }
+        public virtual DbSet<Movie> Movies { get; set; }
+        public virtual DbSet<BooksSubscription> BooksSubscriptions { get; set; }
+        public virtual DbSet<GamesSubscription> GamesSubscriptions { get; set; }
+        public virtual DbSet<MoviesSubscription> MoviesSubscriptions { get; set; }
     }
 }

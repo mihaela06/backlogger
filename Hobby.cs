@@ -18,6 +18,7 @@ namespace Backlogger
         public Hobby()
         {
             this.Materials = new ObservableCollection<Material>();
+            this.Subscriptions = new ObservableCollection<Subscription>();
         }
     
         public int HobbyID { get; set; }
@@ -25,5 +26,7 @@ namespace Backlogger
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ObservableCollection<Material> Materials { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ObservableCollection<Subscription> Subscriptions { get; set; }
     }
 }
