@@ -23,6 +23,10 @@ namespace Backlogger
     {
         public MainWindow()
         {
+            using (BackloggerEntities context = new BackloggerEntities())
+            {
+                context.Hobbies.Load();
+            }
             InitializeComponent();
 
             DataContext = this;

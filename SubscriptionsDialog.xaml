@@ -5,33 +5,95 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Backlogger"
         mc:Ignorable="d"
-        Title="Manage your subscriptions" Height="600" Width="400">
+        Title="Manage your subscriptions" SizeToContent="WidthAndHeight" MaxHeight="500"  MaxWidth="400">
     <Window.Resources>
         <CollectionViewSource x:Key="subscriptionsViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Subscription}, CreateList=True}"/>
+        <!--<CollectionViewSource x:Key="subscriptionsViewSource"/>-->
     </Window.Resources>
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0*"/>
-            <ColumnDefinition/>
-        </Grid.ColumnDefinitions>
+    <Grid Height="Auto">
+        <Grid.Resources>
+            <ImageBrush x:Key="EditButtonImageBrush" ImageSource="Resources/Icons/EditIcon.png" Stretch="UniformToFill"/>
+            <ImageBrush x:Key="EditButtonDisabledImageBrush" ImageSource="Resources/Icons/EditIconDisabled.jpg" Stretch="UniformToFill"/>
+            <ImageBrush x:Key="DeleteButtonImageBrush" ImageSource="Resources/Icons/DeleteIcon.jpg" Stretch="UniformToFill"/>
+            <ImageBrush x:Key="DeleteButtonDisabledImageBrush" ImageSource="Resources/Icons/DeleteIconDisabled.jpg" Stretch="UniformToFill"/>
+            <Style x:Key="EditButtonImageStyle" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="{StaticResource EditButtonDisabledImageBrush}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background"  Value="{StaticResource EditButtonImageBrush}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="DeleteButtonImageStyle" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="{StaticResource DeleteButtonDisabledImageBrush}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border Background="{TemplateBinding Background}">
+                                <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+                <Style.Triggers>
+                    <Trigger Property="IsMouseOver" Value="True">
+                        <Setter Property="Background"  Value="{StaticResource DeleteButtonImageBrush}"/>
+                    </Trigger>
+                </Style.Triggers>
+            </Style>
+        </Grid.Resources>
         <Grid.RowDefinitions>
-            <RowDefinition Height="6*"></RowDefinition>
-            <RowDefinition Height="*"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
+            <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <DataGrid x:Name="SubscriptionsDataGrid" Grid.Row="0" Margin="20" AutoGenerateColumns="False" CanUserAddRows="False" IsEnabled="True" ItemsSource="{Binding Source={StaticResource subscriptionsViewSource}}" Grid.ColumnSpan="2">
+        <DataGrid x:Name="SubscriptionsDataGrid" Grid.Row="0" Margin="20" AutoGenerateColumns="False" CanUserAddRows="False" IsEnabled="True" ItemsSource="{Binding Source={StaticResource subscriptionsViewSource}}"  IsReadOnly="True" HorizontalContentAlignment="Center" HeadersVisibility="None"  MaxHeight="300">
             <DataGrid.Columns>
-                <DataGridTextColumn x:Name="SubscriptionNameColumn" Binding="{Binding SubscriptionName}" Header="Subscription" Width="SizeToHeader"/>
-                <DataGridTextColumn x:Name="PriceColumn" Binding="{Binding Price}" Header="Price" Width="SizeToHeader"/>
+                <DataGridTextColumn x:Name="SubscriptionNameColumn" Binding="{Binding SubscriptionName}" Header="Subscription" Width="3*"/>
+                <DataGridTextColumn x:Name="PriceColumn" Binding="{Binding Price}" Header="Price" Width="*"/>
                 <DataGridTemplateColumn x:Name="ActiveColumn" Header="Active" Width="60">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <CheckBox x:Name="CheckBoxActive" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding IsActive, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBlock>
+                                <TextBlock.Style>
+                                    <Style TargetType="{x:Type TextBlock}">
+                                        <Setter Property="Text" Value="Inactive" />
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsActive}" Value="True">
+                                                <Setter Property="Text" Value="Active" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn x:Name="EditButtonColumn">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="EditButton" Style="{StaticResource EditButtonImageStyle}" Click="EditButton_Click"/>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+                <DataGridTemplateColumn x:Name="DeleteButtonColumn">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Button x:Name="DeleteButton" Style="{StaticResource DeleteButtonImageStyle}" Click="DeleteButton_Click"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Grid Grid.Row="1" Grid.ColumnSpan="2">
+        <Grid Grid.Row="1" Grid.ColumnSpan="2" Height="Auto" Margin="10">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>

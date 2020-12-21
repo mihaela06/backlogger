@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,29 +21,57 @@ namespace Backlogger
     public partial class AddSubscriptionDialog : Window
     {
         string windowType;
-        BackloggerEntities context;
-        public AddSubscriptionDialog(string type, BackloggerEntities context)
+        Subscription edited;
+        public AddSubscriptionDialog(string type)
         {
             windowType = type;
-            this.context = context;
+            edited = null;
             InitializeComponent();
+        }
+
+        public AddSubscriptionDialog(string type, Subscription s)
+        {
+            windowType = type;
+            InitializeComponent();
+
+            TextBoxSubName.Text = s.SubscriptionName;
+            TextBoxSubPrice.Text = s.Price.ToString();
+            CheckBoxActive.IsChecked = s.IsActive;
+
+            edited = s;
         }
 
         private void SaveSubscriptionButton_Click(object sender, RoutedEventArgs e)
         {
             // should verify format of fields
 
-            Subscription subscription = new Subscription()
+            using (BackloggerEntities context = new BackloggerEntities())
             {
-                HobbyID = (from o in context.Hobbies.Local where o.HobbyName == windowType select o).FirstOrDefault().HobbyID,
-                SubscriptionName = TextBoxSubName.Text,
-                Price = Convert.ToDecimal(TextBoxSubPrice.Text),
-                IsActive = (bool)CheckBoxActive.IsChecked
-            };
+                context.Hobbies.Load();
+                context.Subscriptions.Load();
 
-            context.Subscriptions.Add(subscription);
-            context.SaveChanges();
-            this.Close();
+                if (edited == null)
+                {
+                    Subscription subscription = new Subscription()
+                    {
+                        HobbyID = (from o in context.Hobbies.Local where o.HobbyName == windowType select o).FirstOrDefault().HobbyID,
+                        SubscriptionName = TextBoxSubName.Text,
+                        Price = Convert.ToDecimal(TextBoxSubPrice.Text),
+                        IsActive = (bool)CheckBoxActive.IsChecked
+                    };
+
+                    context.Subscriptions.Add(subscription);
+                }
+                else
+                {
+                    Subscription s = context.Subscriptions.Find(edited.SubscriptionID);
+                    s.Price = Convert.ToDecimal(TextBoxSubPrice.Text);
+                    s.IsActive = (bool)CheckBoxActive.IsChecked;
+                    s.SubscriptionName = TextBoxSubName.Text;
+                }
+                context.SaveChanges();
+                this.Close();
+            }
         }
 
         private void CancelSubscriptionButton_Click(object sender, RoutedEventArgs e)
@@ -50,6 +79,7 @@ namespace Backlogger
             TextBoxSubName.Text = "";
             TextBoxSubPrice.Text = "";
             CheckBoxActive.IsChecked = false;
+            this.Close();
         }
     }
 }

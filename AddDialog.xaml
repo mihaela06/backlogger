@@ -34,7 +34,7 @@
         <Label x:Name="LabelMaterialFormat" Content="Format" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="3"/>
         <TextBox x:Name="TextBoxMaterialFormat" Width="400" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="3"/>
         <Label x:Name="LabelSubscription" Content="Subscription" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="4"/>
-        <ComboBox x:Name="ComboBoxSubscription" Width="200" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="4"/>
+        <ComboBox x:Name="ComboBoxSubscription" Width="200" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="4" SelectionChanged="ComboBoxSubscription_SelectionChanged"/>
         <Label x:Name="LabelPrice" Content="Price" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="5"/>
         <TextBox x:Name="TextBoxPrice" Width="400" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="5"/>
         <Label x:Name="LabelDateReleased" Content="Date released" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="6"/>
