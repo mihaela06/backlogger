@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Entity;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -22,12 +25,15 @@ namespace Backlogger
     public partial class AddDialog : Window
     {
         public string windowType;
+        private string wholePath;
         public AddDialog(string type)
         {
             windowType = type;
             InitializeComponent();
-            List<string> options = new List<string>();
-            options.Add("None");
+            List<string> options = new List<string>
+            {
+                "None"
+            };
             using (BackloggerEntities context = new BackloggerEntities())
             {
                 switch (windowType)
@@ -180,6 +186,35 @@ namespace Backlogger
 
                 context.StatusUpdates.Add(statusUpdate);
                 context.SaveChanges();
+
+                // should implement file reset
+
+                if (LabelFileSelected.Content.ToString() != "No file selected")
+                {
+                    int id = newMaterial.MaterialID;
+
+                    // should modify path for release version
+
+                    string path = LabelFileSelected.Content.ToString();
+                    if (path.IndexOf("http") == 0)
+                    {
+                        Uri uri = new Uri(wholePath);
+
+                        var uriWithoutQuery = uri.GetLeftPart(UriPartial.Path);
+                        var fileExtension = System.IO.Path.GetExtension(uriWithoutQuery);
+
+                        using (WebClient client = new WebClient())
+                        {
+                            client.DownloadFile(uri, System.AppDomain.CurrentDomain.BaseDirectory + @"..\..\Resources\Images\" + id + fileExtension);
+                        }
+                    }
+                    else
+                    {
+                        var fileExtension = System.IO.Path.GetExtension(wholePath);
+
+                        File.Copy(wholePath, System.AppDomain.CurrentDomain.BaseDirectory + @"..\..\Resources\Images\" + id + fileExtension);
+                    }
+                }
                 this.Close();
             }
         }
@@ -204,6 +239,34 @@ namespace Backlogger
             else
             {
                 TextBoxPrice.IsEnabled = true;
+            }
+        }
+
+        private void ButtonBrowseWeb_Click(object sender, RoutedEventArgs e)
+        {
+            BrowseImageWebDialog browseImageWebDialog = new BrowseImageWebDialog(TextBoxTitle.Text, TextBoxAuthor.Text, windowType);
+            browseImageWebDialog.ShowDialog();
+            string s = browseImageWebDialog.urlChosenImage;
+            wholePath = s;
+            if (s == null)
+                LabelFileSelected.Content = "No file selected";
+            else if (s.Length < 60)
+                LabelFileSelected.Content = s;
+            else
+                LabelFileSelected.Content = s.Substring(0, 40) + "..." + s.Substring(s.Length - 25);
+        }
+
+        private void ButtonLocalFile_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() == true)
+            {
+                string s = openFileDialog.FileName;
+                wholePath = s;
+                if (s.Length < 60)
+                    LabelFileSelected.Content = s;
+                else
+                    LabelFileSelected.Content = s.Substring(0, 40) + "..." + s.Substring(s.Length - 25);
             }
         }
     }

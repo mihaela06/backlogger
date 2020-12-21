@@ -10,13 +10,9 @@
 namespace Backlogger
 {
     using System;
-    using System.Collections.ObjectModel;
     
-    public partial class MoviesSubscription
+    public partial class ConcatenateGenres_Result
     {
-        public int SubscriptionID { get; set; }
-        public string SubscriptionName { get; set; }
-        public decimal Price { get; set; }
-        public bool IsActive { get; set; }
+        public string GenresList { get; set; }
     }
 }

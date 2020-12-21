@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="BackloggerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="BackloggerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Authors">
           <Key>
             <PropertyRef Name="AuthorID" />
@@ -95,26 +95,28 @@ warning 6002: The table/view 'Backlogger.dbo.Books' does not have a primary key 
         <EntityType Name="Books">
           <Key>
             <PropertyRef Name="MaterialID" />
-            
-            
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="MaterialFormatID" />
           </Key>
-          <Property Name="MaterialID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaterialID" Type="int" Nullable="false" />
           <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="MaterialFormatID" Type="int" Nullable="false" />
+          <Property Name="AuthorsList" Type="nvarchar(max)" />
+          <Property Name="GenresList" Type="nvarchar(max)" />
           <Property Name="Price" Type="money" />
-          <Property Name="SubscriptionID" Type="int" />
           <Property Name="TimeSpent" Type="int" />
           <Property Name="Rating" Type="smallint" />
           <Property Name="DateReleased" Type="date" />
           <Property Name="Info" Type="nvarchar(max)" />
+          <Property Name="MaterialFormatID" Type="int" Nullable="false" />
+          <Property Name="SubscriptionID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'Backlogger.dbo.BooksSubscriptions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="BooksSubscriptions">
           <Key>
             <PropertyRef Name="SubscriptionID" />
-            
-            
+            <PropertyRef Name="Price" />
+            <PropertyRef Name="IsActive" />
           </Key>
           <Property Name="SubscriptionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SubscriptionName" Type="nvarchar(max)" />
@@ -126,26 +128,28 @@ warning 6002: The table/view 'Backlogger.dbo.Games' does not have a primary key 
         <EntityType Name="Games">
           <Key>
             <PropertyRef Name="MaterialID" />
-            
-            
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="MaterialFormatID" />
           </Key>
-          <Property Name="MaterialID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaterialID" Type="int" Nullable="false" />
           <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="MaterialFormatID" Type="int" Nullable="false" />
+          <Property Name="AuthorsList" Type="nvarchar(max)" />
+          <Property Name="GenresList" Type="nvarchar(max)" />
           <Property Name="Price" Type="money" />
-          <Property Name="SubscriptionID" Type="int" />
           <Property Name="TimeSpent" Type="int" />
           <Property Name="Rating" Type="smallint" />
           <Property Name="DateReleased" Type="date" />
           <Property Name="Info" Type="nvarchar(max)" />
+          <Property Name="MaterialFormatID" Type="int" Nullable="false" />
+          <Property Name="SubscriptionID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'Backlogger.dbo.GamesSubscriptions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="GamesSubscriptions">
           <Key>
             <PropertyRef Name="SubscriptionID" />
-            
-            
+            <PropertyRef Name="Price" />
+            <PropertyRef Name="IsActive" />
           </Key>
           <Property Name="SubscriptionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SubscriptionName" Type="nvarchar(max)" />
@@ -157,26 +161,28 @@ warning 6002: The table/view 'Backlogger.dbo.Movies' does not have a primary key
         <EntityType Name="Movies">
           <Key>
             <PropertyRef Name="MaterialID" />
-            
-            
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="MaterialFormatID" />
           </Key>
-          <Property Name="MaterialID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MaterialID" Type="int" Nullable="false" />
           <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
-          <Property Name="MaterialFormatID" Type="int" Nullable="false" />
+          <Property Name="AuthorsList" Type="nvarchar(max)" />
+          <Property Name="GenresList" Type="nvarchar(max)" />
           <Property Name="Price" Type="money" />
-          <Property Name="SubscriptionID" Type="int" />
           <Property Name="TimeSpent" Type="int" />
           <Property Name="Rating" Type="smallint" />
           <Property Name="DateReleased" Type="date" />
           <Property Name="Info" Type="nvarchar(max)" />
+          <Property Name="MaterialFormatID" Type="int" Nullable="false" />
+          <Property Name="SubscriptionID" Type="int" />
         </EntityType>
         <!--Errors Found During Generation:
 warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="MoviesSubscriptions">
           <Key>
             <PropertyRef Name="SubscriptionID" />
-            
-            
+            <PropertyRef Name="Price" />
+            <PropertyRef Name="IsActive" />
           </Key>
           <Property Name="SubscriptionID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="SubscriptionName" Type="nvarchar(max)" />
@@ -321,6 +327,26 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Function Name="ConcatenateAuthors" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaterialID" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="AuthorsList" Type="nvarchar(max)" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="ConcatenateGenres" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaterialID" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="GenresList" Type="nvarchar(max)" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <EntityContainer Name="BackloggerModelStoreContainer">
           <EntitySet Name="Authors" EntityType="Self.Authors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Genres" EntityType="Self.Genres" Schema="dbo" store:Type="Tables" />
@@ -336,13 +362,15 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
             <DefiningQuery>SELECT 
     [Books].[MaterialID] AS [MaterialID], 
     [Books].[Title] AS [Title], 
-    [Books].[MaterialFormatID] AS [MaterialFormatID], 
+    [Books].[AuthorsList] AS [AuthorsList], 
+    [Books].[GenresList] AS [GenresList], 
     [Books].[Price] AS [Price], 
-    [Books].[SubscriptionID] AS [SubscriptionID], 
     [Books].[TimeSpent] AS [TimeSpent], 
     [Books].[Rating] AS [Rating], 
     [Books].[DateReleased] AS [DateReleased], 
-    [Books].[Info] AS [Info]
+    [Books].[Info] AS [Info], 
+    [Books].[MaterialFormatID] AS [MaterialFormatID], 
+    [Books].[SubscriptionID] AS [SubscriptionID]
     FROM [dbo].[Books] AS [Books]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="BooksSubscriptions" EntityType="Self.BooksSubscriptions" store:Type="Views" store:Schema="dbo">
@@ -357,13 +385,15 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
             <DefiningQuery>SELECT 
     [Games].[MaterialID] AS [MaterialID], 
     [Games].[Title] AS [Title], 
-    [Games].[MaterialFormatID] AS [MaterialFormatID], 
+    [Games].[AuthorsList] AS [AuthorsList], 
+    [Games].[GenresList] AS [GenresList], 
     [Games].[Price] AS [Price], 
-    [Games].[SubscriptionID] AS [SubscriptionID], 
     [Games].[TimeSpent] AS [TimeSpent], 
     [Games].[Rating] AS [Rating], 
     [Games].[DateReleased] AS [DateReleased], 
-    [Games].[Info] AS [Info]
+    [Games].[Info] AS [Info], 
+    [Games].[MaterialFormatID] AS [MaterialFormatID], 
+    [Games].[SubscriptionID] AS [SubscriptionID]
     FROM [dbo].[Games] AS [Games]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="GamesSubscriptions" EntityType="Self.GamesSubscriptions" store:Type="Views" store:Schema="dbo">
@@ -378,13 +408,15 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
             <DefiningQuery>SELECT 
     [Movies].[MaterialID] AS [MaterialID], 
     [Movies].[Title] AS [Title], 
-    [Movies].[MaterialFormatID] AS [MaterialFormatID], 
+    [Movies].[AuthorsList] AS [AuthorsList], 
+    [Movies].[GenresList] AS [GenresList], 
     [Movies].[Price] AS [Price], 
-    [Movies].[SubscriptionID] AS [SubscriptionID], 
     [Movies].[TimeSpent] AS [TimeSpent], 
     [Movies].[Rating] AS [Rating], 
     [Movies].[DateReleased] AS [DateReleased], 
-    [Movies].[Info] AS [Info]
+    [Movies].[Info] AS [Info], 
+    [Movies].[MaterialFormatID] AS [MaterialFormatID], 
+    [Movies].[SubscriptionID] AS [SubscriptionID]
     FROM [dbo].[Movies] AS [Movies]</DefiningQuery>
           </EntitySet>
           <EntitySet Name="MoviesSubscriptions" EntityType="Self.MoviesSubscriptions" store:Type="Views" store:Schema="dbo">
@@ -436,15 +468,22 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
             <End Role="Subscriptions" EntitySet="Subscriptions" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BackloggerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <ComplexType Name="ConcatenateAuthors_Result">
+          <Property Name="AuthorsList" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </ComplexType>
+        <ComplexType Name="ConcatenateGenres_Result">
+          <Property Name="GenresList" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </ComplexType>
         <EntityType Name="Author">
           <Key>
             <PropertyRef Name="AuthorID" />
           </Key>
-          <Property Name="AuthorID" Type="Int32" Nullable="false" />
+          <Property Name="AuthorID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="AuthorName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Materials" Relationship="Self.MaterialAuthors" FromRole="Authors" ToRole="Materials" />
         </EntityType>
@@ -452,7 +491,7 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
           <Key>
             <PropertyRef Name="GenreID" />
           </Key>
-          <Property Name="GenreID" Type="Int32" Nullable="false" />
+          <Property Name="GenreID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="GenreName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Materials" Relationship="Self.MaterialGenres" FromRole="Genres" ToRole="Materials" />
         </EntityType>
@@ -460,10 +499,10 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
           <Key>
             <PropertyRef Name="HobbyID" />
           </Key>
-          <Property Name="HobbyID" Type="Int32" Nullable="false" />
+          <Property Name="HobbyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="HobbyName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Materials" Relationship="Self.MaterialsHobbiesFK" FromRole="Hobbies" ToRole="Materials" />
-          <NavigationProperty Name="Subscriptions" Relationship="BackloggerModel.SubscriptionsHobbiesFK" FromRole="Hobby" ToRole="Subscription" />
+          <NavigationProperty Name="Subscriptions" Relationship="Self.SubscriptionsHobbiesFK" FromRole="Hobbies" ToRole="Subscriptions" />
         </EntityType>
         <EntityType Name="MaterialFormat">
           <Key>
@@ -489,7 +528,7 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
           <Property Name="Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Hobby" Relationship="Self.MaterialsHobbiesFK" FromRole="Materials" ToRole="Hobbies" />
           <NavigationProperty Name="MaterialFormat" Relationship="Self.MaterialsMaterialFormatsFK" FromRole="Materials" ToRole="MaterialFormats" />
-          <NavigationProperty Name="Subscription" Relationship="Self.MaterialsSubscriptionFK" FromRole="Materials" ToRole="Subscriptions" />
+          <NavigationProperty Name="Subscription" Relationship="Self.MaterialsSubscriptionsFK" FromRole="Materials" ToRole="Subscriptions" />
           <NavigationProperty Name="StatusUpdates" Relationship="Self.StatusUpdatesMaterialsFK" FromRole="Materials" ToRole="StatusUpdates" />
           <NavigationProperty Name="Authors" Relationship="Self.MaterialAuthors" FromRole="Materials" ToRole="Authors" />
           <NavigationProperty Name="Genres" Relationship="Self.MaterialGenres" FromRole="Materials" ToRole="Genres" />
@@ -498,7 +537,7 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
           <Key>
             <PropertyRef Name="StatusID" />
           </Key>
-          <Property Name="StatusID" Type="Int32" Nullable="false" />
+          <Property Name="StatusID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="StatusName" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="StatusUpdates" Relationship="Self.StatusUpdatesStatusesFK" FromRole="Statuses" ToRole="StatusUpdates" />
         </EntityType>
@@ -506,7 +545,7 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
           <Key>
             <PropertyRef Name="UpdateID" />
           </Key>
-          <Property Name="UpdateID" Type="Int32" Nullable="false" />
+          <Property Name="UpdateID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="MaterialID" Type="Int32" Nullable="false" />
           <Property Name="DateModified" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="StatusID" Type="Int32" Nullable="false" />
@@ -517,13 +556,100 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
           <Key>
             <PropertyRef Name="SubscriptionID" />
           </Key>
-          <Property Name="SubscriptionID" Type="Int32" Nullable="false" />
+          <Property Name="SubscriptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="HobbyID" Type="Int32" Nullable="false" />
           <Property Name="SubscriptionName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
           <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
           <Property Name="IsActive" Type="Boolean" Nullable="false" />
-          <NavigationProperty Name="Materials" Relationship="Self.MaterialsSubscriptionFK" FromRole="Subscriptions" ToRole="Materials" />
-          <Property Name="HobbyID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Hobby" Relationship="BackloggerModel.SubscriptionsHobbiesFK" FromRole="Subscription" ToRole="Hobby" />
+          <NavigationProperty Name="Hobby" Relationship="Self.SubscriptionsHobbiesFK" FromRole="Subscriptions" ToRole="Hobbies" />
+          <NavigationProperty Name="Materials" Relationship="Self.MaterialsSubscriptionsFK" FromRole="Subscriptions" ToRole="Materials" />
+        </EntityType>
+        <EntityType Name="Book">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="MaterialFormatID" />
+          </Key>
+          <Property Name="MaterialID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AuthorsList" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GenresList" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="TimeSpent" Type="Int32" />
+          <Property Name="Rating" Type="Int16" />
+          <Property Name="DateReleased" Type="DateTime" Precision="0" />
+          <Property Name="Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MaterialFormatID" Type="Int32" Nullable="false" />
+          <Property Name="SubscriptionID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="BooksSubscription">
+          <Key>
+            <PropertyRef Name="SubscriptionID" />
+            <PropertyRef Name="Price" />
+            <PropertyRef Name="IsActive" />
+          </Key>
+          <Property Name="SubscriptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubscriptionName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Game">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="MaterialFormatID" />
+          </Key>
+          <Property Name="MaterialID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AuthorsList" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GenresList" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="TimeSpent" Type="Int32" />
+          <Property Name="Rating" Type="Int16" />
+          <Property Name="DateReleased" Type="DateTime" Precision="0" />
+          <Property Name="Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MaterialFormatID" Type="Int32" Nullable="false" />
+          <Property Name="SubscriptionID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="GamesSubscription">
+          <Key>
+            <PropertyRef Name="SubscriptionID" />
+            <PropertyRef Name="Price" />
+            <PropertyRef Name="IsActive" />
+          </Key>
+          <Property Name="SubscriptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubscriptionName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Movie">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="MaterialFormatID" />
+          </Key>
+          <Property Name="MaterialID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="AuthorsList" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GenresList" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="TimeSpent" Type="Int32" />
+          <Property Name="Rating" Type="Int16" />
+          <Property Name="DateReleased" Type="DateTime" Precision="0" />
+          <Property Name="Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="MaterialFormatID" Type="Int32" Nullable="false" />
+          <Property Name="SubscriptionID" Type="Int32" />
+        </EntityType>
+        <EntityType Name="MoviesSubscription">
+          <Key>
+            <PropertyRef Name="SubscriptionID" />
+            <PropertyRef Name="Price" />
+            <PropertyRef Name="IsActive" />
+          </Key>
+          <Property Name="SubscriptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SubscriptionName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="IsActive" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="MaterialsHobbiesFK">
           <End Role="Hobbies" Type="Self.Hobby" Multiplicity="1">
@@ -535,6 +661,18 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
               <PropertyRef Name="HobbyID" />
             </Principal>
             <Dependent Role="Materials">
+              <PropertyRef Name="HobbyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="SubscriptionsHobbiesFK">
+          <End Role="Hobbies" Type="Self.Hobby" Multiplicity="1" />
+          <End Role="Subscriptions" Type="Self.Subscription" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hobbies">
+              <PropertyRef Name="HobbyID" />
+            </Principal>
+            <Dependent Role="Subscriptions">
               <PropertyRef Name="HobbyID" />
             </Dependent>
           </ReferentialConstraint>
@@ -553,7 +691,7 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="MaterialsSubscriptionFK">
+        <Association Name="MaterialsSubscriptionsFK">
           <End Role="Subscriptions" Type="Self.Subscription" Multiplicity="0..1">
             <OnDelete Action="Cascade" />
           </End>
@@ -612,15 +750,25 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
           <EntitySet Name="Statuses" EntityType="Self.Status" />
           <EntitySet Name="StatusUpdates" EntityType="Self.StatusUpdate" />
           <EntitySet Name="Subscriptions" EntityType="Self.Subscription" />
+          <EntitySet Name="Books" EntityType="Self.Book" />
+          <EntitySet Name="BooksSubscriptions" EntityType="Self.BooksSubscription" />
+          <EntitySet Name="Games" EntityType="Self.Game" />
+          <EntitySet Name="GamesSubscriptions" EntityType="Self.GamesSubscription" />
+          <EntitySet Name="Movies1" EntityType="BackloggerModel.Movie" />
+          <EntitySet Name="MoviesSubscriptions" EntityType="Self.MoviesSubscription" />
           <AssociationSet Name="MaterialsHobbiesFK" Association="Self.MaterialsHobbiesFK">
             <End Role="Hobbies" EntitySet="Hobbies" />
             <End Role="Materials" EntitySet="Materials" />
+          </AssociationSet>
+          <AssociationSet Name="SubscriptionsHobbiesFK" Association="Self.SubscriptionsHobbiesFK">
+            <End Role="Hobbies" EntitySet="Hobbies" />
+            <End Role="Subscriptions" EntitySet="Subscriptions" />
           </AssociationSet>
           <AssociationSet Name="MaterialsMaterialFormatsFK" Association="Self.MaterialsMaterialFormatsFK">
             <End Role="MaterialFormats" EntitySet="MaterialFormats" />
             <End Role="Materials" EntitySet="Materials" />
           </AssociationSet>
-          <AssociationSet Name="MaterialsSubscriptionFK" Association="Self.MaterialsSubscriptionFK">
+          <AssociationSet Name="MaterialsSubscriptionsFK" Association="Self.MaterialsSubscriptionsFK">
             <End Role="Subscriptions" EntitySet="Subscriptions" />
             <End Role="Materials" EntitySet="Materials" />
           </AssociationSet>
@@ -640,98 +788,13 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
             <End Role="Genres" EntitySet="Genres" />
             <End Role="Materials" EntitySet="Materials" />
           </AssociationSet>
-          <EntitySet Name="Books" EntityType="BackloggerModel.Book" />
-          <EntitySet Name="Games" EntityType="BackloggerModel.Game" />
-          <EntitySet Name="Movies1" EntityType="BackloggerModel.Movie" />
-          <AssociationSet Name="SubscriptionsHobbiesFK" Association="BackloggerModel.SubscriptionsHobbiesFK">
-            <End Role="Hobby" EntitySet="Hobbies" />
-            <End Role="Subscription" EntitySet="Subscriptions" />
-          </AssociationSet>
-          <EntitySet Name="BooksSubscriptions" EntityType="BackloggerModel.BooksSubscription" />
-          <EntitySet Name="GamesSubscriptions" EntityType="BackloggerModel.GamesSubscription" />
-          <EntitySet Name="MoviesSubscriptions" EntityType="BackloggerModel.MoviesSubscription" />
+          <FunctionImport Name="ConcatenateAuthors" IsComposable="true" ReturnType="Collection(BackloggerModel.ConcatenateAuthors_Result)">
+            <Parameter Name="MaterialID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="ConcatenateGenres" IsComposable="true" ReturnType="Collection(BackloggerModel.ConcatenateGenres_Result)">
+            <Parameter Name="MaterialID" Mode="In" Type="Int32" />
+          </FunctionImport>
         </EntityContainer>
-        <EntityType Name="Book">
-          <Key>
-            <PropertyRef Name="MaterialID" />
-          </Key>
-          <Property Name="MaterialID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="MaterialFormatID" Type="Int32" Nullable="false" />
-          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="SubscriptionID" Type="Int32" />
-          <Property Name="TimeSpent" Type="Int32" />
-          <Property Name="Rating" Type="Int16" />
-          <Property Name="DateReleased" Type="DateTime" Precision="0" />
-          <Property Name="Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Game">
-          <Key>
-            <PropertyRef Name="MaterialID" />
-          </Key>
-          <Property Name="MaterialID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="MaterialFormatID" Type="Int32" Nullable="false" />
-          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="SubscriptionID" Type="Int32" />
-          <Property Name="TimeSpent" Type="Int32" />
-          <Property Name="Rating" Type="Int16" />
-          <Property Name="DateReleased" Type="DateTime" Precision="0" />
-          <Property Name="Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <EntityType Name="Movie">
-          <Key>
-            <PropertyRef Name="MaterialID" />
-          </Key>
-          <Property Name="MaterialID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="MaterialFormatID" Type="Int32" Nullable="false" />
-          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
-          <Property Name="SubscriptionID" Type="Int32" />
-          <Property Name="TimeSpent" Type="Int32" />
-          <Property Name="Rating" Type="Int16" />
-          <Property Name="DateReleased" Type="DateTime" Precision="0" />
-          <Property Name="Info" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <Association Name="SubscriptionsHobbiesFK">
-          <End Type="BackloggerModel.Hobby" Role="Hobby" Multiplicity="1" />
-          <End Type="BackloggerModel.Subscription" Role="Subscription" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Hobby">
-              <PropertyRef Name="HobbyID" />
-            </Principal>
-            <Dependent Role="Subscription">
-              <PropertyRef Name="HobbyID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="BooksSubscription">
-          <Key>
-            <PropertyRef Name="SubscriptionID" />
-          </Key>
-          <Property Name="SubscriptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SubscriptionName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <EntityType Name="GamesSubscription">
-          <Key>
-            <PropertyRef Name="SubscriptionID" />
-          </Key>
-          <Property Name="SubscriptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SubscriptionName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-        </EntityType>
-        <EntityType Name="MoviesSubscription">
-          <Key>
-            <PropertyRef Name="SubscriptionID" />
-          </Key>
-          <Property Name="SubscriptionID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SubscriptionName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Price" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
-          <Property Name="IsActive" Type="Boolean" Nullable="false" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -807,7 +870,88 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
           <EntitySetMapping Name="Subscriptions">
             <EntityTypeMapping TypeName="BackloggerModel.Subscription">
               <MappingFragment StoreEntitySet="Subscriptions">
+                <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
                 <ScalarProperty Name="HobbyID" ColumnName="HobbyID" />
+                <ScalarProperty Name="SubscriptionName" ColumnName="SubscriptionName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Books">
+            <EntityTypeMapping TypeName="BackloggerModel.Book">
+              <MappingFragment StoreEntitySet="Books">
+                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="AuthorsList" ColumnName="AuthorsList" />
+                <ScalarProperty Name="GenresList" ColumnName="GenresList" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="TimeSpent" ColumnName="TimeSpent" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="DateReleased" ColumnName="DateReleased" />
+                <ScalarProperty Name="Info" ColumnName="Info" />
+                <ScalarProperty Name="MaterialFormatID" ColumnName="MaterialFormatID" />
+                <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="BooksSubscriptions">
+            <EntityTypeMapping TypeName="BackloggerModel.BooksSubscription">
+              <MappingFragment StoreEntitySet="BooksSubscriptions">
+                <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
+                <ScalarProperty Name="SubscriptionName" ColumnName="SubscriptionName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Games">
+            <EntityTypeMapping TypeName="BackloggerModel.Game">
+              <MappingFragment StoreEntitySet="Games">
+                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="AuthorsList" ColumnName="AuthorsList" />
+                <ScalarProperty Name="GenresList" ColumnName="GenresList" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="TimeSpent" ColumnName="TimeSpent" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="DateReleased" ColumnName="DateReleased" />
+                <ScalarProperty Name="Info" ColumnName="Info" />
+                <ScalarProperty Name="MaterialFormatID" ColumnName="MaterialFormatID" />
+                <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="GamesSubscriptions">
+            <EntityTypeMapping TypeName="BackloggerModel.GamesSubscription">
+              <MappingFragment StoreEntitySet="GamesSubscriptions">
+                <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
+                <ScalarProperty Name="SubscriptionName" ColumnName="SubscriptionName" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Movies1">
+            <EntityTypeMapping TypeName="BackloggerModel.Movie">
+              <MappingFragment StoreEntitySet="Movies">
+                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="AuthorsList" ColumnName="AuthorsList" />
+                <ScalarProperty Name="GenresList" ColumnName="GenresList" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="TimeSpent" ColumnName="TimeSpent" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="DateReleased" ColumnName="DateReleased" />
+                <ScalarProperty Name="Info" ColumnName="Info" />
+                <ScalarProperty Name="MaterialFormatID" ColumnName="MaterialFormatID" />
+                <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="MoviesSubscriptions">
+            <EntityTypeMapping TypeName="BackloggerModel.MoviesSubscription">
+              <MappingFragment StoreEntitySet="MoviesSubscriptions">
                 <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
                 <ScalarProperty Name="SubscriptionName" ColumnName="SubscriptionName" />
                 <ScalarProperty Name="Price" ColumnName="Price" />
@@ -831,81 +975,20 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
               <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="Books">
-            <EntityTypeMapping TypeName="BackloggerModel.Book">
-              <MappingFragment StoreEntitySet="Books">
-                <ScalarProperty Name="Info" ColumnName="Info" />
-                <ScalarProperty Name="DateReleased" ColumnName="DateReleased" />
-                <ScalarProperty Name="Rating" ColumnName="Rating" />
-                <ScalarProperty Name="TimeSpent" ColumnName="TimeSpent" />
-                <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="MaterialFormatID" ColumnName="MaterialFormatID" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Games">
-            <EntityTypeMapping TypeName="BackloggerModel.Game">
-              <MappingFragment StoreEntitySet="Games">
-                <ScalarProperty Name="Info" ColumnName="Info" />
-                <ScalarProperty Name="DateReleased" ColumnName="DateReleased" />
-                <ScalarProperty Name="Rating" ColumnName="Rating" />
-                <ScalarProperty Name="TimeSpent" ColumnName="TimeSpent" />
-                <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="MaterialFormatID" ColumnName="MaterialFormatID" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Movies1">
-            <EntityTypeMapping TypeName="BackloggerModel.Movie">
-              <MappingFragment StoreEntitySet="Movies">
-                <ScalarProperty Name="Info" ColumnName="Info" />
-                <ScalarProperty Name="DateReleased" ColumnName="DateReleased" />
-                <ScalarProperty Name="Rating" ColumnName="Rating" />
-                <ScalarProperty Name="TimeSpent" ColumnName="TimeSpent" />
-                <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="MaterialFormatID" ColumnName="MaterialFormatID" />
-                <ScalarProperty Name="Title" ColumnName="Title" />
-                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="BooksSubscriptions">
-            <EntityTypeMapping TypeName="BackloggerModel.BooksSubscription">
-              <MappingFragment StoreEntitySet="BooksSubscriptions">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="SubscriptionName" ColumnName="SubscriptionName" />
-                <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="GamesSubscriptions">
-            <EntityTypeMapping TypeName="BackloggerModel.GamesSubscription">
-              <MappingFragment StoreEntitySet="GamesSubscriptions">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="SubscriptionName" ColumnName="SubscriptionName" />
-                <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="MoviesSubscriptions">
-            <EntityTypeMapping TypeName="BackloggerModel.MoviesSubscription">
-              <MappingFragment StoreEntitySet="MoviesSubscriptions">
-                <ScalarProperty Name="IsActive" ColumnName="IsActive" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
-                <ScalarProperty Name="SubscriptionName" ColumnName="SubscriptionName" />
-                <ScalarProperty Name="SubscriptionID" ColumnName="SubscriptionID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
+          <FunctionImportMapping FunctionName="BackloggerModel.Store.ConcatenateAuthors" FunctionImportName="ConcatenateAuthors">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BackloggerModel.ConcatenateAuthors_Result">
+                <ScalarProperty Name="AuthorsList" ColumnName="AuthorsList" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionName="BackloggerModel.Store.ConcatenateGenres" FunctionImportName="ConcatenateGenres">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BackloggerModel.ConcatenateGenres_Result">
+                <ScalarProperty Name="GenresList" ColumnName="GenresList" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

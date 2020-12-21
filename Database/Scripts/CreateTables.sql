@@ -210,16 +210,68 @@ INSERT INTO Hobbies VALUES
 ('Books'), ('Movies'), ('Games')
 
 INSERT INTO Statuses VALUES
-('Added'), ('In progress'), ('Dropped'), ('Finished')
+('Added'), ('In progress'), ('Dropped'), ('Finished');
+
+IF OBJECT_ID('ConcatenateAuthors', 'IF') IS NOT NULL
+DROP FUNCTION ConcatenateAuthors
+GO
+
+CREATE FUNCTION ConcatenateAuthors
+(
+	@MaterialID INT
+)
+RETURNS TABLE
+AS
+	RETURN
+	(
+		WITH AuthorsName AS
+		(
+			SELECT AuthorName
+			FROM Authors 
+			INNER JOIN MaterialAuthors
+			ON MaterialAuthors.AuthorID = Authors.AuthorID
+			WHERE MaterialAuthors.MaterialID = @MaterialID
+		)
+		SELECT STRING_AGG(AuthorName, ', ') AS AuthorsList
+		FROM AuthorsName
+	);
+GO
+
+IF OBJECT_ID('ConcatenateGenres', 'IF') IS NOT NULL
+DROP FUNCTION ConcatenateGenres
+GO
+
+CREATE FUNCTION ConcatenateGenres
+(
+	@MaterialID INT
+)
+RETURNS TABLE
+AS
+	RETURN
+	(
+		WITH GenresName AS
+		(
+			SELECT GenreName
+			FROM Genres
+			INNER JOIN MaterialGenres
+			ON MaterialGenres.GenreID = Genres.GenreID
+			WHERE MaterialGenres.MaterialID = @MaterialID
+		)
+		SELECT STRING_AGG(GenreName, ', ') AS GenresList
+		FROM GenresName
+	);
+GO
 
 IF OBJECT_ID('Books', 'V') IS NOT NULL
 DROP VIEW Books
 GO
 CREATE VIEW Books
 AS
-	SELECT MaterialID, Title, MaterialFormatID, Price, SubscriptionID, TimeSpent, Rating, DateReleased, Info
-	FROM Materials
-	WHERE HobbyID IN (SELECT HobbyID FROM Hobbies WHERE HobbyName = 'Books')
+	SELECT MaterialID, Title, A.AuthorsList, G.GenresList, M.Price, TimeSpent, Rating, DateReleased, Info, M.MaterialFormatID, M.SubscriptionID
+	FROM Materials M
+	OUTER APPLY ConcatenateAuthors(M.MaterialID) A
+	OUTER APPLY ConcatenateGenres(M.MaterialID) G
+	WHERE M.HobbyID IN (SELECT HobbyID FROM Hobbies WHERE HobbyName = 'Books')
 GO
 
 IF OBJECT_ID('Movies', 'V') IS NOT NULL
@@ -227,9 +279,11 @@ DROP VIEW Movies
 GO
 CREATE VIEW Movies
 AS
-	SELECT MaterialID, Title, MaterialFormatID, Price, SubscriptionID, TimeSpent, Rating, DateReleased, Info
-	FROM Materials
-	WHERE HobbyID IN (SELECT HobbyID FROM Hobbies WHERE HobbyName = 'Movies')
+	SELECT MaterialID, Title, A.AuthorsList, G.GenresList, M.Price, TimeSpent, Rating, DateReleased, Info, M.MaterialFormatID, M.SubscriptionID
+	FROM Materials M
+	OUTER APPLY ConcatenateAuthors(M.MaterialID) A
+	OUTER APPLY ConcatenateGenres(M.MaterialID) G
+	WHERE M.HobbyID IN (SELECT HobbyID FROM Hobbies WHERE HobbyName = 'Movies')
 GO
 
 
@@ -238,9 +292,11 @@ DROP VIEW Games
 GO
 CREATE VIEW Games
 AS
-	SELECT MaterialID, Title, MaterialFormatID, Price, SubscriptionID, TimeSpent, Rating, DateReleased, Info
-	FROM Materials
-	WHERE HobbyID IN (SELECT HobbyID FROM Hobbies WHERE HobbyName = 'Games')
+	SELECT MaterialID, Title, A.AuthorsList, G.GenresList, M.Price, TimeSpent, Rating, DateReleased, Info, M.MaterialFormatID, M.SubscriptionID
+	FROM Materials M
+	OUTER APPLY ConcatenateAuthors(M.MaterialID) A
+	OUTER APPLY ConcatenateGenres(M.MaterialID) G
+	WHERE M.HobbyID IN (SELECT HobbyID FROM Hobbies WHERE HobbyName = 'Games')
 GO
 
 IF OBJECT_ID('BooksSubscriptions', 'V') IS NOT NULL

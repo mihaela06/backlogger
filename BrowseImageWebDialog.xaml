@@ -1,0 +1,28 @@
+﻿<Window x:Class="Backlogger.BrowseImageWebDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Backlogger"
+        mc:Ignorable="d"
+        Title="BrowseImageWebDialog" SizeToContent="WidthAndHeight" MaxHeight="800"  MaxWidth="1200">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="10*"/>
+            <RowDefinition Height="1*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+        <WebBrowser x:Name="webBrowser" Margin="10"/>
+        </Grid>
+        <Grid Grid.Row="1" Margin="15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="ButtonImageOK" Height="30" Width="60" Grid.Column="1" Click="ButtonImageOK_Click">OK</Button>
+            <Button x:Name="ButtonImageCancel" Height="30" Width="60" Grid.Column="2" Click="ButtonImageCancel_Click">Cancel</Button>
+        </Grid>
+    </Grid>
+</Window>

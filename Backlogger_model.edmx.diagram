@@ -4,29 +4,29 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="e312f347cb824e089e4b18e523c6fc27" Name="Diagram1" ZoomLevel="111">
-        <EntityTypeShape EntityType="BackloggerModel.Author" Width="1.5" PointX="3.375" PointY="1.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="BackloggerModel.Genre" Width="1.5" PointX="3.25" PointY="3.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="BackloggerModel.Hobby" Width="1.5" PointX="3.25" PointY="6.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="BackloggerModel.MaterialFormat" Width="1.5" PointX="4.875" PointY="7.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="BackloggerModel.Material" Width="1.5" PointX="5.625" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="BackloggerModel.Status" Width="1.5" PointX="9.125" PointY="4.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="BackloggerModel.StatusUpdate" Width="1.5" PointX="8.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="BackloggerModel.Subscription" Width="1.5" PointX="6.875" PointY="8" IsExpanded="true" />
+      <Diagram DiagramId="0758437c9bf84326b7c90c4afe2c75ea" Name="Diagram1">
+        <EntityTypeShape EntityType="BackloggerModel.Author" Width="1.5" PointX="3" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BackloggerModel.Genre" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BackloggerModel.Hobby" Width="1.5" PointX="0.75" PointY="3.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BackloggerModel.MaterialFormat" Width="1.5" PointX="3" PointY="11.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="BackloggerModel.Material" Width="1.5" PointX="5.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BackloggerModel.Status" Width="1.5" PointX="5.25" PointY="2.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BackloggerModel.StatusUpdate" Width="1.5" PointX="7.5" PointY="6.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="BackloggerModel.Subscription" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="BackloggerModel.Book" Width="1.5" PointX="7.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BackloggerModel.BooksSubscription" Width="1.5" PointX="9.75" PointY="0.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BackloggerModel.Game" Width="1.5" PointX="9.75" PointY="3.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BackloggerModel.GamesSubscription" Width="1.5" PointX="9.75" PointY="7.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BackloggerModel.Movie" Width="1.5" PointX="5.75" PointY="10.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="BackloggerModel.MoviesSubscription" Width="1.5" PointX="7.75" PointY="10.75" IsExpanded="true" />
         <AssociationConnector Association="BackloggerModel.MaterialsHobbiesFK" ManuallyRouted="false" />
+        <AssociationConnector Association="BackloggerModel.SubscriptionsHobbiesFK" ManuallyRouted="false" />
         <AssociationConnector Association="BackloggerModel.MaterialsMaterialFormatsFK" ManuallyRouted="false" />
-        <AssociationConnector Association="BackloggerModel.MaterialsSubscriptionFK" ManuallyRouted="false" />
+        <AssociationConnector Association="BackloggerModel.MaterialsSubscriptionsFK" ManuallyRouted="false" />
         <AssociationConnector Association="BackloggerModel.StatusUpdatesMaterialsFK" ManuallyRouted="false" />
         <AssociationConnector Association="BackloggerModel.StatusUpdatesStatusesFK" ManuallyRouted="false" />
         <AssociationConnector Association="BackloggerModel.MaterialAuthors" ManuallyRouted="false" />
         <AssociationConnector Association="BackloggerModel.MaterialGenres" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="BackloggerModel.Book" Width="1.5" PointX="0.875" PointY="0.5" />
-        <EntityTypeShape EntityType="BackloggerModel.Game" Width="1.5" PointX="0.875" PointY="4.5" />
-        <EntityTypeShape EntityType="BackloggerModel.Movie" Width="1.5" PointX="0.875" PointY="8.5" />
-        <AssociationConnector Association="BackloggerModel.SubscriptionsHobbiesFK" />
-        <EntityTypeShape EntityType="BackloggerModel.BooksSubscription" Width="2.25" PointX="9.375" PointY="7.75" />
-        <EntityTypeShape EntityType="BackloggerModel.GamesSubscription" Width="2.25" PointX="3.25" PointY="10" />
-        <EntityTypeShape EntityType="BackloggerModel.MoviesSubscription" Width="2.25" PointX="9.375" PointY="9.875" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

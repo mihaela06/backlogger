@@ -48,14 +48,9 @@ namespace Backlogger
         {
             using (BackloggerEntities context = new BackloggerEntities())
             {
-                //context.Materials.Load();
-                //context.Hobbies.Load();
-                //context.Authors.Load();
-                //context.Genres.Load();
-                //context.MaterialFormats.Load();
-                //context.Statuses.Load();
-                //context.StatusUpdates.Load();
-                //context.Subscriptions.Load();
+                context.Hobbies.Load();
+                context.Materials.Load();
+                int hobbyID = (from o in context.Hobbies.Local where o.HobbyName == windowType select o).FirstOrDefault().HobbyID;
 
                 switch (windowType)
                 {
@@ -85,6 +80,11 @@ namespace Backlogger
             var subDialog = new SubscriptionsDialog(windowType);
             subDialog.ShowDialog();
             materialsViewSource.View.Refresh();
+        }
+
+        private void dataGrid_LoadingRow(object sender, DataGridRowEventArgs e)
+        {
+
         }
     }
 }
