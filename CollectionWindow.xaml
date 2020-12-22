@@ -11,6 +11,29 @@
         Loaded="CollectionWindow_Loaded">
     <Window.Resources>
         <CollectionViewSource x:Key="materialsViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Material}, CreateList=True}"/>
+        <Style x:Key="StarButtonStyle" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                        BorderThickness="1"
+                        Padding="4,2" 
+                        BorderBrush="Transparent" 
+                        CornerRadius="3" 
+                        Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Transparent" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -39,11 +62,51 @@
                     <RowDefinition Height="2*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
+                <Grid Grid.Row="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="2*"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="3">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <Image x:Name="ImageRating" Grid.ColumnSpan="10" Stretch="UniformToFill"/> 
+                        <Button x:Name="ButtonStars1" Grid.Column="0" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
+                        <Button x:Name="ButtonStars2" Grid.Column="1" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
+                        <Button x:Name="ButtonStars3" Grid.Column="2" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
+                        <Button x:Name="ButtonStars4" Grid.Column="3" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
+                        <Button x:Name="ButtonStars5" Grid.Column="4" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
+                        <Button x:Name="ButtonStars6" Grid.Column="5" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
+                        <Button x:Name="ButtonStars7" Grid.Column="6" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
+                        <Button x:Name="ButtonStars8" Grid.Column="7" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
+                        <Button x:Name="ButtonStars9" Grid.Column="8" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
+                        <Button x:Name="ButtonStars10" Grid.Column="9" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
+                    </Grid>
+                </Grid>
                 <Image x:Name="CoverImage" Stretch="Uniform" Margin="10" Visibility="Hidden" Grid.Row="1"/>
-                <TextBox x:Name="TextBoxDetails" Grid.Row="2" Margin="20" Visibility="Hidden" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True"/>
+                <TextBox x:Name="TextBoxDetails" Grid.Row="2" Margin="20" Visibility="Hidden" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True"
+                         Background="Transparent" BorderBrush="Transparent">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource ModernScrollViewer}">
+                            <Setter Property="CanContentScroll" Value="True"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
             </Grid>
             <DataGrid x:Name="MaterialsDataGrid" Grid.Column="1" Margin="15" ItemsSource="{Binding Source={StaticResource materialsViewSource}}" IsEnabled="True"
                       HeadersVisibility="Column" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" MaxHeight="700" Height="Auto" 
+                      Background="Transparent" BorderBrush="Transparent"
                       SelectionChanged="MaterialsDataGrid_SelectionChanged" SelectionMode="Single">
                 <DataGrid.Columns>
                     <DataGridTextColumn x:Name="TitleColumn" Binding="{Binding Title}" Header="Title" Width="3*"/>

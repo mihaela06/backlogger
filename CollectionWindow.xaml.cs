@@ -54,14 +54,6 @@ namespace Backlogger
                 context.Materials.Load();
                 int hobbyID = (from o in context.Hobbies.Local where o.HobbyName == windowType select o).FirstOrDefault().HobbyID;
 
-                //var result = from mt in context.Materials
-                //             from aut in context.ConcatenateAuthors(mt.MaterialID)
-                //             from gen in context.ConcatenateGenres(mt.MaterialID)
-                //             from f in context.MaterialFormats
-                //             from s in context.Subscriptions
-                //             where mt.HobbyID == hobbyID && mt.MaterialFormatID == f.MaterialFormatID && s.SubscriptionID == mt.SubscriptionID
-                //             select new { mt.MaterialID, mt.Title, mt.MaterialFormat, mt.Price, mt.TimeSpent, mt.Rating, mt.DateReleased, aut.AuthorsList, gen.GenresList, f.FormatType, s.SubscriptionName};
-
                 var result = from mt in context.Materials
                              from aut in context.ConcatenateAuthors(mt.MaterialID)
                              from gen in context.ConcatenateGenres(mt.MaterialID)
@@ -92,7 +84,6 @@ namespace Backlogger
         }
         private void MaterialsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //var i = e.AddedItems[0] as Material;
             var dg = sender as DataGrid;
             dynamic i = dg.SelectedItem;
 
@@ -121,8 +112,8 @@ namespace Backlogger
                 img = new BitmapImage(new Uri(pathImages + id.ToString() + ".jpeg"));
             else if (File.Exists(pathImages + id.ToString() + ".gif"))
                 img = new BitmapImage(new Uri(pathImages + id.ToString() + ".gif"));
-            else if (File.Exists(pathImages + defaultFile + ".png"))
-                img = new BitmapImage(new Uri(pathImages + defaultFile + ".png"));
+            else if (File.Exists(App.projectPath + @"\Resources\Icons\" + defaultFile + ".png"))
+                img = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\" + defaultFile + ".png"));
             else
                 CoverImage.Visibility = Visibility.Hidden;
 
@@ -130,6 +121,100 @@ namespace Backlogger
 
             TextBoxDetails.Visibility = Visibility.Visible;
             TextBoxDetails.Text = i.Info;
+            TextBoxDetails.ScrollToHome();
+            ReloadStars(i.Rating);
+        }
+
+        private void ReloadStars(short? rating)
+        {
+            switch (rating)
+            {
+                case null:
+                    ImageRating.Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\0stars.png"));
+                    break;
+                case 1:
+                    ImageRating.Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\1stars.png"));
+                    break;
+                case 2:
+                    ImageRating.Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\2stars.png"));
+                    break;
+                case 3:
+                    ImageRating.Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\3stars.png"));
+                    break;
+                case 4:
+                    ImageRating.Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\4stars.png"));
+                    break;
+                case 5:
+                    ImageRating.Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\5stars.png"));
+                    break;
+                case 6:
+                    ImageRating.Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\6stars.png"));
+                    break;
+                case 7:
+                    ImageRating.Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\7stars.png"));
+                    break;
+                case 8:
+                    ImageRating.Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\8stars.png"));
+                    break;
+                case 9:
+                    ImageRating.Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\9stars.png"));
+                    break;
+                case 10:
+                    ImageRating.Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\10stars.png"));
+                    break;
+            }
+        }
+
+        private void ButtonStars_MouseEnter(object sender, MouseEventArgs e)
+        {
+            var b = e.Source as Button;
+            string name = b.Name;
+
+            int no = 10;
+
+            if (name[name.Length - 2] == 's')
+                no = name[name.Length - 1] - '0';
+
+            ImageRating.Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\" + no.ToString() + "stars.png"));
+        }
+
+        private void ButtonStars_MouseLeave(object sender, MouseEventArgs e)
+        {
+            dynamic i = MaterialsDataGrid.SelectedItem;
+            int? no = i.Rating;
+
+            if (no != null)
+                ImageRating.Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\" + no.ToString() + "stars.png"));
+            else
+                ImageRating.Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\0stars.png"));
+        }
+        private void ButtonStars_Click(object sender, RoutedEventArgs e)
+        {
+            var b = e.Source as Button;
+            string name = b.Name;
+
+            int no = 10;
+
+            if (name[name.Length - 2] == 's')
+                no = name[name.Length - 1] - '0';
+
+            dynamic i = MaterialsDataGrid.SelectedItem;
+            int oldIndex = MaterialsDataGrid.SelectedIndex;
+
+            using (BackloggerEntities context = new BackloggerEntities())
+            {
+                context.Hobbies.Load();
+                context.Materials.Load();
+                int hobbyID = (from o in context.Hobbies.Local where o.HobbyName == windowType select o).FirstOrDefault().HobbyID;
+
+                Material m = (from o in context.Materials.Local where o.MaterialID == i.MaterialID select o).FirstOrDefault();
+
+                m.Rating = (short?)no;
+                context.SaveChanges();
+            }
+            RefreshGrid();
+            MaterialsDataGrid.SelectedIndex = oldIndex;
+            ReloadStars((short?)no);
         }
     }
 }
