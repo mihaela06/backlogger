@@ -39,7 +39,7 @@ namespace Backlogger
         public virtual DbSet<BooksSubscription> BooksSubscriptions { get; set; }
         public virtual DbSet<Game> Games { get; set; }
         public virtual DbSet<GamesSubscription> GamesSubscriptions { get; set; }
-        public virtual DbSet<Movie> Movies { get; set; }
+        public virtual DbSet<Movie> Movies1 { get; set; }
         public virtual DbSet<MoviesSubscription> MoviesSubscriptions { get; set; }
     
         [DbFunction("BackloggerEntities", "ConcatenateAuthors")]
@@ -60,6 +60,16 @@ namespace Backlogger
                 new ObjectParameter("MaterialID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<ConcatenateGenres_Result>("[BackloggerEntities].[ConcatenateGenres](@MaterialID)", materialIDParameter);
+        }
+    
+        [DbFunction("BackloggerEntities", "LastStatusUpdate")]
+        public virtual IQueryable<LastStatusUpdate_Result> LastStatusUpdate(Nullable<int> materialID)
+        {
+            var materialIDParameter = materialID.HasValue ?
+                new ObjectParameter("MaterialID", materialID) :
+                new ObjectParameter("MaterialID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<LastStatusUpdate_Result>("[BackloggerEntities].[LastStatusUpdate](@MaterialID)", materialIDParameter);
         }
     }
 }

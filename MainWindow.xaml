@@ -6,7 +6,52 @@
         xmlns:local="clr-namespace:Backlogger"
         mc:Ignorable="d"
         Title="Backlogger" Height="600" Width="800"
-        Name="MainWin">
+        Name="MainWin"
+        Icon="Resources/Icons/Backlogger.ico">
+    <Window.Resources>
+        <Style x:Key="MainButtonStyle" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                        BorderThickness="1"
+                        Padding="4,2" 
+                        BorderBrush="Transparent" 
+                        CornerRadius="3" 
+                        Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Transparent" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="RenderTransformOrigin" Value="0.5, 0.5"/>
+                    <Setter Property="RenderTransform">
+                        <Setter.Value>
+                            <ScaleTransform ScaleX="1.2" ScaleY="1.2"/>
+                        </Setter.Value>
+                    </Setter>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Cooper" />
+            <Setter Property="FontSize" Value="24"></Setter>
+            <Setter Property="Background" Value="Transparent" />
+            
+            <Setter Property="FontWeight" Value="ExtraBold"/>
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+    </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />
@@ -18,17 +63,43 @@
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-            <Button Name="BooksButton" Grid.Column="0" Height="200" Width="200" Click="BooksButton_Click">Books</Button>
-            <Button Name="MoviesButton" Grid.Column="1" Height="200" Width="200" Click="MoviesButton_Click">Movies</Button>
-            <Button Name="GamesButton" Grid.Column="2" Height="200" Width="200" Click="GamesButton_Click">Games</Button>
+            <Button Name="BooksButton" Style="{StaticResource MainButtonStyle}" Grid.Column="0" Height="200" Width="200" Background="Transparent" BorderBrush="Transparent" Click="BooksButton_Click">
+                <ContentControl>
+                    <Image Source="Resources/Icons/Book.png"/>
+                </ContentControl>
+            </Button>
+            <Button Name="MoviesButton" Style="{StaticResource MainButtonStyle}" Grid.Column="1" Height="200" Width="200" Background="Transparent" BorderBrush="Transparent" Click="MoviesButton_Click">
+                <ContentControl>
+                    <Image Source="Resources/Icons/Movie.png"/>
+                </ContentControl>
+            </Button>
+            <Button Name="GamesButton" Style="{StaticResource MainButtonStyle}" Grid.Column="2" Height="200" Width="200" Background="Transparent" BorderBrush="Transparent" Click="GamesButton_Click">
+                <ContentControl>
+                    <Image Source="Resources/Icons/Game.png"/>
+                </ContentControl>
+            </Button>
         </Grid>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-            <Button Grid.Column="0" Height="150" Width="300">Suggest me something</Button>
-            <Button Grid.Column="1" Height="150" Width="300">Statistics</Button>
+            <Button Style="{StaticResource MainButtonStyle}" Background="Transparent" BorderBrush="Transparent" Grid.Column="0" Height="150" Width="300">
+                <ContentControl>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Resources/Icons/Genie.png"/>
+                        <TextBlock VerticalAlignment="Center" Width="140">Suggest me something</TextBlock>
+                    </StackPanel>
+                </ContentControl>  
+            </Button>
+            <Button Style="{StaticResource MainButtonStyle}" Background="Transparent" BorderBrush="Transparent" Grid.Column="1" Height="150" Width="300">
+                <ContentControl>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="Resources/Icons/Statistics.png"/>
+                        <TextBlock VerticalAlignment="Center">Statistics</TextBlock>
+                    </StackPanel>
+                </ContentControl>
+            </Button>
         </Grid>
     </Grid>
 </Window>

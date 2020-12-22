@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="BackloggerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="BackloggerModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Authors">
           <Key>
             <PropertyRef Name="AuthorID" />
@@ -347,6 +347,20 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
             </CollectionType>
           </ReturnType>
         </Function>
+        <Function Name="LastStatusUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaterialID" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="StatusID" Type="int" Nullable="false" />
+                <Property Name="StatusName" Type="varchar(max)" Nullable="false" />
+                <Property Name="DateModified" Type="datetime" Nullable="false" />
+                <Property Name="MaterialID" Type="int" Nullable="false" />
+                <Property Name="UpdateID" Type="int" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <EntityContainer Name="BackloggerModelStoreContainer">
           <EntitySet Name="Authors" EntityType="Self.Authors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Genres" EntityType="Self.Genres" Schema="dbo" store:Type="Tables" />
@@ -468,8 +482,7 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
             <End Role="Subscriptions" EntitySet="Subscriptions" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="BackloggerModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -789,12 +802,22 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
             <End Role="Materials" EntitySet="Materials" />
           </AssociationSet>
           <FunctionImport Name="ConcatenateAuthors" IsComposable="true" ReturnType="Collection(BackloggerModel.ConcatenateAuthors_Result)">
-            <Parameter Name="MaterialID" Mode="In" Type="Int32" />
+          <Parameter Name="MaterialID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="ConcatenateGenres" IsComposable="true" ReturnType="Collection(BackloggerModel.ConcatenateGenres_Result)">
+          <Parameter Name="MaterialID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="LastStatusUpdate" IsComposable="true" ReturnType="Collection(BackloggerModel.LastStatusUpdate_Result)">
             <Parameter Name="MaterialID" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
+        <ComplexType Name="LastStatusUpdate_Result">
+          <Property Type="Int32" Name="StatusID" Nullable="false" />
+          <Property Type="String" Name="StatusName" Nullable="false" />
+          <Property Type="DateTime" Name="DateModified" Nullable="false" Precision="23" />
+          <Property Type="Int32" Name="MaterialID" Nullable="false" />
+          <Property Type="Int32" Name="UpdateID" Nullable="false" />
+        </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -986,6 +1009,17 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
             <ResultMapping>
               <ComplexTypeMapping TypeName="BackloggerModel.ConcatenateGenres_Result">
                 <ScalarProperty Name="GenresList" ColumnName="GenresList" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="LastStatusUpdate" FunctionName="BackloggerModel.Store.LastStatusUpdate">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BackloggerModel.LastStatusUpdate_Result">
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="StatusName" ColumnName="StatusName" />
+                <ScalarProperty Name="DateModified" ColumnName="DateModified" />
+                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+                <ScalarProperty Name="UpdateID" ColumnName="UpdateID" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

@@ -55,7 +55,8 @@
             <RowDefinition Height="Auto"></RowDefinition>
             <RowDefinition Height="Auto"></RowDefinition>
         </Grid.RowDefinitions>
-        <DataGrid x:Name="SubscriptionsDataGrid" Grid.Row="0" Margin="20" AutoGenerateColumns="False" CanUserAddRows="False" IsEnabled="True" ItemsSource="{Binding Source={StaticResource subscriptionsViewSource}}"  IsReadOnly="True" HorizontalContentAlignment="Center" HeadersVisibility="None"  MaxHeight="300">
+        <DataGrid x:Name="SubscriptionsDataGrid" Grid.Row="0" Margin="20" AutoGenerateColumns="False" CanUserAddRows="False" IsEnabled="True"
+                  ItemsSource="{Binding Source={StaticResource subscriptionsViewSource}}"  IsReadOnly="True" HorizontalContentAlignment="Center" HeadersVisibility="None"  MaxHeight="300">
             <DataGrid.Columns>
                 <DataGridTextColumn x:Name="SubscriptionNameColumn" Binding="{Binding SubscriptionName}" Header="Subscription" Width="3*"/>
                 <DataGridTextColumn x:Name="PriceColumn" Binding="{Binding Price}" Header="Price" Width="*"/>

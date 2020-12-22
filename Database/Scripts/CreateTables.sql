@@ -262,6 +262,32 @@ AS
 	);
 GO
 
+IF OBJECT_ID('LastStatusUpdate', 'IF') IS NOT NULL
+DROP FUNCTION LastStatusUpdate
+GO
+
+CREATE FUNCTION LastStatusUpdate
+(
+	@MaterialID INT
+)
+RETURNS TABLE
+AS
+	RETURN
+	(
+		WITH UpdatesMaterial AS
+		(
+			SELECT Statuses.StatusID, Statuses.StatusName, StatusUpdates.DateModified, StatusUpdates.MaterialID
+			FROM StatusUpdates
+			INNER JOIN Statuses
+			ON Statuses.StatusID = StatusUpdates.StatusID
+			WHERE StatusUpdates.MaterialID = @MaterialID
+		)
+		SELECT TOP 1 *
+		FROM UpdatesMaterial
+		ORDER BY DateModified DESC
+	);
+GO
+
 IF OBJECT_ID('Books', 'V') IS NOT NULL
 DROP VIEW Books
 GO

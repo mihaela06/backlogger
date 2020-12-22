@@ -137,6 +137,9 @@
     <Compile Include="Hobby.cs">
       <DependentUpon>Backlogger_model.tt</DependentUpon>
     </Compile>
+    <Compile Include="LastStatusUpdate_Result.cs">
+      <DependentUpon>Backlogger_model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Material.cs">
       <DependentUpon>Backlogger_model.tt</DependentUpon>
     </Compile>
@@ -256,6 +259,13 @@
       <DependentUpon>Backlogger_model.edmx</DependentUpon>
       <LastGenOutput>Backlogger_model.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\Icons\Genie.png" />
+    <Resource Include="Resources\Icons\Statistics.png" />
+    <Resource Include="Resources\Icons\Backlogger.ico" />
+    <Resource Include="Resources\Icons\Backlogger.png" />
+    <Resource Include="Resources\Icons\Book.png" />
+    <Resource Include="Resources\Icons\Game.png" />
+    <Resource Include="Resources\Icons\Movie.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Resources\Images\" />
