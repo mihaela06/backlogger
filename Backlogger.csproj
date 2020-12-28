@@ -260,6 +260,12 @@
       <DependentUpon>Backlogger_model.edmx</DependentUpon>
       <LastGenOutput>Backlogger_model.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\Icons\Search.png" />
+    <Resource Include="Resources\Icons\Filter.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Icons\Plus.png" />
+    <Resource Include="Resources\Icons\Subscription.png" />
     <Resource Include="Resources\Icons\Genie.png" />
     <Resource Include="Resources\Icons\Statistics.png" />
     <Resource Include="Resources\Icons\Backlogger.ico" />
