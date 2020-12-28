@@ -301,7 +301,9 @@ namespace Backlogger.Windows
                     newMaterial.MaterialFormatID = materialFormatID;
 
                     int statusID = (from o in context.Statuses.Local where o.StatusName == "Added" select o).FirstOrDefault().StatusID;
-                    StatusUpdate addedUpdate = (from o in context.StatusUpdates.Local where o.StatusID == statusID select o).FirstOrDefault();
+                    StatusUpdate addedUpdate = (from o in context.StatusUpdates.Local
+                                                where o.StatusID == statusID && o.MaterialID == editID
+                                                select o).FirstOrDefault();
 
                     if(addedUpdate.DateModified != (DateTime)DatePickerDateAdded.Value)
                         addedUpdate.DateModified = (DateTime)DatePickerDateAdded.Value;

@@ -4,13 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Backlogger.Windows"
+        xmlns:model="clr-namespace:Backlogger.Model"
         mc:Ignorable="d"
         Title="CollectionWindow" Height="800" MinHeight="800" Width="1200" MinWidth="1000"
         Name="CollectionWin"
         Closing="CollectionWindow_Closing"
+        WindowStartupLocation="CenterScreen"
         Loaded="CollectionWindow_Loaded">
     <Window.Resources>
-        <CollectionViewSource x:Key="materialsViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Material}, CreateList=True}"/>
+        <CollectionViewSource x:Key="materialsViewSource"/>
+        <CollectionViewSource x:Key="updatesViewSource"/>
         <Style x:Key="StarButtonStyle" TargetType="Button">
             <Setter Property="OverridesDefaultStyle" Value="True"/>
             <Setter Property="Cursor" Value="Hand"/>
@@ -35,10 +38,15 @@
             </Setter>
         </Style>
         <Style TargetType="TextBlock">
-            <Setter Property="FontFamily" Value="Cooper" />
+            <Setter Property="FontFamily" Value="Britann" />
             <Setter Property="FontSize" Value="20"></Setter>
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+        <Style x:Key="MainGridText" TargetType="TextBlock">
+            <Setter Property="TextBlock.TextWrapping" Value="Wrap"/>
+            <Setter Property="TextAlignment" Value="Center"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
         </Style>
     </Window.Resources>
     <Grid>
@@ -57,7 +65,7 @@
             <Button x:Name="AddButton" Grid.Column="0" Height ="30" Width="150" Click="AddButton_Click" Style="{StaticResource MainButtonStyle}">
                 <ContentControl>
                     <StackPanel Orientation="Horizontal">
-                        <Image Source="../Resources/Icons/Plus.png"/>
+                        <Image Source="../Resources/Icons/Plus.png" Margin="0,0,0,3"/>
                         <TextBlock VerticalAlignment="Center" Text="Add" Margin="5,0">
                         </TextBlock>
                     </StackPanel>
@@ -119,7 +127,7 @@
                     <Button x:Name="ButtonStars10" Grid.Column="9" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
                 </Grid>
                 <Image x:Name="CoverImage" Stretch="Uniform" Margin="10" Visibility="Hidden" Grid.Row="0"/>
-                <TextBox x:Name="TextBoxDetails" Grid.Row="2" Margin="20" Visibility="Hidden" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True"
+                <TextBox x:Name="TextBoxDetails" Grid.Row="2" Margin="10" Visibility="Hidden" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True"
                          Background="Transparent" BorderBrush="Transparent" LostFocus="TextBoxDetails_LostFocus">
                     <TextBox.Resources>
                         <Style TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource ModernScrollViewer}">
@@ -127,36 +135,70 @@
                         </Style>
                     </TextBox.Resources>
                 </TextBox>
-                <TextBlock Grid.Row="3">Timeline</TextBlock>
+                <DataGrid x:Name="UpdatesDataGrid" Grid.Row="3" Margin="10" ItemsSource="{Binding Source={StaticResource updatesViewSource}}" IsEnabled="True"
+                      HeadersVisibility="None" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
+                      Background="Transparent" BorderBrush="Transparent" GridLinesVisibility="Horizontal" SelectionMode="Single">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn x:Name="UpdateDateColumn" Binding="{Binding DateModified, StringFormat=\{0:dd.MM.yyyy HH:mm\}}" Width="2*"/>
+                        <DataGridTextColumn x:Name="StatusColumn" Binding="{Binding StatusName}" Width="*"/>
+                    </DataGrid.Columns>
+                    <DataGrid.ContextMenu>
+                        <ContextMenu>
+                            <MenuItem Name="AddStatusUpdate" Header="Add" Click="AddStatusUpdate_Click"/>
+                            <MenuItem Name="EditStatusUpdate" Header="Edit" Click="EditStatusUpdate_Click"/>
+                            <MenuItem Name="DeleteStatusUpdate" Header="Delete" Click="DeleteStatusUpdate_Click"/>
+                        </ContextMenu>
+                    </DataGrid.ContextMenu>
+                </DataGrid>
             </Grid>
             <DataGrid x:Name="MaterialsDataGrid" Grid.Column="1" Margin="15" ItemsSource="{Binding Source={StaticResource materialsViewSource}}" IsEnabled="True"
-                      HeadersVisibility="Column" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" MaxHeight="700" 
+                      HeadersVisibility="Column" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" MaxHeight="850" 
                       Background="Transparent" BorderBrush="Transparent" GridLinesVisibility="Horizontal"
-                      SelectionChanged="MaterialsDataGrid_SelectionChanged" SelectionMode="Single">
+                      SelectionChanged="MaterialsDataGrid_SelectionChanged" SelectionMode="Single" MinRowHeight="50">
                 <DataGrid.Resources>
-                    <DataTemplate x:Key="HeaderTemplate">
-                        <DockPanel>
-                            <ContentControl Content="{Binding}" VerticalAlignment="Center"/>
-                            <Button DockPanel.Dock="Right" Name="FilterButton" Margin="2, 1, 1, 1" Padding="1, 0" Background="Transparent" BorderBrush="Transparent" Click="FilterButton_Click">
-                                <Image Source="../Resources/Icons/Filter.png" Height="15" Width="15" Stretch="Fill"/>
-                            </Button>
-                            <Popup x:Name="FilterPopup" PlacementTarget="{Binding ElementName=FilterButton}" StaysOpen="False"
-                                   PopupAnimation="Fade" Opened="FilterPopup_Opened">
-                                <Border Background="White" Padding="3" MouseLeave="Border_MouseLeave">
-                                </Border>
-                            </Popup>
-                        </DockPanel>
-                    </DataTemplate>
+                    <Style TargetType="{x:Type DataGridColumnHeader}">
+                        <Setter Property="ContentTemplate">
+                            <Setter.Value>
+                                <DataTemplate>
+                                    <Grid HorizontalAlignment="Center">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="Auto"/>
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding}" TextWrapping="Wrap" HorizontalAlignment="Center" TextAlignment="Center"
+                                                   FontWeight="DemiBold" FontSize="14"/>
+                                        <Button Grid.Column="1" Name="FilterButton" Margin="5, 1, 1, 1" Padding="1, 0" Background="Transparent" BorderBrush="Transparent" Click="FilterButton_Click">
+                                            <Image Source="../Resources/Icons/Filter.png" Height="15" Width="15" Stretch="Fill"/>
+                                        </Button>
+                                        <Popup x:Name="FilterPopup" PlacementTarget="{Binding ElementName=FilterButton}" StaysOpen="False"
+                                                PopupAnimation="Fade" Opened="FilterPopup_Opened">
+                                            <Border Background="White" Padding="3" MouseLeave="Border_MouseLeave">
+                                            </Border>
+                                        </Popup>
+                                    </Grid>
+                                </DataTemplate>
+                            </Setter.Value>
+                        </Setter>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                    </Style>
                 </DataGrid.Resources>
                 <DataGrid.Columns>
-                    <DataGridTextColumn x:Name="TitleColumn" Binding="{Binding Title}" Header="Title" Width="4*" HeaderTemplate="{StaticResource HeaderTemplate}"/>
-                    <DataGridTextColumn x:Name="AuthorsColumn" Binding="{Binding AuthorsList}" Header="Authors" Width="3*" HeaderTemplate="{StaticResource HeaderTemplate}"/>
-                    <DataGridTextColumn x:Name="GenresColumn" Binding="{Binding GenresList}" Header="Genres" Width="3*" HeaderTemplate="{StaticResource HeaderTemplate}"/>
-                    <DataGridTextColumn x:Name="PriceColumn" Binding="{Binding Price}" Header="Price" HeaderTemplate="{StaticResource HeaderTemplate}"/>
-                    <DataGridTextColumn x:Name="SubscriptionColumn" Binding="{Binding SubscriptionName}" Header="Subscription" HeaderTemplate="{StaticResource HeaderTemplate}"/>
-                    <DataGridTextColumn x:Name="FormatColumn" Binding="{Binding FormatType}" Header="Format" HeaderTemplate="{StaticResource HeaderTemplate}"/>
-                    <DataGridTextColumn x:Name="DateReleasedColumn" Binding="{Binding DateReleased}" Header="Date released" HeaderTemplate="{StaticResource HeaderTemplate}"/>
-                    <DataGridTextColumn x:Name="CurrentStatusColumn" Binding="{Binding StatusName}" Header="Current status" HeaderTemplate="{StaticResource HeaderTemplate}"/>
+                    <DataGridTextColumn x:Name="TitleColumn" Binding="{Binding Title}" Header="Title" Width="3*" 
+                                        ElementStyle="{StaticResource MainGridText}"/>
+                    <DataGridTextColumn x:Name="AuthorsColumn" Binding="{Binding AuthorsList}" Header="Authors" Width="3*" MinWidth="86"
+                                        ElementStyle="{StaticResource MainGridText}"/>
+                    <DataGridTextColumn x:Name="GenresColumn" Binding="{Binding GenresList}" Header="Genres" Width="3*" MinWidth="80"
+                                        ElementStyle="{StaticResource MainGridText}"/>
+                    <DataGridTextColumn x:Name="PriceColumn" Binding="{Binding Price, StringFormat=N2}" Header="Price" 
+                                        ElementStyle="{StaticResource MainGridText}"/>
+                    <DataGridTextColumn x:Name="SubscriptionColumn" Binding="{Binding SubscriptionName}" Header="Subscription" 
+                                        ElementStyle="{StaticResource MainGridText}"/>
+                    <DataGridTextColumn x:Name="FormatColumn" Binding="{Binding FormatType}" Header="Format" 
+                                        ElementStyle="{StaticResource MainGridText}"/>
+                    <DataGridTextColumn x:Name="DateReleasedColumn" Binding="{Binding DateReleased, StringFormat=\{0:dd.MM.yyyy\}}" Header="Date released"
+                                        ElementStyle="{StaticResource MainGridText}"/>
+                    <DataGridTextColumn x:Name="CurrentStatusColumn" Binding="{Binding StatusName}" Header="Current status" Width="2*" MinWidth="85"
+                                        ElementStyle="{StaticResource MainGridText}"/>
                 </DataGrid.Columns>
                 <DataGrid.ContextMenu>
                     <ContextMenu>

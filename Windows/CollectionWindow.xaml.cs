@@ -21,6 +21,7 @@ namespace Backlogger.Windows
     {
         public string windowType;
         CollectionViewSource materialsViewSource;
+        CollectionViewSource updatesViewSource;
 
         private ListView titleFilterList = new ListView();
         private ListView authorFilterList = new ListView();
@@ -36,6 +37,7 @@ namespace Backlogger.Windows
             windowType = type;
             InitializeComponent();
             materialsViewSource = ((CollectionViewSource)(FindResource("materialsViewSource")));
+            updatesViewSource = ((CollectionViewSource)(FindResource("updatesViewSource")));
             DataContext = this;
             this.Title = type + " Library";
         }
@@ -48,9 +50,11 @@ namespace Backlogger.Windows
         private void AddButton_Click(object sender, RoutedEventArgs e)
         {
             var addDialog = new AddDialog(windowType);
+            object o = MaterialsDataGrid.SelectedItem;
             addDialog.ShowDialog();
             RefreshGrid();
             materialsViewSource.View.Refresh();
+            MaterialsDataGrid.SelectedItem = o;
         }
 
         private void RefreshGrid()
@@ -670,7 +674,7 @@ namespace Backlogger.Windows
             var lv = c.Parent as ListView;
             var b = lv.Parent as Border;
             var p = b.Parent as Popup;
-            var dp = p.Parent as DockPanel;
+            var dp = p.Parent as Grid;
 
             var button = dp.Children[1] as Button;
 
@@ -690,8 +694,10 @@ namespace Backlogger.Windows
         private void SubscriptionsButton_Click(object sender, RoutedEventArgs e)
         {
             var subDialog = new SubscriptionsDialog(windowType);
+            object o = MaterialsDataGrid.SelectedItem;
             subDialog.ShowDialog();
             materialsViewSource.View.Refresh();
+            MaterialsDataGrid.SelectedItem = o;
         }
         private void MaterialsDataGrid_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -712,6 +718,7 @@ namespace Backlogger.Windows
                 ButtonStars8.IsEnabled = false;
                 ButtonStars9.IsEnabled = false;
                 ButtonStars10.IsEnabled = false;
+                UpdatesDataGrid.Visibility = Visibility.Hidden;
 
                 return;
             }
@@ -722,6 +729,8 @@ namespace Backlogger.Windows
 
             CoverImage.Visibility = Visibility.Visible;
             ImageRating.Visibility = Visibility.Visible;
+            UpdatesDataGrid.Visibility = Visibility.Visible;
+
             ButtonStars1.IsEnabled = true;
             ButtonStars2.IsEnabled = true;
             ButtonStars3.IsEnabled = true;
@@ -732,6 +741,21 @@ namespace Backlogger.Windows
             ButtonStars8.IsEnabled = true;
             ButtonStars9.IsEnabled = true;
             ButtonStars10.IsEnabled = true;
+
+            using (var context = new BackloggerEntities())
+            {
+                var updates = from s in context.Statuses
+                              from su in context.StatusUpdates
+                              where id == su.MaterialID && s.StatusID == su.StatusID
+                              orderby su.DateModified ascending
+                              select new
+                              {
+                                  s.StatusName,
+                                  su.DateModified
+                              };
+
+                updatesViewSource.Source = updates.ToList();
+            }
 
 
             BitmapImage img = null;
@@ -941,10 +965,10 @@ namespace Backlogger.Windows
         {
             var s = sender as Popup;
             var bd = s.Child as Border;
-            var p = s.Parent as DockPanel;
-            var c = p.Children[0] as ContentControl;
+            var p = s.Parent as Grid;
+            var c = p.Children[0] as TextBlock;
 
-            string columnText = (string)c.Content;
+            string columnText = (string)c.Text;
 
             switch (columnText)
             {
@@ -978,7 +1002,7 @@ namespace Backlogger.Windows
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
             var s = sender as Button;
-            var dp = s.Parent as DockPanel;
+            var dp = s.Parent as Grid;
             var p = dp.Children[2] as Popup;
             p.IsOpen = true;
         }
@@ -1004,6 +1028,21 @@ namespace Backlogger.Windows
         {
             //if (SearchTextBox.Text.Length == 0)
             SearchButton_Click(null, null);
+        }
+
+        private void EditStatusUpdate_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void DeleteStatusUpdate_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void AddStatusUpdate_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
