@@ -1,0 +1,170 @@
+﻿<Window x:Class="Backlogger.Windows.CollectionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Backlogger.Windows"
+        mc:Ignorable="d"
+        Title="CollectionWindow" Height="800" MinHeight="800" Width="1200" MinWidth="1000"
+        Name="CollectionWin"
+        Closing="CollectionWindow_Closing"
+        Loaded="CollectionWindow_Loaded">
+    <Window.Resources>
+        <CollectionViewSource x:Key="materialsViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Material}, CreateList=True}"/>
+        <Style x:Key="StarButtonStyle" TargetType="Button">
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Name="border" 
+                        BorderThickness="1"
+                        Padding="4,2" 
+                        BorderBrush="Transparent" 
+                        CornerRadius="3" 
+                        Background="{TemplateBinding Background}">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="BorderBrush" Value="Transparent" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Cooper" />
+            <Setter Property="FontSize" Value="20"></Setter>
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="TextWrapping" Value="Wrap"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="10*"/>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Button x:Name="AddButton" Grid.Column="0" Height ="30" Width="150" Click="AddButton_Click" Style="{StaticResource MainButtonStyle}">
+                <ContentControl>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="../Resources/Icons/Plus.png"/>
+                        <TextBlock VerticalAlignment="Center" Text="Add" Margin="5,0">
+                        </TextBlock>
+                    </StackPanel>
+                </ContentControl>
+            </Button>
+            <Button x:Name="SubscriptionsButton" Grid.Column="5" Height ="30" Width="200" Click="SubscriptionsButton_Click" Style="{StaticResource MainButtonStyle}">
+                <ContentControl>
+                    <StackPanel Orientation="Horizontal">
+                        <Image Source="../Resources/Icons/Subscription.png"/>
+                        <TextBlock VerticalAlignment="Center" Text="Subscriptions" Margin="5,0">
+                        </TextBlock>
+                    </StackPanel>
+                </ContentControl>
+            </Button>
+            <StackPanel Orientation="Horizontal" Grid.Column="1" Grid.ColumnSpan="3" Height="30" Width="500">
+                <TextBox x:Name="SearchTextBox" Width="460" KeyDown="SearchTextBox_KeyDown" TextChanged="SearchTextBox_TextChanged"/>
+                <Button x:Name="SearchButton" Click="SearchButton_Click">
+                    <ContentControl>
+                        <Image Source="../Resources/Icons/Search.png"/>
+                    </ContentControl>
+                </Button>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
+            <Grid Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="2*"/>
+                    <RowDefinition Height="45"/>
+                    <RowDefinition Height="1.5*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid Grid.Row="1" Height="45" Width="225">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image x:Name="ImageRating" Grid.ColumnSpan="10" Height="45" Width="250"/>
+                    <Button x:Name="ButtonStars1" Grid.Column="0" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
+                    <Button x:Name="ButtonStars2" Grid.Column="1" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
+                    <Button x:Name="ButtonStars3" Grid.Column="2" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
+                    <Button x:Name="ButtonStars4" Grid.Column="3" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
+                    <Button x:Name="ButtonStars5" Grid.Column="4" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
+                    <Button x:Name="ButtonStars6" Grid.Column="5" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
+                    <Button x:Name="ButtonStars7" Grid.Column="6" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
+                    <Button x:Name="ButtonStars8" Grid.Column="7" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
+                    <Button x:Name="ButtonStars9" Grid.Column="8" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
+                    <Button x:Name="ButtonStars10" Grid.Column="9" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
+                </Grid>
+                <Image x:Name="CoverImage" Stretch="Uniform" Margin="10" Visibility="Hidden" Grid.Row="0"/>
+                <TextBox x:Name="TextBoxDetails" Grid.Row="2" Margin="20" Visibility="Hidden" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True"
+                         Background="Transparent" BorderBrush="Transparent" LostFocus="TextBoxDetails_LostFocus">
+                    <TextBox.Resources>
+                        <Style TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource ModernScrollViewer}">
+                            <Setter Property="CanContentScroll" Value="True"/>
+                        </Style>
+                    </TextBox.Resources>
+                </TextBox>
+                <TextBlock Grid.Row="3">Timeline</TextBlock>
+            </Grid>
+            <DataGrid x:Name="MaterialsDataGrid" Grid.Column="1" Margin="15" ItemsSource="{Binding Source={StaticResource materialsViewSource}}" IsEnabled="True"
+                      HeadersVisibility="Column" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True" MaxHeight="700" 
+                      Background="Transparent" BorderBrush="Transparent" GridLinesVisibility="Horizontal"
+                      SelectionChanged="MaterialsDataGrid_SelectionChanged" SelectionMode="Single">
+                <DataGrid.Resources>
+                    <DataTemplate x:Key="HeaderTemplate">
+                        <DockPanel>
+                            <ContentControl Content="{Binding}" VerticalAlignment="Center"/>
+                            <Button DockPanel.Dock="Right" Name="FilterButton" Margin="2, 1, 1, 1" Padding="1, 0" Background="Transparent" BorderBrush="Transparent" Click="FilterButton_Click">
+                                <Image Source="../Resources/Icons/Filter.png" Height="15" Width="15" Stretch="Fill"/>
+                            </Button>
+                            <Popup x:Name="FilterPopup" PlacementTarget="{Binding ElementName=FilterButton}" StaysOpen="False"
+                                   PopupAnimation="Fade" Opened="FilterPopup_Opened">
+                                <Border Background="White" Padding="3" MouseLeave="Border_MouseLeave">
+                                </Border>
+                            </Popup>
+                        </DockPanel>
+                    </DataTemplate>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn x:Name="TitleColumn" Binding="{Binding Title}" Header="Title" Width="4*" HeaderTemplate="{StaticResource HeaderTemplate}"/>
+                    <DataGridTextColumn x:Name="AuthorsColumn" Binding="{Binding AuthorsList}" Header="Authors" Width="3*" HeaderTemplate="{StaticResource HeaderTemplate}"/>
+                    <DataGridTextColumn x:Name="GenresColumn" Binding="{Binding GenresList}" Header="Genres" Width="3*" HeaderTemplate="{StaticResource HeaderTemplate}"/>
+                    <DataGridTextColumn x:Name="PriceColumn" Binding="{Binding Price}" Header="Price" HeaderTemplate="{StaticResource HeaderTemplate}"/>
+                    <DataGridTextColumn x:Name="SubscriptionColumn" Binding="{Binding SubscriptionName}" Header="Subscription" HeaderTemplate="{StaticResource HeaderTemplate}"/>
+                    <DataGridTextColumn x:Name="FormatColumn" Binding="{Binding FormatType}" Header="Format" HeaderTemplate="{StaticResource HeaderTemplate}"/>
+                    <DataGridTextColumn x:Name="DateReleasedColumn" Binding="{Binding DateReleased}" Header="Date released" HeaderTemplate="{StaticResource HeaderTemplate}"/>
+                    <DataGridTextColumn x:Name="CurrentStatusColumn" Binding="{Binding StatusName}" Header="Current status" HeaderTemplate="{StaticResource HeaderTemplate}"/>
+                </DataGrid.Columns>
+                <DataGrid.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Name="EditMaterial" Header="Edit" Click="EditMaterial_Click"/>
+                        <MenuItem Name="DeleteMaterial" Header="Delete" Click="DeleteMaterial_Click"/>
+                    </ContextMenu>
+                </DataGrid.ContextMenu>
+            </DataGrid>
+        </Grid>
+    </Grid>
+</Window>
