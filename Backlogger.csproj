@@ -89,6 +89,9 @@
     <Compile Include="Windows\AddDialog.xaml.cs">
       <DependentUpon>AddDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\AddStatusUpdateDialog.xaml.cs">
+      <DependentUpon>AddStatusUpdateDialog.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\AddSubscriptionDialog.xaml.cs">
       <DependentUpon>AddSubscriptionDialog.xaml</DependentUpon>
     </Compile>
@@ -168,6 +171,10 @@
       <DependentUpon>SubscriptionsDialog.xaml</DependentUpon>
     </Compile>
     <Page Include="Windows\AddDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\AddStatusUpdateDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -263,6 +270,14 @@
       <DependentUpon>Backlogger_model.edmx</DependentUpon>
       <LastGenOutput>Backlogger_model.cs</LastGenOutput>
     </Content>
+    <Resource Include="Resources\Icons\DropDisabled.png" />
+    <Resource Include="Resources\Icons\FinishDisabled.png" />
+    <Resource Include="Resources\Icons\PauseDisabled.png" />
+    <Resource Include="Resources\Icons\PlayDisabled.png" />
+    <Resource Include="Resources\Icons\Drop.png" />
+    <Resource Include="Resources\Icons\Finish.png" />
+    <Resource Include="Resources\Icons\Pause.png" />
+    <Resource Include="Resources\Icons\Play.png" />
     <Resource Include="Resources\Icons\Search.png" />
     <Resource Include="Resources\Icons\Filter.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

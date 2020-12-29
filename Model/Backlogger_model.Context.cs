@@ -39,7 +39,7 @@ namespace Backlogger.Model
         public virtual DbSet<BooksSubscription> BooksSubscriptions { get; set; }
         public virtual DbSet<Game> Games { get; set; }
         public virtual DbSet<GamesSubscription> GamesSubscriptions { get; set; }
-        public virtual DbSet<Movie> Movies1 { get; set; }
+        public virtual DbSet<Movie> Movies { get; set; }
         public virtual DbSet<MoviesSubscription> MoviesSubscriptions { get; set; }
     
         [DbFunction("BackloggerEntities", "ConcatenateAuthors")]

@@ -59,6 +59,8 @@ namespace Backlogger.Windows
 
         private void RefreshGrid()
         {
+            dynamic oldSel = MaterialsDataGrid.SelectedItem;
+
             using (BackloggerEntities context = new BackloggerEntities())
             {
                 context.Hobbies.Load();
@@ -152,8 +154,21 @@ namespace Backlogger.Windows
 
                 materialsViewSource.Source = filtered;
             }
-        }
 
+            MaterialsDataGrid.SelectedItem = null;
+
+            if (oldSel == null)
+                return;
+
+            foreach(dynamic item in MaterialsDataGrid.Items)
+            {
+                if(item.MaterialID == oldSel.MaterialID)
+                {
+                    MaterialsDataGrid.SelectedItem = item;
+                    break;
+                }
+            }
+        }
         private int NumberCheckboxesChecked(ListView lv)
         {
             int no = 0;
@@ -708,17 +723,9 @@ namespace Backlogger.Windows
                 CoverImage.Visibility = Visibility.Hidden;
                 TextBoxDetails.Visibility = Visibility.Hidden;
                 ImageRating.Visibility = Visibility.Hidden;
-                ButtonStars1.IsEnabled = false;
-                ButtonStars2.IsEnabled = false;
-                ButtonStars3.IsEnabled = false;
-                ButtonStars4.IsEnabled = false;
-                ButtonStars5.IsEnabled = false;
-                ButtonStars6.IsEnabled = false;
-                ButtonStars7.IsEnabled = false;
-                ButtonStars8.IsEnabled = false;
-                ButtonStars9.IsEnabled = false;
-                ButtonStars10.IsEnabled = false;
+                RatingGrid.Visibility = Visibility.Hidden;
                 UpdatesDataGrid.Visibility = Visibility.Hidden;
+                ControlButtonsGrid.Visibility = Visibility.Hidden;
 
                 return;
             }
@@ -730,31 +737,61 @@ namespace Backlogger.Windows
             CoverImage.Visibility = Visibility.Visible;
             ImageRating.Visibility = Visibility.Visible;
             UpdatesDataGrid.Visibility = Visibility.Visible;
+            ControlButtonsGrid.Visibility = Visibility.Visible;
+            RatingGrid.Visibility = Visibility.Visible;
+            TextBoxDetails.Visibility = Visibility.Visible;
 
-            ButtonStars1.IsEnabled = true;
-            ButtonStars2.IsEnabled = true;
-            ButtonStars3.IsEnabled = true;
-            ButtonStars4.IsEnabled = true;
-            ButtonStars5.IsEnabled = true;
-            ButtonStars6.IsEnabled = true;
-            ButtonStars7.IsEnabled = true;
-            ButtonStars8.IsEnabled = true;
-            ButtonStars9.IsEnabled = true;
-            ButtonStars10.IsEnabled = true;
 
             using (var context = new BackloggerEntities())
             {
                 var updates = from s in context.Statuses
                               from su in context.StatusUpdates
                               where id == su.MaterialID && s.StatusID == su.StatusID
-                              orderby su.DateModified ascending
+                              orderby su.DateModified descending
                               select new
                               {
+                                  su.UpdateID,
                                   s.StatusName,
                                   su.DateModified
                               };
 
                 updatesViewSource.Source = updates.ToList();
+            }
+
+            switch (i.StatusName)
+            {
+                case "Added":
+                case "Finished":
+                case "Dropped":
+                    (ResumeButton.Content as Image).Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\Play.png"));
+                    (PauseButton.Content as Image).Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\PauseDisabled.png"));
+                    (FinishButton.Content as Image).Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\FinishDisabled.png"));
+                    (DropButton.Content as Image).Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\DropDisabled.png"));
+                    ResumeButton.IsEnabled = true;
+                    PauseButton.IsEnabled = false;
+                    FinishButton.IsEnabled = false;
+                    DropButton.IsEnabled = false;
+                    break;
+                case "In progress":
+                    (ResumeButton.Content as Image).Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\PlayDisabled.png"));
+                    (PauseButton.Content as Image).Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\Pause.png"));
+                    (FinishButton.Content as Image).Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\Finish.png"));
+                    (DropButton.Content as Image).Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\Drop.png"));
+                    ResumeButton.IsEnabled = false;
+                    PauseButton.IsEnabled = true;
+                    FinishButton.IsEnabled = true;
+                    DropButton.IsEnabled = true;
+                    break;
+                case "On hold":
+                    (ResumeButton.Content as Image).Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\Play.png"));
+                    (PauseButton.Content as Image).Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\PauseDisabled.png"));
+                    (FinishButton.Content as Image).Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\FinishDisabled.png"));
+                    (DropButton.Content as Image).Source = new BitmapImage(new Uri(App.projectPath + @"\Resources\Icons\Drop.png"));
+                    ResumeButton.IsEnabled = true;
+                    PauseButton.IsEnabled = false;
+                    FinishButton.IsEnabled = false;
+                    DropButton.IsEnabled = true;
+                    break;
             }
 
 
@@ -776,7 +813,6 @@ namespace Backlogger.Windows
 
             CoverImage.Source = img;
 
-            TextBoxDetails.Visibility = Visibility.Visible;
             TextBoxDetails.Text = i.Info;
             TextBoxDetails.ScrollToHome();
             ReloadStars(i.Rating);
@@ -880,7 +916,6 @@ namespace Backlogger.Windows
             MaterialsDataGrid.SelectedIndex = oldIndex;
             ReloadStars((short?)no);
         }
-
         private void TextBoxDetails_LostFocus(object sender, RoutedEventArgs e)
         {
             dynamic i = MaterialsDataGrid.SelectedItem;
@@ -899,7 +934,6 @@ namespace Backlogger.Windows
                 RefreshGrid();
             }
         }
-
         private void EditMaterial_Click(object sender, RoutedEventArgs e)
         {
             dynamic i = MaterialsDataGrid.SelectedItem;
@@ -928,8 +962,9 @@ namespace Backlogger.Windows
             DeleteObsoleteFilters();
             InitializeFilters();
             MaterialsDataGrid_SelectionChanged(null, null);
-        }
 
+            MaterialsDataGrid.SelectedItem = i;
+        }
         private void DeleteMaterial_Click(object sender, RoutedEventArgs e)
         {
             if (MessageBox.Show("Are you sure you want to delete this item?", "Deleting confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
@@ -998,7 +1033,6 @@ namespace Backlogger.Windows
                     break;
             }
         }
-
         private void FilterButton_Click(object sender, RoutedEventArgs e)
         {
             var s = sender as Button;
@@ -1032,17 +1066,204 @@ namespace Backlogger.Windows
 
         private void EditStatusUpdate_Click(object sender, RoutedEventArgs e)
         {
+            dynamic m = MaterialsDataGrid.SelectedItem;
+            int mID = m.MaterialID;
 
+            dynamic s = UpdatesDataGrid.SelectedItem;
+
+            AddStatusUpdateDialog addStatusUpdateDialog = new AddStatusUpdateDialog(mID, s.UpdateID, s.DateModified, s.StatusName);
+            addStatusUpdateDialog.ShowDialog();
+
+            RefreshGrid();
         }
 
         private void DeleteStatusUpdate_Click(object sender, RoutedEventArgs e)
         {
+            if (MessageBox.Show("Are you sure you want to delete this status update?", "Deleting confirmation", MessageBoxButton.YesNo, MessageBoxImage.Warning) == MessageBoxResult.Yes)
+            {
+                using (BackloggerEntities context = new BackloggerEntities())
+                {
+                    dynamic i = UpdatesDataGrid.SelectedItem;
 
+                    context.StatusUpdates.Load();
+                    StatusUpdate m = (from o in context.StatusUpdates.Local where o.UpdateID == i.UpdateID select o).FirstOrDefault();
+
+                    context.StatusUpdates.Remove(m);
+                    context.SaveChanges();
+
+                    RefreshGrid();
+                    MaterialsDataGrid_SelectionChanged(null, null);
+                }
+            }
         }
 
         private void AddStatusUpdate_Click(object sender, RoutedEventArgs e)
         {
+            dynamic m = MaterialsDataGrid.SelectedItem;
+            int mID = m.MaterialID;
 
+            AddStatusUpdateDialog addStatusUpdateDialog = new AddStatusUpdateDialog(mID);
+            addStatusUpdateDialog.ShowDialog();
+
+            RefreshGrid();
+        }
+
+        private void ResumeButton_Click(object sender, RoutedEventArgs e)
+        {
+            dynamic i = MaterialsDataGrid.SelectedItem;
+
+            int id = i.MaterialID;
+
+            using (var context = new BackloggerEntities())
+            {
+                context.Materials.Load();
+                context.Statuses.Load();
+
+                var inProgress = from o in context.Materials
+                                 from up in context.LastStatusUpdate(o.MaterialID)
+                                 where o.MaterialID == up.MaterialID && up.StatusName == "In progress"
+                                 select new
+                                 {
+                                     o.MaterialID,
+                                     o.Title
+                                 };
+
+                if (inProgress.ToList().Count > 0)
+                {
+                    MessageBoxResult res = MessageBox.Show("You can't do two things at once, now, can you? :)\n" + inProgress.ToList()[0].Title + " is currently in progress, do you want to pause it?",
+                        "Something else is in progress", MessageBoxButton.OKCancel, MessageBoxImage.Warning);
+
+                    if (res == MessageBoxResult.Cancel)
+                        return;
+                    else
+                    {
+                        int onHoldID = (from s in context.Statuses
+                                        where s.StatusName == "On hold"
+                                        select s).FirstOrDefault().StatusID;
+
+                        StatusUpdate suo = new StatusUpdate
+                        {
+                            MaterialID = inProgress.ToList()[0].MaterialID,
+                            DateModified = DateTime.Now,
+                            StatusID = onHoldID
+                        };
+
+                        context.StatusUpdates.Add(suo);
+                        context.SaveChanges();
+                    }
+                }
+
+                int progressID = (from s in context.Statuses
+                                  where s.StatusName == "In progress"
+                                  select s).FirstOrDefault().StatusID;
+
+                StatusUpdate sun = new StatusUpdate
+                {
+                    MaterialID = i.MaterialID,
+                    DateModified = DateTime.Now,
+                    StatusID = progressID
+                };
+
+                context.StatusUpdates.Add(sun);
+                context.SaveChanges();
+
+                RefreshGrid();
+            }
+
+            MaterialsDataGrid.SelectedItem = i;
+        }
+
+        private void PauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            dynamic i = MaterialsDataGrid.SelectedItem;
+
+            int id = i.MaterialID;
+
+            using (var context = new BackloggerEntities())
+            {
+                context.Materials.Load();
+                context.Statuses.Load();
+
+                int holdID = (from s in context.Statuses
+                              where s.StatusName == "On hold"
+                              select s).FirstOrDefault().StatusID;
+
+                StatusUpdate sun = new StatusUpdate
+                {
+                    MaterialID = i.MaterialID,
+                    DateModified = DateTime.Now,
+                    StatusID = holdID
+                };
+
+                context.StatusUpdates.Add(sun);
+                context.SaveChanges();
+
+                RefreshGrid();
+            }
+
+            MaterialsDataGrid.SelectedItem = i;
+        }
+
+        private void FinishButton_Click(object sender, RoutedEventArgs e)
+        {
+            dynamic i = MaterialsDataGrid.SelectedItem;
+
+            int id = i.MaterialID;
+
+            using (var context = new BackloggerEntities())
+            {
+                context.Materials.Load();
+                context.Statuses.Load();
+
+                int holdID = (from s in context.Statuses
+                              where s.StatusName == "Finished"
+                              select s).FirstOrDefault().StatusID;
+
+                StatusUpdate sun = new StatusUpdate
+                {
+                    MaterialID = i.MaterialID,
+                    DateModified = DateTime.Now,
+                    StatusID = holdID
+                };
+
+                context.StatusUpdates.Add(sun);
+                context.SaveChanges();
+
+                RefreshGrid();
+            }
+
+            MaterialsDataGrid.SelectedItem = i;
+        }
+
+        private void DropButton_Click(object sender, RoutedEventArgs e)
+        {
+            dynamic i = MaterialsDataGrid.SelectedItem;
+
+            int id = i.MaterialID;
+
+            using (var context = new BackloggerEntities())
+            {
+                context.Materials.Load();
+                context.Statuses.Load();
+
+                int holdID = (from s in context.Statuses
+                              where s.StatusName == "Dropped"
+                              select s).FirstOrDefault().StatusID;
+
+                StatusUpdate sun = new StatusUpdate
+                {
+                    MaterialID = i.MaterialID,
+                    DateModified = DateTime.Now,
+                    StatusID = holdID
+                };
+
+                context.StatusUpdates.Add(sun);
+                context.SaveChanges();
+
+                RefreshGrid();
+            }
+
+            MaterialsDataGrid.SelectedItem = i;
         }
     }
 }

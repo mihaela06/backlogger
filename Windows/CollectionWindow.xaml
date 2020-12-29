@@ -98,10 +98,12 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="2*"/>
                     <RowDefinition Height="45"/>
+                    <RowDefinition Height="60"/>
                     <RowDefinition Height="1.5*"/>
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
-                <Grid Grid.Row="1" Height="45" Width="225">
+                <Image x:Name="CoverImage" Stretch="Uniform" Margin="10" Visibility="Hidden" Grid.Row="0"/>
+                <Grid x:Name="RatingGrid" Grid.Row="1" Height="45" Width="225">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -126,8 +128,28 @@
                     <Button x:Name="ButtonStars9" Grid.Column="8" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
                     <Button x:Name="ButtonStars10" Grid.Column="9" Background="Transparent" BorderBrush="Transparent" Style="{StaticResource StarButtonStyle}" MouseEnter="ButtonStars_MouseEnter" MouseLeave="ButtonStars_MouseLeave" Click="ButtonStars_Click"/>
                 </Grid>
-                <Image x:Name="CoverImage" Stretch="Uniform" Margin="10" Visibility="Hidden" Grid.Row="0"/>
-                <TextBox x:Name="TextBoxDetails" Grid.Row="2" Margin="10" Visibility="Hidden" TextWrapping="Wrap" VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True"
+                <Grid x:Name="ControlButtonsGrid" Grid.Row="2" Height="45" Width="225">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Button x:Name="ResumeButton" Grid.Column="0" Margin="5" Style="{StaticResource MainButtonStyle}" Click="ResumeButton_Click">
+                        <Image Source="../Resources/Icons/Play.png"/>
+                    </Button>
+                    <Button x:Name="PauseButton" Grid.Column="1" Margin="5" Style="{StaticResource MainButtonStyle}" Click="PauseButton_Click">
+                        <Image Source="../Resources/Icons/Pause.png"/>
+                    </Button>
+                    <Button x:Name="FinishButton" Grid.Column="2" Margin="5" Style="{StaticResource MainButtonStyle}" Click="FinishButton_Click">
+                        <Image Source="../Resources/Icons/Finish.png"/>
+                    </Button>
+                    <Button x:Name="DropButton" Grid.Column="3" Margin="5" Style="{StaticResource MainButtonStyle}" Click="DropButton_Click">
+                        <Image Source="../Resources/Icons/Drop.png"/>
+                    </Button>
+                </Grid>
+                <TextBox x:Name="TextBoxDetails" Grid.Row="3" Margin="10" Visibility="Hidden" TextWrapping="Wrap" TextAlignment="Justify"
+                         VerticalScrollBarVisibility="Visible" ScrollViewer.CanContentScroll="True"
                          Background="Transparent" BorderBrush="Transparent" LostFocus="TextBoxDetails_LostFocus">
                     <TextBox.Resources>
                         <Style TargetType="{x:Type ScrollViewer}" BasedOn="{StaticResource ModernScrollViewer}">
@@ -135,9 +157,9 @@
                         </Style>
                     </TextBox.Resources>
                 </TextBox>
-                <DataGrid x:Name="UpdatesDataGrid" Grid.Row="3" Margin="10" ItemsSource="{Binding Source={StaticResource updatesViewSource}}" IsEnabled="True"
-                      HeadersVisibility="None" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
-                      Background="Transparent" BorderBrush="Transparent" GridLinesVisibility="Horizontal" SelectionMode="Single">
+                <DataGrid x:Name="UpdatesDataGrid" Grid.Row="4" Margin="10" ItemsSource="{Binding Source={StaticResource updatesViewSource}}" 
+                          IsEnabled="True" HeadersVisibility="None" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
+                           Background="Transparent" BorderBrush="Transparent" GridLinesVisibility="Horizontal" SelectionMode="Single">
                     <DataGrid.Columns>
                         <DataGridTextColumn x:Name="UpdateDateColumn" Binding="{Binding DateModified, StringFormat=\{0:dd.MM.yyyy HH:mm\}}" Width="2*"/>
                         <DataGridTextColumn x:Name="StatusColumn" Binding="{Binding StatusName}" Width="*"/>
