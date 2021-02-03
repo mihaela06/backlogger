@@ -39,8 +39,11 @@ namespace Backlogger.Model
         public virtual DbSet<BooksSubscription> BooksSubscriptions { get; set; }
         public virtual DbSet<Game> Games { get; set; }
         public virtual DbSet<GamesSubscription> GamesSubscriptions { get; set; }
-        public virtual DbSet<Movie> Movies { get; set; }
+        public virtual DbSet<Movie> Movies1 { get; set; }
         public virtual DbSet<MoviesSubscription> MoviesSubscriptions { get; set; }
+        public virtual DbSet<TimeSpentOnHobby> TimeSpentOnHobbies { get; set; }
+        public virtual DbSet<TimeSpentOnMaterial> TimeSpentOnMaterials { get; set; }
+        public virtual DbSet<MaterialsFullReport> MaterialsFullReports { get; set; }
     
         [DbFunction("BackloggerEntities", "ConcatenateAuthors")]
         public virtual IQueryable<ConcatenateAuthors_Result> ConcatenateAuthors(Nullable<int> materialID)
@@ -90,6 +93,16 @@ namespace Backlogger.Model
                 new ObjectParameter("hobbyID", typeof(int));
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<TopRatedGenres_Result>("[BackloggerEntities].[TopRatedGenres](@hobbyID)", hobbyIDParameter);
+        }
+    
+        [DbFunction("BackloggerEntities", "PartialTimeMaterial")]
+        public virtual IQueryable<PartialTimeMaterial_Result> PartialTimeMaterial(Nullable<int> materialID)
+        {
+            var materialIDParameter = materialID.HasValue ?
+                new ObjectParameter("MaterialID", materialID) :
+                new ObjectParameter("MaterialID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<PartialTimeMaterial_Result>("[BackloggerEntities].[PartialTimeMaterial](@MaterialID)", materialIDParameter);
         }
     }
 }

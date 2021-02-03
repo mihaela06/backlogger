@@ -47,12 +47,31 @@
     <Reference Include="EntityFramework.SqlServer, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>packages\EntityFramework.6.4.4\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.ReportViewer.Common, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1427.0\lib\net40\Microsoft.ReportViewer.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.DataVisualization, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1427.0\lib\net40\Microsoft.ReportViewer.DataVisualization.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.Design, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1427.0\lib\net40\Microsoft.ReportViewer.Design.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.ProcessingObjectModel, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1427.0\lib\net40\Microsoft.ReportViewer.ProcessingObjectModel.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ReportViewer.WinForms, Version=15.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.ReportingServices.ReportViewerControl.Winforms.150.1427.0\lib\net40\Microsoft.ReportViewer.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.SqlServer.Types, Version=14.0.0.0, Culture=neutral, PublicKeyToken=89845dcd8080cc91, processorArchitecture=MSIL">
+      <HintPath>packages\Microsoft.SqlServer.Types.14.0.1016.290\lib\net40\Microsoft.SqlServer.Types.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -65,6 +84,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
     <Reference Include="Xceed.Wpf.AvalonDock, Version=4.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
       <HintPath>packages\Extended.Wpf.Toolkit.4.0.1\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
     </Reference>
@@ -86,12 +106,40 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="BackloggerDataSet.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BackloggerDataSet.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="BackloggerDataSet2.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BackloggerDataSet2.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="BackloggerDataSet3.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>BackloggerDataSet3.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="Model\MaterialsFullReport.cs">
+      <DependentUpon>Backlogger_model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\PartialTimeMaterial_Result.cs">
+      <DependentUpon>Backlogger_model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TimeSpentOnHobby.cs">
+      <DependentUpon>Backlogger_model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TimeSpentOnMaterial.cs">
+      <DependentUpon>Backlogger_model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Model\TopRatedAuthors_Result.cs">
       <DependentUpon>Backlogger_model.tt</DependentUpon>
     </Compile>
     <Compile Include="Model\TopRatedGenres_Result.cs">
       <DependentUpon>Backlogger_model.tt</DependentUpon>
     </Compile>
+    <Compile Include="SqlServerTypes\Loader.cs" />
     <Compile Include="Windows\AddDialog.xaml.cs">
       <DependentUpon>AddDialog.xaml</DependentUpon>
     </Compile>
@@ -173,6 +221,9 @@
     <Compile Include="Model\Subscription.cs">
       <DependentUpon>Backlogger_model.tt</DependentUpon>
     </Compile>
+    <Compile Include="Windows\StatisticsWindow.xaml.cs">
+      <DependentUpon>StatisticsWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Windows\SubscriptionsDialog.xaml.cs">
       <DependentUpon>SubscriptionsDialog.xaml</DependentUpon>
     </Compile>
@@ -211,6 +262,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Windows\StatisticsWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Windows\SubscriptionsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -238,22 +293,51 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reports\MainReport.rdlc" />
+    <EmbeddedResource Include="Reports\MainReport2.rdlc" />
+    <EmbeddedResource Include="Reports\MainReport3.rdlc" />
+    <EmbeddedResource Include="Reports\MainReport4.rdlc" />
     <EntityDeploy Include="Model\Backlogger_model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Backlogger_model.Designer.cs</LastGenOutput>
     </EntityDeploy>
+    <None Include="BackloggerDataSet.xsc">
+      <DependentUpon>BackloggerDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="BackloggerDataSet.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>BackloggerDataSet.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="BackloggerDataSet.xss">
+      <DependentUpon>BackloggerDataSet.xsd</DependentUpon>
+    </None>
+    <None Include="BackloggerDataSet2.xsc">
+      <DependentUpon>BackloggerDataSet2.xsd</DependentUpon>
+    </None>
+    <None Include="BackloggerDataSet2.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>BackloggerDataSet2.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="BackloggerDataSet2.xss">
+      <DependentUpon>BackloggerDataSet2.xsd</DependentUpon>
+    </None>
+    <None Include="BackloggerDataSet3.xsc">
+      <DependentUpon>BackloggerDataSet3.xsd</DependentUpon>
+    </None>
+    <None Include="BackloggerDataSet3.xsd">
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>BackloggerDataSet3.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="BackloggerDataSet3.xss">
+      <DependentUpon>BackloggerDataSet3.xsd</DependentUpon>
+    </None>
     <None Include="Model\Backlogger_model.edmx.diagram">
       <DependentUpon>Backlogger_model.edmx</DependentUpon>
     </None>
     <None Include="packages.config" />
-    <None Include="Properties\DataSources\Author.datasource" />
-    <None Include="Properties\DataSources\Genre.datasource" />
-    <None Include="Properties\DataSources\Hobby.datasource" />
-    <None Include="Properties\DataSources\Material.datasource" />
-    <None Include="Properties\DataSources\MaterialFormat.datasource" />
-    <None Include="Properties\DataSources\Status.datasource" />
-    <None Include="Properties\DataSources\StatusUpdate.datasource" />
-    <None Include="Properties\DataSources\Subscription.datasource" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -283,6 +367,19 @@
       <DependentUpon>Backlogger_model.edmx</DependentUpon>
       <LastGenOutput>Backlogger_model.cs</LastGenOutput>
     </Content>
+    <Content Include="SqlServerTypes\readme.htm" />
+    <Content Include="SqlServerTypes\x64\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x64\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\msvcr120.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SqlServerTypes\x86\SqlServerSpatial140.dll">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\Icons\DropDisabled.png" />
     <Resource Include="Resources\Icons\FinishDisabled.png" />
     <Resource Include="Resources\Icons\PauseDisabled.png" />
@@ -305,7 +402,12 @@
     <Resource Include="Resources\Icons\Game.png" />
     <Resource Include="Resources\Icons\Movie.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <WCFMetadata Include="Connected Services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\DataSources\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
     <PropertyGroup>

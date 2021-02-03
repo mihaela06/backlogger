@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="BackloggerDataSet" targetNamespace="http://tempuri.org/BackloggerDataSet.xsd" xmlns:mstns="http://tempuri.org/BackloggerDataSet.xsd" xmlns="http://tempuri.org/BackloggerDataSet.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata" xmlns:msprop="urn:schemas-microsoft-com:xml-msprop" attributeFormDefault="qualified" elementFormDefault="qualified">
+  <xs:annotation>
+    <xs:appinfo source="urn:schemas-microsoft-com:xml-msdatasource">
+      <DataSource DefaultConnectionIndex="0" FunctionsComponentName="QueriesTableAdapter" Modifier="AutoLayout, AnsiClass, Class, Public" SchemaSerializationMode="IncludeSchema" xmlns="urn:schemas-microsoft-com:xml-msdatasource">
+        <Connections>
+          <Connection AppSettingsObjectName="Settings" AppSettingsPropertyName="BackloggerConnectionString" ConnectionStringObject="" IsAppSettingsProperty="true" Modifier="Assembly" Name="BackloggerConnectionString (Settings)" ParameterPrefix="@" PropertyReference="ApplicationSettings.Backlogger.Properties.Settings.GlobalReference.Default.BackloggerConnectionString" Provider="System.Data.SqlClient" />
+        </Connections>
+        <Tables>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="TimeSpentOnHobbiesTableAdapter" GeneratorDataComponentClassName="TimeSpentOnHobbiesTableAdapter" Name="TimeSpentOnHobbies" UserDataComponentName="TimeSpentOnHobbiesTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="BackloggerConnectionString (Settings)" DbObjectName="Backlogger.dbo.TimeSpentOnHobbies" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT HobbyName, TotalTimeHobby FROM dbo.TimeSpentOnHobbies</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="HobbyName" DataSetColumn="HobbyName" />
+              <Mapping SourceColumn="TotalTimeHobby" DataSetColumn="TotalTimeHobby" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+        </Tables>
+        <Sources />
+      </DataSource>
+    </xs:appinfo>
+  </xs:annotation>
+  <xs:element name="BackloggerDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="BackloggerDataSet" msprop:Generator_UserDSName="BackloggerDataSet">
+    <xs:complexType>
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+        <xs:element name="TimeSpentOnHobbies" msprop:Generator_TableClassName="TimeSpentOnHobbiesDataTable" msprop:Generator_TableVarName="tableTimeSpentOnHobbies" msprop:Generator_TablePropName="TimeSpentOnHobbies" msprop:Generator_RowDeletingName="TimeSpentOnHobbiesRowDeleting" msprop:Generator_RowChangingName="TimeSpentOnHobbiesRowChanging" msprop:Generator_RowEvHandlerName="TimeSpentOnHobbiesRowChangeEventHandler" msprop:Generator_RowDeletedName="TimeSpentOnHobbiesRowDeleted" msprop:Generator_UserTableName="TimeSpentOnHobbies" msprop:Generator_RowChangedName="TimeSpentOnHobbiesRowChanged" msprop:Generator_RowEvArgName="TimeSpentOnHobbiesRowChangeEvent" msprop:Generator_RowClassName="TimeSpentOnHobbiesRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="HobbyName" msprop:Generator_ColumnVarNameInTable="columnHobbyName" msprop:Generator_ColumnPropNameInRow="HobbyName" msprop:Generator_ColumnPropNameInTable="HobbyNameColumn" msprop:Generator_UserColumnName="HobbyName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TotalTimeHobby" msprop:Generator_ColumnVarNameInTable="columnTotalTimeHobby" msprop:Generator_ColumnPropNameInRow="TotalTimeHobby" msprop:Generator_ColumnPropNameInTable="TotalTimeHobbyColumn" msprop:Generator_UserColumnName="TotalTimeHobby" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+      </xs:choice>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

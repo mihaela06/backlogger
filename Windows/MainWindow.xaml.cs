@@ -52,7 +52,9 @@ namespace Backlogger.Windows
 
         private void StatisticsButton_Click(object sender, RoutedEventArgs e)
         {
-
+            StatisticsWindow statisticsWindow = new StatisticsWindow();
+            this.Hide();
+            statisticsWindow.Show();
         }
     }
 }

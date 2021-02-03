@@ -432,3 +432,142 @@ AS
 		ON Genres.GenreID = GenreAverageRating.GenreID
 	);
 GO
+
+IF OBJECT_ID('PartialTimeStatus', 'FN') IS NOT NULL
+DROP FUNCTION PartialTimeStatus
+GO
+
+CREATE FUNCTION PartialTimeStatus
+(
+	@updateID INT
+)
+RETURNS INT
+AS
+	BEGIN
+
+	DECLARE @sID INT, @dMod DATETIME, @mID INT, @dPrec DATETIME
+	
+	SELECT 
+		@sID = StatusID,
+		@dMod = DateModified,
+		@mID = MaterialID
+	FROM StatusUpdates
+	WHERE StatusUpdates.UpdateID = @updateID
+
+	IF (@sID <> 5)
+	BEGIN
+		RETURN 0
+	END
+
+	SELECT TOP 1 
+		@dPrec = DateModified
+	FROM StatusUpdates
+	WHERE MaterialID = @mID AND StatusID = 2 AND DateModified < @dMod
+	ORDER BY DateModified DESC
+
+	RETURN DATEDIFF(s, @dPrec, @dMod)
+	END
+GO
+
+IF OBJECT_ID('PartialTimeMaterial', 'IF') IS NOT NULL
+DROP FUNCTION PartialTimeMaterial
+GO
+
+CREATE FUNCTION PartialTimeMaterial
+(
+	@MaterialID INT
+)
+RETURNS TABLE
+AS
+	RETURN
+	(
+		SELECT SUM(Backlogger.dbo.PartialTimeStatus(UpdateID)) AS TotalTime, MaterialID
+		FROM StatusUpdates
+		WHERE MaterialID = @MaterialID
+		GROUP BY MaterialID
+	);
+GO
+
+
+IF OBJECT_ID('ConvertTimeToHHMMSS', 'FN') IS NOT NULL
+DROP FUNCTION ConvertTimeToHHMMSS
+GO
+
+CREATE FUNCTION ConvertTimeToHHMMSS
+(
+    @time DECIMAL(28,3), 
+    @unit VARCHAR(20)
+)
+RETURNS VARCHAR(20)
+AS
+BEGIN
+
+    declare @seconds decimal(18,3), @minutes int, @hours int, @temp varchar(20);
+
+    if(@unit = 'hour' or @unit = 'hh' )
+        set @seconds = @time * 60 * 60;
+    else if(@unit = 'minute' or @unit = 'mi' or @unit = 'n')
+        set @seconds = @time * 60;
+    else if(@unit = 'second' or @unit = 'ss' or @unit = 's')
+        set @seconds = @time;
+    else set @seconds = 0; -- unknown time units
+
+    set @hours = convert(int, @seconds /60 / 60);
+    set @minutes = convert(int, (@seconds / 60) - (@hours * 60 ));
+    set @seconds = @seconds % 60;
+
+	set @temp = convert(varchar(9), convert(int, @hours)) + ':' +
+        right('00' + convert(varchar(2), convert(int, @minutes)), 2) + ':' +
+        right('00' + convert(varchar(6), @seconds), 6);
+
+    return 
+        left(@temp, len(@temp)-4)
+
+END
+GO
+
+IF OBJECT_ID('TimeSpentOnMaterials', 'V') IS NOT NULL
+DROP VIEW TimeSpentOnMaterials
+GO
+CREATE VIEW TimeSpentOnMaterials
+AS
+	SELECT M.MaterialID, Title, T.TotalTime
+	FROM Materials M
+	OUTER APPLY PartialTimeMaterial(M.MaterialID) T
+GO
+
+IF OBJECT_ID('TimeSpentOnHobbies', 'V') IS NOT NULL
+DROP VIEW TimeSpentOnHobbies
+GO
+CREATE VIEW TimeSpentOnHobbies
+AS
+	SELECT H.HobbyID, MAX(H.HobbyName) AS HobbyName, SUM(TM.TotalTime) AS TotalTimeHobby
+	FROM TimeSpentOnMaterials TM
+	INNER JOIN Materials
+	ON Materials.MaterialID = TM.MaterialID
+	INNER JOIN Hobbies H
+	ON Materials.HobbyID = H.HobbyID
+	GROUP BY H.HobbyID
+GO
+
+IF OBJECT_ID('MaterialsFullReport', 'V') IS NOT NULL
+DROP VIEW MaterialsFullReport
+GO
+CREATE VIEW MaterialsFullReport
+AS
+	SELECT Title, H.HobbyName, MF.FormatType, M.Price, CA.AuthorsList, CG.GenresList, LU.DateModified AS LastUpdateDate,
+		S.StatusName AS LastUpdateStatus, SB.SubscriptionName, Rating, DateReleased, Backlogger.dbo.ConvertTimeToHHMMSS(T.TotalTime, 's') AS TotalTime
+	FROM Materials M
+	CROSS APPLY ConcatenateAuthors(M.MaterialID) CA
+	CROSS APPLY ConcatenateGenres(M.MaterialID) CG
+	CROSS APPLY LastStatusUpdate(M.MaterialID) LU
+	CROSS APPLY PartialTimeMaterial(M.MaterialID) T
+	INNER JOIN Statuses S
+	ON S.StatusID = LU.StatusID
+	LEFT JOIN Subscriptions SB
+	ON SB.SubscriptionID = M.SubscriptionID
+	INNER JOIN Hobbies H
+	ON H.HobbyID = M.HobbyID
+	LEFT JOIN MaterialFormats MF
+	ON MF.MaterialFormatID = M.MaterialFormatID
+GO

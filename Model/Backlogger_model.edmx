@@ -157,6 +157,27 @@ warning 6002: The table/view 'Backlogger.dbo.GamesSubscriptions' does not have a
           <Property Name="IsActive" Type="bit" Nullable="false" />
         </EntityType>
         <!--Errors Found During Generation:
+warning 6002: The table/view 'Backlogger.dbo.MaterialsFullReport' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="MaterialsFullReport">
+          <Key>
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="LastUpdateDate" />
+            <PropertyRef Name="LastUpdateStatus" />
+          </Key>
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="HobbyName" Type="nvarchar(max)" />
+          <Property Name="FormatType" Type="nvarchar(max)" />
+          <Property Name="Price" Type="money" />
+          <Property Name="AuthorsList" Type="nvarchar(max)" />
+          <Property Name="GenresList" Type="nvarchar(max)" />
+          <Property Name="LastUpdateDate" Type="datetime" Nullable="false" />
+          <Property Name="LastUpdateStatus" Type="varchar(max)" Nullable="false" />
+          <Property Name="SubscriptionName" Type="nvarchar(max)" />
+          <Property Name="Rating" Type="smallint" />
+          <Property Name="DateReleased" Type="date" />
+          <Property Name="TotalTime" Type="varchar" MaxLength="20" />
+        </EntityType>
+        <!--Errors Found During Generation:
 warning 6002: The table/view 'Backlogger.dbo.Movies' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="Movies">
           <Key>
@@ -188,6 +209,27 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
           <Property Name="SubscriptionName" Type="nvarchar(max)" />
           <Property Name="Price" Type="money" Nullable="false" />
           <Property Name="IsActive" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Backlogger.dbo.TimeSpentOnHobbies' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TimeSpentOnHobbies">
+          <Key>
+            <PropertyRef Name="HobbyID" />
+          </Key>
+          <Property Name="HobbyID" Type="int" Nullable="false" />
+          <Property Name="HobbyName" Type="nvarchar(max)" />
+          <Property Name="TotalTimeHobby" Type="int" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'Backlogger.dbo.TimeSpentOnMaterials' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="TimeSpentOnMaterials">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+            <PropertyRef Name="Title" />
+          </Key>
+          <Property Name="MaterialID" Type="int" Nullable="false" />
+          <Property Name="Title" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="TotalTime" Type="int" />
         </EntityType>
         <Association Name="MaterialAuthorsAuthorsFK">
           <End Role="Authors" Type="Self.Authors" Multiplicity="1">
@@ -347,6 +389,10 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
             </CollectionType>
           </ReturnType>
         </Function>
+        <Function Name="ConvertTimeToHHMMSS" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="varchar">
+          <Parameter Name="time" Type="decimal" Mode="In" />
+          <Parameter Name="unit" Type="varchar" Mode="In" />
+        </Function>
         <Function Name="LastStatusUpdate" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="MaterialID" Type="int" Mode="In" />
           <ReturnType>
@@ -360,6 +406,20 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
               </RowType>
             </CollectionType>
           </ReturnType>
+        </Function>
+        <Function Name="PartialTimeMaterial" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="MaterialID" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="TotalTime" Type="int" />
+                <Property Name="MaterialID" Type="int" Nullable="false" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="PartialTimeStatus" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo" ReturnType="int">
+          <Parameter Name="updateID" Type="int" Mode="In" />
         </Function>
         <Function Name="TopRatedAuthors" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
           <Parameter Name="hobbyID" Type="int" Mode="In" />
@@ -442,6 +502,22 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
     [GamesSubscriptions].[IsActive] AS [IsActive]
     FROM [dbo].[GamesSubscriptions] AS [GamesSubscriptions]</DefiningQuery>
           </EntitySet>
+          <EntitySet Name="MaterialsFullReport" EntityType="Self.MaterialsFullReport" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [MaterialsFullReport].[Title] AS [Title], 
+    [MaterialsFullReport].[HobbyName] AS [HobbyName], 
+    [MaterialsFullReport].[FormatType] AS [FormatType], 
+    [MaterialsFullReport].[Price] AS [Price], 
+    [MaterialsFullReport].[AuthorsList] AS [AuthorsList], 
+    [MaterialsFullReport].[GenresList] AS [GenresList], 
+    [MaterialsFullReport].[LastUpdateDate] AS [LastUpdateDate], 
+    [MaterialsFullReport].[LastUpdateStatus] AS [LastUpdateStatus], 
+    [MaterialsFullReport].[SubscriptionName] AS [SubscriptionName], 
+    [MaterialsFullReport].[Rating] AS [Rating], 
+    [MaterialsFullReport].[DateReleased] AS [DateReleased], 
+    [MaterialsFullReport].[TotalTime] AS [TotalTime]
+    FROM [dbo].[MaterialsFullReport] AS [MaterialsFullReport]</DefiningQuery>
+          </EntitySet>
           <EntitySet Name="Movies" EntityType="Self.Movies" store:Type="Views" store:Schema="dbo">
             <DefiningQuery>SELECT 
     [Movies].[MaterialID] AS [MaterialID], 
@@ -464,6 +540,20 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
     [MoviesSubscriptions].[Price] AS [Price], 
     [MoviesSubscriptions].[IsActive] AS [IsActive]
     FROM [dbo].[MoviesSubscriptions] AS [MoviesSubscriptions]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="TimeSpentOnHobbies" EntityType="Self.TimeSpentOnHobbies" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TimeSpentOnHobbies].[HobbyID] AS [HobbyID], 
+    [TimeSpentOnHobbies].[HobbyName] AS [HobbyName], 
+    [TimeSpentOnHobbies].[TotalTimeHobby] AS [TotalTimeHobby]
+    FROM [dbo].[TimeSpentOnHobbies] AS [TimeSpentOnHobbies]</DefiningQuery>
+          </EntitySet>
+          <EntitySet Name="TimeSpentOnMaterials" EntityType="Self.TimeSpentOnMaterials" store:Type="Views" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [TimeSpentOnMaterials].[MaterialID] AS [MaterialID], 
+    [TimeSpentOnMaterials].[Title] AS [Title], 
+    [TimeSpentOnMaterials].[TotalTime] AS [TotalTime]
+    FROM [dbo].[TimeSpentOnMaterials] AS [TimeSpentOnMaterials]</DefiningQuery>
           </EntitySet>
           <AssociationSet Name="MaterialAuthorsAuthorsFK" Association="Self.MaterialAuthorsAuthorsFK">
             <End Role="Authors" EntitySet="Authors" />
@@ -835,11 +925,17 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
           <Parameter Name="MaterialID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="TopRatedAuthors" IsComposable="true" ReturnType="Collection(BackloggerModel.TopRatedAuthors_Result)">
-            <Parameter Name="hobbyID" Mode="In" Type="Int32" />
+          <Parameter Name="hobbyID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="TopRatedGenres" IsComposable="true" ReturnType="Collection(BackloggerModel.TopRatedGenres_Result)">
-            <Parameter Name="hobbyID" Mode="In" Type="Int32" />
+          <Parameter Name="hobbyID" Mode="In" Type="Int32" />
           </FunctionImport>
+          <EntitySet Name="TimeSpentOnHobbies" EntityType="BackloggerModel.TimeSpentOnHobby" />
+          <EntitySet Name="TimeSpentOnMaterials" EntityType="BackloggerModel.TimeSpentOnMaterial" />
+          <FunctionImport Name="PartialTimeMaterial" IsComposable="true" ReturnType="Collection(BackloggerModel.PartialTimeMaterial_Result)">
+          <Parameter Name="MaterialID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <EntitySet Name="MaterialsFullReports" EntityType="BackloggerModel.MaterialsFullReport" />
         </EntityContainer>
         <ComplexType Name="LastStatusUpdate_Result">
           <Property Type="Int32" Name="StatusID" Nullable="false" />
@@ -858,6 +954,46 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
           <Property Type="String" Name="GenreName" Nullable="true" />
           <Property Type="Decimal" Name="AverageRating" Nullable="true" Precision="38" Scale="6" />
         </ComplexType>
+        <EntityType Name="TimeSpentOnHobby">
+          <Key>
+            <PropertyRef Name="HobbyID" />
+          </Key>
+          <Property Name="HobbyID" Type="Int32" Nullable="false" />
+          <Property Name="HobbyName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TotalTimeHobby" Type="Int32" />
+        </EntityType>
+        <EntityType Name="TimeSpentOnMaterial">
+          <Key>
+            <PropertyRef Name="MaterialID" />
+            <PropertyRef Name="Title" />
+          </Key>
+          <Property Name="MaterialID" Type="Int32" Nullable="false" />
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="TotalTime" Type="Int32" />
+        </EntityType>
+        <ComplexType Name="PartialTimeMaterial_Result">
+          <Property Type="Int32" Name="TotalTime" Nullable="true" />
+          <Property Type="Int32" Name="MaterialID" Nullable="false" />
+        </ComplexType>
+        <EntityType Name="MaterialsFullReport">
+          <Key>
+            <PropertyRef Name="Title" />
+            <PropertyRef Name="LastUpdateDate" />
+            <PropertyRef Name="LastUpdateStatus" />
+          </Key>
+          <Property Name="Title" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="HobbyName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="FormatType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Price" Type="Decimal" Precision="19" Scale="4" />
+          <Property Name="AuthorsList" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="GenresList" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LastUpdateDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="LastUpdateStatus" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SubscriptionName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Rating" Type="Int16" />
+          <Property Name="DateReleased" Type="DateTime" Precision="0" />
+          <Property Name="TotalTime" Type="String" MaxLength="20" FixedLength="false" Unicode="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1081,6 +1217,50 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>
+          <EntitySetMapping Name="TimeSpentOnHobbies">
+            <EntityTypeMapping TypeName="BackloggerModel.TimeSpentOnHobby">
+              <MappingFragment StoreEntitySet="TimeSpentOnHobbies">
+                <ScalarProperty Name="TotalTimeHobby" ColumnName="TotalTimeHobby" />
+                <ScalarProperty Name="HobbyName" ColumnName="HobbyName" />
+                <ScalarProperty Name="HobbyID" ColumnName="HobbyID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TimeSpentOnMaterials">
+            <EntityTypeMapping TypeName="BackloggerModel.TimeSpentOnMaterial">
+              <MappingFragment StoreEntitySet="TimeSpentOnMaterials">
+                <ScalarProperty Name="TotalTime" ColumnName="TotalTime" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="PartialTimeMaterial" FunctionName="BackloggerModel.Store.PartialTimeMaterial">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BackloggerModel.PartialTimeMaterial_Result">
+                <ScalarProperty Name="TotalTime" ColumnName="TotalTime" />
+                <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <EntitySetMapping Name="MaterialsFullReports">
+            <EntityTypeMapping TypeName="BackloggerModel.MaterialsFullReport">
+              <MappingFragment StoreEntitySet="MaterialsFullReport">
+                <ScalarProperty Name="TotalTime" ColumnName="TotalTime" />
+                <ScalarProperty Name="DateReleased" ColumnName="DateReleased" />
+                <ScalarProperty Name="Rating" ColumnName="Rating" />
+                <ScalarProperty Name="SubscriptionName" ColumnName="SubscriptionName" />
+                <ScalarProperty Name="LastUpdateStatus" ColumnName="LastUpdateStatus" />
+                <ScalarProperty Name="LastUpdateDate" ColumnName="LastUpdateDate" />
+                <ScalarProperty Name="GenresList" ColumnName="GenresList" />
+                <ScalarProperty Name="AuthorsList" ColumnName="AuthorsList" />
+                <ScalarProperty Name="Price" ColumnName="Price" />
+                <ScalarProperty Name="FormatType" ColumnName="FormatType" />
+                <ScalarProperty Name="HobbyName" ColumnName="HobbyName" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
