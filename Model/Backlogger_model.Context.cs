@@ -71,5 +71,25 @@ namespace Backlogger.Model
     
             return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<LastStatusUpdate_Result>("[BackloggerEntities].[LastStatusUpdate](@MaterialID)", materialIDParameter);
         }
+    
+        [DbFunction("BackloggerEntities", "TopRatedAuthors")]
+        public virtual IQueryable<TopRatedAuthors_Result> TopRatedAuthors(Nullable<int> hobbyID)
+        {
+            var hobbyIDParameter = hobbyID.HasValue ?
+                new ObjectParameter("hobbyID", hobbyID) :
+                new ObjectParameter("hobbyID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<TopRatedAuthors_Result>("[BackloggerEntities].[TopRatedAuthors](@hobbyID)", hobbyIDParameter);
+        }
+    
+        [DbFunction("BackloggerEntities", "TopRatedGenres")]
+        public virtual IQueryable<TopRatedGenres_Result> TopRatedGenres(Nullable<int> hobbyID)
+        {
+            var hobbyIDParameter = hobbyID.HasValue ?
+                new ObjectParameter("hobbyID", hobbyID) :
+                new ObjectParameter("hobbyID", typeof(int));
+    
+            return ((IObjectContextAdapter)this).ObjectContext.CreateQuery<TopRatedGenres_Result>("[BackloggerEntities].[TopRatedGenres](@hobbyID)", hobbyIDParameter);
+        }
     }
 }

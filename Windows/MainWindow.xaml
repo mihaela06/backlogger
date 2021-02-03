@@ -50,7 +50,8 @@
                 <ColumnDefinition Width="1*" />
                 <ColumnDefinition Width="1*" />
             </Grid.ColumnDefinitions>
-            <Button Style="{StaticResource MainButtonStyle}" Background="Transparent" BorderBrush="Transparent" Grid.Column="0" Height="150" Width="300">
+            <Button x:Name="SuggestButton" Style="{StaticResource MainButtonStyle}" Background="Transparent" BorderBrush="Transparent"
+                    Grid.Column="0" Height="150" Width="300" Click="SuggestButton_Click">
                 <ContentControl>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="../Resources/Icons/Genie.png"/>
@@ -58,7 +59,8 @@
                     </StackPanel>
                 </ContentControl>  
             </Button>
-            <Button Style="{StaticResource MainButtonStyle}" Background="Transparent" BorderBrush="Transparent" Grid.Column="1" Height="150" Width="300">
+            <Button x:Name="StatisticsButton" Style="{StaticResource MainButtonStyle}" Background="Transparent" BorderBrush="Transparent" 
+                    Grid.Column="1" Height="150" Width="300" Click="StatisticsButton_Click">
                 <ContentControl>
                     <StackPanel Orientation="Horizontal">
                         <Image Source="../Resources/Icons/Statistics.png"/>

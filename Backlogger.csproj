@@ -86,6 +86,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\TopRatedAuthors_Result.cs">
+      <DependentUpon>Backlogger_model.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Model\TopRatedGenres_Result.cs">
+      <DependentUpon>Backlogger_model.tt</DependentUpon>
+    </Compile>
     <Compile Include="Windows\AddDialog.xaml.cs">
       <DependentUpon>AddDialog.xaml</DependentUpon>
     </Compile>
@@ -170,6 +176,9 @@
     <Compile Include="Windows\SubscriptionsDialog.xaml.cs">
       <DependentUpon>SubscriptionsDialog.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Windows\SuggestionsDialog.xaml.cs">
+      <DependentUpon>SuggestionsDialog.xaml</DependentUpon>
+    </Compile>
     <Page Include="Windows\AddDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -203,6 +212,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Windows\SubscriptionsDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Windows\SuggestionsDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

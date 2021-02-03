@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Backlogger.Windows"
         xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
         mc:Ignorable="d"
-        Title="Adding a new status update" Height="300" Width="400">
+        Title="Add a new status update" Height="300" Width="400">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="4*"/>

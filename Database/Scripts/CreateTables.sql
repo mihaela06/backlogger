@@ -210,7 +210,7 @@ INSERT INTO Hobbies VALUES
 ('Books'), ('Movies'), ('Games')
 
 INSERT INTO Statuses VALUES
-('Added'), ('In progress'), ('Dropped'), ('Finished');
+('Added'), ('In progress'), ('Dropped'), ('On hold'), ('Finished');
 
 IF OBJECT_ID('ConcatenateAuthors', 'IF') IS NOT NULL
 DROP FUNCTION ConcatenateAuthors
@@ -353,4 +353,82 @@ AS
 	SELECT SubscriptionID, SubscriptionName, Price, IsActive
 	FROM Subscriptions
 	WHERE HobbyID IN (SELECT HobbyID FROM Hobbies WHERE HobbyName = 'Games')
+GO
+
+IF OBJECT_ID('TopRatedAuthors', 'IF') IS NOT NULL
+DROP FUNCTION TopRatedAuthors
+GO
+
+CREATE FUNCTION TopRatedAuthors
+(
+	@hobbyID INT
+)
+RETURNS TABLE
+AS
+	RETURN
+	(
+		WITH AuthorsByHobby AS
+		(
+			SELECT Authors.AuthorID
+			FROM Authors
+			INNER JOIN MaterialAuthors 
+			ON MaterialAuthors.AuthorID = Authors.AuthorID
+			INNER JOIN Materials
+			ON Materials.MaterialID = MaterialAuthors.MaterialID
+			WHERE HobbyID = @hobbyID
+		),
+		AuthorAverageRating AS
+		(
+			SELECT AuthorsByHobby.AuthorID, AVG(CAST(Rating AS DECIMAL(6,4))) AS AverageRating
+			FROM AuthorsByHobby
+			INNER JOIN MaterialAuthors 
+			ON MaterialAuthors.AuthorID = AuthorsByHobby.AuthorID
+			INNER JOIN Materials
+			ON Materials.MaterialID = MaterialAuthors.MaterialID
+			GROUP BY AuthorsByHobby.AuthorID
+		)
+		SELECT Authors.AuthorID, Authors.AuthorName, AuthorAverageRating.AverageRating
+		FROM AuthorAverageRating
+		INNER JOIN Authors
+		ON Authors.AuthorID = AuthorAverageRating.AuthorID
+	);
+GO
+
+IF OBJECT_ID('TopRatedGenres', 'IF') IS NOT NULL
+DROP FUNCTION TopRatedGenres
+GO
+
+CREATE FUNCTION TopRatedGenres
+(
+	@hobbyID INT
+)
+RETURNS TABLE
+AS
+	RETURN
+	(
+		WITH GenresByHobby AS
+		(
+			SELECT Genres.GenreID
+			FROM Genres
+			INNER JOIN MaterialGenres
+			ON MaterialGenres.GenreID = Genres.GenreID
+			INNER JOIN Materials
+			ON Materials.MaterialID = MaterialGenres.MaterialID
+			WHERE HobbyID = @hobbyID
+		),
+		GenreAverageRating AS
+		(
+			SELECT GenresByHobby.GenreID, AVG(CAST(Rating AS DECIMAL(6,4))) AS AverageRating
+			FROM GenresByHobby
+			INNER JOIN MaterialGenres
+			ON MaterialGenres.GenreID = GenresByHobby.GenreID
+			INNER JOIN Materials
+			ON Materials.MaterialID = MaterialGenres.MaterialID
+			GROUP BY GenresByHobby.GenreID
+		)
+		SELECT Genres.GenreID, Genres.GenreName, GenreAverageRating.AverageRating
+		FROM GenreAverageRating
+		INNER JOIN Genres
+		ON Genres.GenreID = GenreAverageRating.GenreID
+	);
 GO

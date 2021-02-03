@@ -507,6 +507,8 @@ namespace Backlogger.Windows
                     }
                     else if (s != null)
                     {
+                        if (c.Content.ToString() == "Free")
+                            continue;
                         decimal l = Convert.ToDecimal(c.Content.ToString().Split('-')[0].Trim());
                         decimal u = Convert.ToDecimal(c.Content.ToString().Split('-')[1].Trim());
                         if (l <= s && s <= u)

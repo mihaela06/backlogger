@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Backlogger.Windows"
         mc:Ignorable="d"
-        Title="BrowseImageWebDialog" SizeToContent="WidthAndHeight" MaxHeight="800"  MaxWidth="1200">
+        Title="Browse Web" SizeToContent="WidthAndHeight" MaxHeight="800"  MaxWidth="1200">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="10*"/>

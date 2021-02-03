@@ -361,6 +361,30 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
             </CollectionType>
           </ReturnType>
         </Function>
+        <Function Name="TopRatedAuthors" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="hobbyID" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="AuthorID" Type="int" Nullable="false" />
+                <Property Name="AuthorName" Type="nvarchar(max)" />
+                <Property Name="AverageRating" Type="decimal" Precision="38" Scale="6" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
+        <Function Name="TopRatedGenres" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="true" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="hobbyID" Type="int" Mode="In" />
+          <ReturnType>
+            <CollectionType>
+              <RowType>
+                <Property Name="GenreID" Type="int" Nullable="false" />
+                <Property Name="GenreName" Type="nvarchar(max)" />
+                <Property Name="AverageRating" Type="decimal" Precision="38" Scale="6" />
+              </RowType>
+            </CollectionType>
+          </ReturnType>
+        </Function>
         <EntityContainer Name="BackloggerModelStoreContainer">
           <EntitySet Name="Authors" EntityType="Self.Authors" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Genres" EntityType="Self.Genres" Schema="dbo" store:Type="Tables" />
@@ -808,7 +832,13 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
           <Parameter Name="MaterialID" Mode="In" Type="Int32" />
           </FunctionImport>
           <FunctionImport Name="LastStatusUpdate" IsComposable="true" ReturnType="Collection(BackloggerModel.LastStatusUpdate_Result)">
-            <Parameter Name="MaterialID" Mode="In" Type="Int32" />
+          <Parameter Name="MaterialID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="TopRatedAuthors" IsComposable="true" ReturnType="Collection(BackloggerModel.TopRatedAuthors_Result)">
+            <Parameter Name="hobbyID" Mode="In" Type="Int32" />
+          </FunctionImport>
+          <FunctionImport Name="TopRatedGenres" IsComposable="true" ReturnType="Collection(BackloggerModel.TopRatedGenres_Result)">
+            <Parameter Name="hobbyID" Mode="In" Type="Int32" />
           </FunctionImport>
         </EntityContainer>
         <ComplexType Name="LastStatusUpdate_Result">
@@ -817,6 +847,16 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
           <Property Type="DateTime" Name="DateModified" Nullable="false" Precision="23" />
           <Property Type="Int32" Name="MaterialID" Nullable="false" />
           <Property Type="Int32" Name="UpdateID" Nullable="false" />
+        </ComplexType>
+        <ComplexType Name="TopRatedAuthors_Result">
+          <Property Type="Int32" Name="AuthorID" Nullable="false" />
+          <Property Type="String" Name="AuthorName" Nullable="true" />
+          <Property Type="Decimal" Name="AverageRating" Nullable="true" Precision="38" Scale="6" />
+        </ComplexType>
+        <ComplexType Name="TopRatedGenres_Result">
+          <Property Type="Int32" Name="GenreID" Nullable="false" />
+          <Property Type="String" Name="GenreName" Nullable="true" />
+          <Property Type="Decimal" Name="AverageRating" Nullable="true" Precision="38" Scale="6" />
         </ComplexType>
       </Schema>
     </edmx:ConceptualModels>
@@ -1020,6 +1060,24 @@ warning 6002: The table/view 'Backlogger.dbo.MoviesSubscriptions' does not have 
                 <ScalarProperty Name="DateModified" ColumnName="DateModified" />
                 <ScalarProperty Name="MaterialID" ColumnName="MaterialID" />
                 <ScalarProperty Name="UpdateID" ColumnName="UpdateID" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="TopRatedAuthors" FunctionName="BackloggerModel.Store.TopRatedAuthors">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BackloggerModel.TopRatedAuthors_Result">
+                <ScalarProperty Name="AuthorID" ColumnName="AuthorID" />
+                <ScalarProperty Name="AuthorName" ColumnName="AuthorName" />
+                <ScalarProperty Name="AverageRating" ColumnName="AverageRating" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="TopRatedGenres" FunctionName="BackloggerModel.Store.TopRatedGenres">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="BackloggerModel.TopRatedGenres_Result">
+                <ScalarProperty Name="GenreID" ColumnName="GenreID" />
+                <ScalarProperty Name="GenreName" ColumnName="GenreName" />
+                <ScalarProperty Name="AverageRating" ColumnName="AverageRating" />
               </ComplexTypeMapping>
             </ResultMapping>
           </FunctionImportMapping>

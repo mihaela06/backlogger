@@ -4,10 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Backlogger.Windows"
+        xmlns:model="clr-namespace:Backlogger.Model"
         mc:Ignorable="d"
         Title="Manage your subscriptions" SizeToContent="WidthAndHeight" MaxHeight="500"  MaxWidth="400">
     <Window.Resources>
-        <CollectionViewSource x:Key="subscriptionsViewSource" d:DesignSource="{d:DesignInstance {x:Type local:Subscription}, CreateList=True}"/>
+        <CollectionViewSource x:Key="subscriptionsViewSource" d:DesignSource="{d:DesignInstance {x:Type model:Subscription}, CreateList=True}"/>
     </Window.Resources>
     <Grid Height="Auto">
         <Grid.Resources>

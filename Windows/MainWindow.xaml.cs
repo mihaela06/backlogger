@@ -12,6 +12,8 @@ namespace Backlogger.Windows
     {
         public MainWindow()
         {
+            _ = System.IO.Directory.CreateDirectory(App.projectPath + @"\Resources\Images");
+
             using (BackloggerEntities context = new BackloggerEntities())
             {
                 context.Hobbies.Load();
@@ -40,6 +42,17 @@ namespace Backlogger.Windows
             CollectionWindow collectionWindow = new CollectionWindow("Games");
             this.Hide();
             collectionWindow.Show();
+        }
+
+        private void SuggestButton_Click(object sender, RoutedEventArgs e)
+        {
+            SuggestionsDialog suggestionsDialog = new SuggestionsDialog();
+            suggestionsDialog.ShowDialog();
+        }
+
+        private void StatisticsButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

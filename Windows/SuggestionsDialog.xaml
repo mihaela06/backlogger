@@ -1,0 +1,164 @@
+﻿<Window x:Class="Backlogger.Windows.SuggestionsDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Backlogger.Windows"
+        mc:Ignorable="d"
+        WindowStartupLocation="CenterScreen"
+        Title="Find a new suggestion" Height="450" Width="600">
+    <Grid>
+        <Grid x:Name="HobbySelectionGrid" Visibility="Visible">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26">Do you have a hobby in mind?</Label>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Button x:Name="BookChoiceButton" Margin="30" Grid.Column="0" Grid.Row="0" Style="{StaticResource MainButtonStyle}" Click="HobbyChoiceButton_Click">
+                    <Label FontSize="20" FontWeight="DemiBold">Books</Label>
+                </Button>
+                <Button x:Name="MovieChoiceButton" Margin="30" Grid.Column="1" Grid.Row="0" Style="{StaticResource MainButtonStyle}" Click="HobbyChoiceButton_Click">
+                    <Label FontSize="20" FontWeight="DemiBold">Movies</Label>
+                </Button>
+                <Button x:Name="GameChoiceButton" Margin="30" Grid.Column="2" Grid.Row="0" Style="{StaticResource MainButtonStyle}" Click="HobbyChoiceButton_Click">
+                    <Label FontSize="20" FontWeight="DemiBold">Games</Label>
+                </Button>
+                <Button x:Name="RandomHobbyChoiceButton" Margin="30" Grid.Column="0" Grid.Row="1" Style="{StaticResource MainButtonStyle}"
+                    Grid.ColumnSpan="3" Width="240" Click="RandomHobbyChoiceButton_Click">
+                    <Label FontSize="20" FontWeight="DemiBold">I'll let you choose</Label>
+                </Button>
+            </Grid>
+        </Grid>
+        <Grid x:Name="StatusSelectionGrid" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26">How would like it to be?</Label>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox Name="StatusComboBox" Margin="0,30" Width="350" FontSize="20" SelectedIndex="0">
+                    <ComboBoxItem>Totally new</ComboBoxItem>
+                    <ComboBoxItem>Started but not completed</ComboBoxItem>
+                    <ComboBoxItem>Something I've finished before</ComboBoxItem>
+                    <ComboBoxItem>Tried it but dropped it</ComboBoxItem>
+                </ComboBox>
+                <Button x:Name="StatusChoiceButton" Margin="30"  Grid.Row="0" Style="{StaticResource MainButtonStyle}"
+                    Click="StatusChoiceButton_Click"  Grid.Column="1">
+                    <Label FontSize="20" FontWeight="DemiBold">Like this!</Label>
+                </Button>
+                <Button x:Name="RandomStatusChoiceButton" Margin="30"  Grid.Row="1" Style="{StaticResource MainButtonStyle}"
+                    Width="240" Click="RandomStatusChoiceButton_Click"  Grid.ColumnSpan="2">
+                    <Label FontSize="20" FontWeight="DemiBold">I'll let you choose</Label>
+                </Button>
+            </Grid>
+        </Grid>
+        <Grid x:Name="GenreSelectionGrid" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26">Any specific genre you would like to try?</Label>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox Name="GenreComboBox" Margin="30" Width="300" FontSize="20"></ComboBox>
+                <Button x:Name="GenreChoiceButton" Margin="30"  Grid.Row="0" Style="{StaticResource MainButtonStyle}"
+                    Click="GenreChoiceButton_Click"  Grid.Column="1">
+                    <Label FontSize="20" FontWeight="DemiBold">This one!</Label>
+                </Button>
+                <Button x:Name="RandomGenreChoiceButton" Margin="30"  Grid.Row="1" Style="{StaticResource MainButtonStyle}"
+                    Width="240" Click="RandomGenreChoiceButton_Click" Grid.ColumnSpan="2">
+                    <Label FontSize="20" FontWeight="DemiBold">I'll let you choose</Label>
+                </Button>
+            </Grid>
+        </Grid>
+        <Grid x:Name="AuthorSelectionGrid" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26">Any favourite author?</Label>
+            <Grid Grid.Row="1">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox Name="AuthorComboBox" Margin="30" Width="300" FontSize="20"></ComboBox>
+                <Button x:Name="AuthorChoiceButton" Margin="30"  Grid.Row="0" Style="{StaticResource MainButtonStyle}"
+                    Click="AuthorChoiceButton_Click"  Grid.Column="1">
+                    <Label FontSize="20" FontWeight="DemiBold">This one!</Label>
+                </Button>
+                <Button x:Name="RandomAuthorChoiceButton" Margin="30"  Grid.Row="1" Style="{StaticResource MainButtonStyle}"
+                    Width="240" Click="RandomAuthorChoiceButton_Click"  Grid.ColumnSpan="2">
+                    <Label FontSize="20" FontWeight="DemiBold">I'll let you choose</Label>
+                </Button>
+            </Grid>
+        </Grid>
+        <Grid x:Name="ResultsGrid" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="2*"/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26">I recommend you this:</Label>
+            <Label x:Name="RecLabel" Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="22"></Label>
+            <Grid Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Button x:Name="StartButton" Margin="30"  Style="{StaticResource MainButtonStyle}"
+                    Click="StartButton_Click"  Grid.Column="0">
+                    <Label FontSize="20" FontWeight="DemiBold">Start it now</Label>
+                </Button>
+                <Button x:Name="LaterButton" Margin="30" Style="{StaticResource MainButtonStyle}"
+                    Width="240" Click="LaterButton_Click" Grid.Column="1">
+                    <Label FontSize="20" FontWeight="DemiBold">Maybe later</Label>
+                </Button>
+            </Grid>
+        </Grid>
+        <Grid x:Name="NoResultGrid" Visibility="Collapsed">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="2*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <TextBlock HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center"
+                       FontSize="26" TextWrapping="Wrap" Margin="20" Grid.Row="0">
+                Unfortunately, I can't find anything to suit your tastes. 
+                Maybe you should add more things in your libraries then try again or retake the quiz.
+            </TextBlock>
+            <Button x:Name="ThanksButton" Margin="30" Style="{StaticResource MainButtonStyle}"
+                    Width="240" Click="LaterButton_Click" Grid.Row="1">
+                <Label FontSize="20" FontWeight="DemiBold">Thanks anyways</Label>
+            </Button>
+        </Grid>
+    </Grid>
+</Window>
