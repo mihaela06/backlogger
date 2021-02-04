@@ -27,7 +27,7 @@
             <ColumnDefinition Width="3*" />
         </Grid.ColumnDefinitions>
         <Label x:Name="LabelTitle" Content="Title" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="0"/>
-        <TextBox x:Name="TextBoxTitle" Width="400" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0"/>
+        <TextBox x:Name="TextBoxTitle" Width="400" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="0" TextChanged="TextBoxTitle_TextChanged"/>
         <Label x:Name="LabelAuthor" Content="Author(s)" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="1"/>
         <TextBox x:Name="TextBoxAuthor" Width="400" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="1" Grid.Row="1"/>
         <Label x:Name="LabelGenre" Content="Genre(s)" VerticalAlignment="Center" HorizontalAlignment="Center" Grid.Column="0" Grid.Row="2"/>

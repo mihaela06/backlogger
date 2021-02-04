@@ -24,6 +24,111 @@
             </Mappings>
             <Sources />
           </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="TimeSpentOnMaterialsTableAdapter" GeneratorDataComponentClassName="TimeSpentOnMaterialsTableAdapter" Name="TimeSpentOnMaterials" UserDataComponentName="TimeSpentOnMaterialsTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="BackloggerConnectionString (Settings)" DbObjectName="Backlogger.dbo.TimeSpentOnMaterials" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT MaterialID, Title, TotalTime FROM dbo.TimeSpentOnMaterials</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="MaterialID" DataSetColumn="MaterialID" />
+              <Mapping SourceColumn="Title" DataSetColumn="Title" />
+              <Mapping SourceColumn="TotalTime" DataSetColumn="TotalTime" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="MaterialsFullReportTableAdapter" GeneratorDataComponentClassName="MaterialsFullReportTableAdapter" Name="MaterialsFullReport" UserDataComponentName="MaterialsFullReportTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="BackloggerConnectionString (Settings)" DbObjectName="Backlogger.dbo.MaterialsFullReport" DbObjectType="View" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="false" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT Title, HobbyName, FormatType, Price, AuthorsList, GenresList, LastUpdateDate, LastUpdateStatus, SubscriptionName, Rating, DateReleased, TotalTime FROM dbo.MaterialsFullReport</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="Title" DataSetColumn="Title" />
+              <Mapping SourceColumn="HobbyName" DataSetColumn="HobbyName" />
+              <Mapping SourceColumn="FormatType" DataSetColumn="FormatType" />
+              <Mapping SourceColumn="Price" DataSetColumn="Price" />
+              <Mapping SourceColumn="AuthorsList" DataSetColumn="AuthorsList" />
+              <Mapping SourceColumn="GenresList" DataSetColumn="GenresList" />
+              <Mapping SourceColumn="LastUpdateDate" DataSetColumn="LastUpdateDate" />
+              <Mapping SourceColumn="LastUpdateStatus" DataSetColumn="LastUpdateStatus" />
+              <Mapping SourceColumn="SubscriptionName" DataSetColumn="SubscriptionName" />
+              <Mapping SourceColumn="Rating" DataSetColumn="Rating" />
+              <Mapping SourceColumn="DateReleased" DataSetColumn="DateReleased" />
+              <Mapping SourceColumn="TotalTime" DataSetColumn="TotalTime" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
+          <TableAdapter BaseClass="System.ComponentModel.Component" DataAccessorModifier="AutoLayout, AnsiClass, Class, Public" DataAccessorName="SubscriptionsTableAdapter" GeneratorDataComponentClassName="SubscriptionsTableAdapter" Name="Subscriptions" UserDataComponentName="SubscriptionsTableAdapter">
+            <MainSource>
+              <DbSource ConnectionRef="BackloggerConnectionString (Settings)" DbObjectName="Backlogger.dbo.Subscriptions" DbObjectType="Table" FillMethodModifier="Public" FillMethodName="Fill" GenerateMethods="Both" GenerateShortCommands="true" GeneratorGetMethodName="GetData" GeneratorSourceName="Fill" GetMethodModifier="Public" GetMethodName="GetData" QueryType="Rowset" ScalarCallRetval="System.Object, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" UseOptimisticConcurrency="true" UserGetMethodName="GetData" UserSourceName="Fill">
+                <DeleteCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>DELETE FROM [dbo].[Subscriptions] WHERE (([SubscriptionID] = @Original_SubscriptionID) AND ([HobbyID] = @Original_HobbyID) AND ([Price] = @Original_Price) AND ([IsActive] = @Original_IsActive))</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_SubscriptionID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="SubscriptionID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_HobbyID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="HobbyID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Currency" Direction="Input" ParameterName="@Original_Price" Precision="0" ProviderType="Money" Scale="0" Size="0" SourceColumn="Price" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Boolean" Direction="Input" ParameterName="@Original_IsActive" Precision="0" ProviderType="Bit" Scale="0" Size="0" SourceColumn="IsActive" SourceColumnNullMapping="false" SourceVersion="Original" />
+                    </Parameters>
+                  </DbCommand>
+                </DeleteCommand>
+                <InsertCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>INSERT INTO [dbo].[Subscriptions] ([HobbyID], [SubscriptionName], [Price], [IsActive]) VALUES (@HobbyID, @SubscriptionName, @Price, @IsActive);
+SELECT SubscriptionID, HobbyID, SubscriptionName, Price, IsActive FROM Subscriptions WHERE (SubscriptionID = SCOPE_IDENTITY())</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@HobbyID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="HobbyID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@SubscriptionName" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="SubscriptionName" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Currency" Direction="Input" ParameterName="@Price" Precision="0" ProviderType="Money" Scale="0" Size="0" SourceColumn="Price" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Boolean" Direction="Input" ParameterName="@IsActive" Precision="0" ProviderType="Bit" Scale="0" Size="0" SourceColumn="IsActive" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </InsertCommand>
+                <SelectCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>SELECT SubscriptionID, HobbyID, SubscriptionName, Price, IsActive FROM dbo.Subscriptions</CommandText>
+                    <Parameters />
+                  </DbCommand>
+                </SelectCommand>
+                <UpdateCommand>
+                  <DbCommand CommandType="Text" ModifiedByUser="false">
+                    <CommandText>UPDATE [dbo].[Subscriptions] SET [HobbyID] = @HobbyID, [SubscriptionName] = @SubscriptionName, [Price] = @Price, [IsActive] = @IsActive WHERE (([SubscriptionID] = @Original_SubscriptionID) AND ([HobbyID] = @Original_HobbyID) AND ([Price] = @Original_Price) AND ([IsActive] = @Original_IsActive));
+SELECT SubscriptionID, HobbyID, SubscriptionName, Price, IsActive FROM Subscriptions WHERE (SubscriptionID = @SubscriptionID)</CommandText>
+                    <Parameters>
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@HobbyID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="HobbyID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="true" AutogeneratedName="" DataSourceName="" DbType="String" Direction="Input" ParameterName="@SubscriptionName" Precision="0" ProviderType="NVarChar" Scale="0" Size="0" SourceColumn="SubscriptionName" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Currency" Direction="Input" ParameterName="@Price" Precision="0" ProviderType="Money" Scale="0" Size="0" SourceColumn="Price" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Boolean" Direction="Input" ParameterName="@IsActive" Precision="0" ProviderType="Bit" Scale="0" Size="0" SourceColumn="IsActive" SourceColumnNullMapping="false" SourceVersion="Current" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_SubscriptionID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="SubscriptionID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Int32" Direction="Input" ParameterName="@Original_HobbyID" Precision="0" ProviderType="Int" Scale="0" Size="0" SourceColumn="HobbyID" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Currency" Direction="Input" ParameterName="@Original_Price" Precision="0" ProviderType="Money" Scale="0" Size="0" SourceColumn="Price" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="" DataSourceName="" DbType="Boolean" Direction="Input" ParameterName="@Original_IsActive" Precision="0" ProviderType="Bit" Scale="0" Size="0" SourceColumn="IsActive" SourceColumnNullMapping="false" SourceVersion="Original" />
+                      <Parameter AllowDbNull="false" AutogeneratedName="SubscriptionID" ColumnName="SubscriptionID" DataSourceName="" DataTypeServer="int" DbType="Int32" Direction="Input" ParameterName="@SubscriptionID" Precision="0" ProviderType="Int" Scale="0" Size="4" SourceColumn="SubscriptionID" SourceColumnNullMapping="false" SourceVersion="Current" />
+                    </Parameters>
+                  </DbCommand>
+                </UpdateCommand>
+              </DbSource>
+            </MainSource>
+            <Mappings>
+              <Mapping SourceColumn="SubscriptionID" DataSetColumn="SubscriptionID" />
+              <Mapping SourceColumn="HobbyID" DataSetColumn="HobbyID" />
+              <Mapping SourceColumn="SubscriptionName" DataSetColumn="SubscriptionName" />
+              <Mapping SourceColumn="Price" DataSetColumn="Price" />
+              <Mapping SourceColumn="IsActive" DataSetColumn="IsActive" />
+            </Mappings>
+            <Sources />
+          </TableAdapter>
         </Tables>
         <Sources />
       </DataSource>
@@ -32,7 +137,7 @@
   <xs:element name="BackloggerDataSet" msdata:IsDataSet="true" msdata:UseCurrentLocale="true" msprop:EnableTableAdapterManager="True" msprop:Generator_DataSetName="BackloggerDataSet" msprop:Generator_UserDSName="BackloggerDataSet">
     <xs:complexType>
       <xs:choice minOccurs="0" maxOccurs="unbounded">
-        <xs:element name="TimeSpentOnHobbies" msprop:Generator_TableClassName="TimeSpentOnHobbiesDataTable" msprop:Generator_TableVarName="tableTimeSpentOnHobbies" msprop:Generator_TablePropName="TimeSpentOnHobbies" msprop:Generator_RowDeletingName="TimeSpentOnHobbiesRowDeleting" msprop:Generator_RowChangingName="TimeSpentOnHobbiesRowChanging" msprop:Generator_RowEvHandlerName="TimeSpentOnHobbiesRowChangeEventHandler" msprop:Generator_RowDeletedName="TimeSpentOnHobbiesRowDeleted" msprop:Generator_UserTableName="TimeSpentOnHobbies" msprop:Generator_RowChangedName="TimeSpentOnHobbiesRowChanged" msprop:Generator_RowEvArgName="TimeSpentOnHobbiesRowChangeEvent" msprop:Generator_RowClassName="TimeSpentOnHobbiesRow">
+        <xs:element name="TimeSpentOnHobbies" msprop:Generator_TableClassName="TimeSpentOnHobbiesDataTable" msprop:Generator_TableVarName="tableTimeSpentOnHobbies" msprop:Generator_RowChangedName="TimeSpentOnHobbiesRowChanged" msprop:Generator_TablePropName="TimeSpentOnHobbies" msprop:Generator_RowDeletingName="TimeSpentOnHobbiesRowDeleting" msprop:Generator_RowChangingName="TimeSpentOnHobbiesRowChanging" msprop:Generator_RowEvHandlerName="TimeSpentOnHobbiesRowChangeEventHandler" msprop:Generator_RowDeletedName="TimeSpentOnHobbiesRowDeleted" msprop:Generator_RowClassName="TimeSpentOnHobbiesRow" msprop:Generator_UserTableName="TimeSpentOnHobbies" msprop:Generator_RowEvArgName="TimeSpentOnHobbiesRowChangeEvent">
           <xs:complexType>
             <xs:sequence>
               <xs:element name="HobbyName" msprop:Generator_ColumnVarNameInTable="columnHobbyName" msprop:Generator_ColumnPropNameInRow="HobbyName" msprop:Generator_ColumnPropNameInTable="HobbyNameColumn" msprop:Generator_UserColumnName="HobbyName" minOccurs="0">
@@ -46,7 +151,113 @@
             </xs:sequence>
           </xs:complexType>
         </xs:element>
+        <xs:element name="TimeSpentOnMaterials" msprop:Generator_TableClassName="TimeSpentOnMaterialsDataTable" msprop:Generator_TableVarName="tableTimeSpentOnMaterials" msprop:Generator_TablePropName="TimeSpentOnMaterials" msprop:Generator_RowDeletingName="TimeSpentOnMaterialsRowDeleting" msprop:Generator_RowChangingName="TimeSpentOnMaterialsRowChanging" msprop:Generator_RowEvHandlerName="TimeSpentOnMaterialsRowChangeEventHandler" msprop:Generator_RowDeletedName="TimeSpentOnMaterialsRowDeleted" msprop:Generator_UserTableName="TimeSpentOnMaterials" msprop:Generator_RowChangedName="TimeSpentOnMaterialsRowChanged" msprop:Generator_RowEvArgName="TimeSpentOnMaterialsRowChangeEvent" msprop:Generator_RowClassName="TimeSpentOnMaterialsRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="MaterialID" msprop:Generator_ColumnVarNameInTable="columnMaterialID" msprop:Generator_ColumnPropNameInRow="MaterialID" msprop:Generator_ColumnPropNameInTable="MaterialIDColumn" msprop:Generator_UserColumnName="MaterialID" type="xs:int" />
+              <xs:element name="Title" msprop:Generator_ColumnVarNameInTable="columnTitle" msprop:Generator_ColumnPropNameInRow="Title" msprop:Generator_ColumnPropNameInTable="TitleColumn" msprop:Generator_UserColumnName="Title">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="TotalTime" msprop:Generator_ColumnVarNameInTable="columnTotalTime" msprop:Generator_ColumnPropNameInRow="TotalTime" msprop:Generator_ColumnPropNameInTable="TotalTimeColumn" msprop:Generator_UserColumnName="TotalTime" type="xs:int" minOccurs="0" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="MaterialsFullReport" msprop:Generator_TableClassName="MaterialsFullReportDataTable" msprop:Generator_TableVarName="tableMaterialsFullReport" msprop:Generator_TablePropName="MaterialsFullReport" msprop:Generator_RowDeletingName="MaterialsFullReportRowDeleting" msprop:Generator_RowChangingName="MaterialsFullReportRowChanging" msprop:Generator_RowEvHandlerName="MaterialsFullReportRowChangeEventHandler" msprop:Generator_RowDeletedName="MaterialsFullReportRowDeleted" msprop:Generator_UserTableName="MaterialsFullReport" msprop:Generator_RowChangedName="MaterialsFullReportRowChanged" msprop:Generator_RowEvArgName="MaterialsFullReportRowChangeEvent" msprop:Generator_RowClassName="MaterialsFullReportRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Title" msprop:Generator_ColumnVarNameInTable="columnTitle" msprop:Generator_ColumnPropNameInRow="Title" msprop:Generator_ColumnPropNameInTable="TitleColumn" msprop:Generator_UserColumnName="Title">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="HobbyName" msprop:Generator_ColumnVarNameInTable="columnHobbyName" msprop:Generator_ColumnPropNameInRow="HobbyName" msprop:Generator_ColumnPropNameInTable="HobbyNameColumn" msprop:Generator_UserColumnName="HobbyName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="FormatType" msprop:Generator_ColumnVarNameInTable="columnFormatType" msprop:Generator_ColumnPropNameInRow="FormatType" msprop:Generator_ColumnPropNameInTable="FormatTypeColumn" msprop:Generator_UserColumnName="FormatType" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Price" msprop:Generator_ColumnVarNameInTable="columnPrice" msprop:Generator_ColumnPropNameInRow="Price" msprop:Generator_ColumnPropNameInTable="PriceColumn" msprop:Generator_UserColumnName="Price" type="xs:decimal" minOccurs="0" />
+              <xs:element name="AuthorsList" msprop:Generator_ColumnVarNameInTable="columnAuthorsList" msprop:Generator_ColumnPropNameInRow="AuthorsList" msprop:Generator_ColumnPropNameInTable="AuthorsListColumn" msprop:Generator_UserColumnName="AuthorsList" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="GenresList" msprop:Generator_ColumnVarNameInTable="columnGenresList" msprop:Generator_ColumnPropNameInRow="GenresList" msprop:Generator_ColumnPropNameInTable="GenresListColumn" msprop:Generator_UserColumnName="GenresList" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="LastUpdateDate" msprop:Generator_ColumnVarNameInTable="columnLastUpdateDate" msprop:Generator_ColumnPropNameInRow="LastUpdateDate" msprop:Generator_ColumnPropNameInTable="LastUpdateDateColumn" msprop:Generator_UserColumnName="LastUpdateDate" type="xs:dateTime" />
+              <xs:element name="LastUpdateStatus" msprop:Generator_ColumnVarNameInTable="columnLastUpdateStatus" msprop:Generator_ColumnPropNameInRow="LastUpdateStatus" msprop:Generator_ColumnPropNameInTable="LastUpdateStatusColumn" msprop:Generator_UserColumnName="LastUpdateStatus">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="SubscriptionName" msprop:Generator_ColumnVarNameInTable="columnSubscriptionName" msprop:Generator_ColumnPropNameInRow="SubscriptionName" msprop:Generator_ColumnPropNameInTable="SubscriptionNameColumn" msprop:Generator_UserColumnName="SubscriptionName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Rating" msprop:Generator_ColumnVarNameInTable="columnRating" msprop:Generator_ColumnPropNameInRow="Rating" msprop:Generator_ColumnPropNameInTable="RatingColumn" msprop:Generator_UserColumnName="Rating" type="xs:short" minOccurs="0" />
+              <xs:element name="DateReleased" msprop:Generator_ColumnVarNameInTable="columnDateReleased" msprop:Generator_ColumnPropNameInRow="DateReleased" msprop:Generator_ColumnPropNameInTable="DateReleasedColumn" msprop:Generator_UserColumnName="DateReleased" type="xs:dateTime" minOccurs="0" />
+              <xs:element name="TotalTime" msdata:ReadOnly="true" msprop:Generator_ColumnVarNameInTable="columnTotalTime" msprop:Generator_ColumnPropNameInRow="TotalTime" msprop:Generator_ColumnPropNameInTable="TotalTimeColumn" msprop:Generator_UserColumnName="TotalTime" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="20" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
+        <xs:element name="Subscriptions" msprop:Generator_TableClassName="SubscriptionsDataTable" msprop:Generator_TableVarName="tableSubscriptions" msprop:Generator_TablePropName="Subscriptions" msprop:Generator_RowDeletingName="SubscriptionsRowDeleting" msprop:Generator_RowChangingName="SubscriptionsRowChanging" msprop:Generator_RowEvHandlerName="SubscriptionsRowChangeEventHandler" msprop:Generator_RowDeletedName="SubscriptionsRowDeleted" msprop:Generator_UserTableName="Subscriptions" msprop:Generator_RowChangedName="SubscriptionsRowChanged" msprop:Generator_RowEvArgName="SubscriptionsRowChangeEvent" msprop:Generator_RowClassName="SubscriptionsRow">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="SubscriptionID" msdata:ReadOnly="true" msdata:AutoIncrement="true" msdata:AutoIncrementSeed="-1" msdata:AutoIncrementStep="-1" msprop:Generator_ColumnVarNameInTable="columnSubscriptionID" msprop:Generator_ColumnPropNameInRow="SubscriptionID" msprop:Generator_ColumnPropNameInTable="SubscriptionIDColumn" msprop:Generator_UserColumnName="SubscriptionID" type="xs:int" />
+              <xs:element name="HobbyID" msprop:Generator_ColumnVarNameInTable="columnHobbyID" msprop:Generator_ColumnPropNameInRow="HobbyID" msprop:Generator_ColumnPropNameInTable="HobbyIDColumn" msprop:Generator_UserColumnName="HobbyID" type="xs:int" />
+              <xs:element name="SubscriptionName" msprop:Generator_ColumnVarNameInTable="columnSubscriptionName" msprop:Generator_ColumnPropNameInRow="SubscriptionName" msprop:Generator_ColumnPropNameInTable="SubscriptionNameColumn" msprop:Generator_UserColumnName="SubscriptionName" minOccurs="0">
+                <xs:simpleType>
+                  <xs:restriction base="xs:string">
+                    <xs:maxLength value="2147483647" />
+                  </xs:restriction>
+                </xs:simpleType>
+              </xs:element>
+              <xs:element name="Price" msprop:Generator_ColumnVarNameInTable="columnPrice" msprop:Generator_ColumnPropNameInRow="Price" msprop:Generator_ColumnPropNameInTable="PriceColumn" msprop:Generator_UserColumnName="Price" type="xs:decimal" />
+              <xs:element name="IsActive" msprop:Generator_ColumnVarNameInTable="columnIsActive" msprop:Generator_ColumnPropNameInRow="IsActive" msprop:Generator_ColumnPropNameInTable="IsActiveColumn" msprop:Generator_UserColumnName="IsActive" type="xs:boolean" />
+            </xs:sequence>
+          </xs:complexType>
+        </xs:element>
       </xs:choice>
     </xs:complexType>
+    <xs:unique name="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:TimeSpentOnMaterials" />
+      <xs:field xpath="mstns:MaterialID" />
+    </xs:unique>
+    <xs:unique name="Subscriptions_Constraint1" msdata:ConstraintName="Constraint1" msdata:PrimaryKey="true">
+      <xs:selector xpath=".//mstns:Subscriptions" />
+      <xs:field xpath="mstns:SubscriptionID" />
+    </xs:unique>
   </xs:element>
 </xs:schema>

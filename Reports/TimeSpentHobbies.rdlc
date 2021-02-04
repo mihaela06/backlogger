@@ -2,37 +2,37 @@
 <Report xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner">
   <AutoRefresh>0</AutoRefresh>
   <DataSources>
-    <DataSource Name="BackloggerDataSet2">
+    <DataSource Name="BackloggerDataSet">
       <ConnectionProperties>
         <DataProvider>System.Data.DataSet</DataProvider>
         <ConnectString>/* Local Connection */</ConnectString>
       </ConnectionProperties>
-      <rd:DataSourceID>6828e6d5-1513-426e-b850-5b44788a8ba9</rd:DataSourceID>
+      <rd:DataSourceID>e7e039ff-d73a-4cad-a7ef-2a78fd62b0ae</rd:DataSourceID>
     </DataSource>
   </DataSources>
   <DataSets>
-    <DataSet Name="DataSet2">
+    <DataSet Name="DataSetTimeHobbies">
       <Query>
-        <DataSourceName>BackloggerDataSet2</DataSourceName>
+        <DataSourceName>BackloggerDataSet</DataSourceName>
         <CommandText>/* Local Query */</CommandText>
       </Query>
       <Fields>
-        <Field Name="Title">
-          <DataField>Title</DataField>
+        <Field Name="HobbyName">
+          <DataField>HobbyName</DataField>
           <rd:TypeName>System.String</rd:TypeName>
         </Field>
-        <Field Name="TotalTime">
-          <DataField>TotalTime</DataField>
+        <Field Name="TotalTimeHobby">
+          <DataField>TotalTimeHobby</DataField>
           <rd:TypeName>System.Int32</rd:TypeName>
         </Field>
       </Fields>
       <rd:DataSetInfo>
-        <rd:DataSetName>BackloggerDataSet2</rd:DataSetName>
-        <rd:SchemaPath>E:\ATM\An III\Semestrul I\Aplicații baze de date\Proiect\Backlogger\BackloggerDataSet2.xsd</rd:SchemaPath>
-        <rd:TableName>TimeSpentOnMaterials</rd:TableName>
+        <rd:DataSetName>BackloggerDataSet</rd:DataSetName>
+        <rd:SchemaPath>E:\ATM\An III\Semestrul I\Aplicații baze de date\Proiect\Backlogger\BackloggerDataSet.xsd</rd:SchemaPath>
+        <rd:TableName>TimeSpentOnHobbies</rd:TableName>
         <rd:TableAdapterFillMethod>Fill</rd:TableAdapterFillMethod>
         <rd:TableAdapterGetDataMethod>GetData</rd:TableAdapterGetDataMethod>
-        <rd:TableAdapterName>TimeSpentOnMaterialsTableAdapter</rd:TableAdapterName>
+        <rd:TableAdapterName>TimeSpentOnHobbiesTableAdapter</rd:TableAdapterName>
       </rd:DataSetInfo>
     </DataSet>
   </DataSets>
@@ -40,42 +40,45 @@
     <ReportSection>
       <Body>
         <ReportItems>
-          <Chart Name="Chart4">
+          <Chart Name="Chart3">
             <ChartCategoryHierarchy>
               <ChartMembers>
                 <ChartMember>
-                  <Group Name="Chart4_CategoryGroup">
+                  <Group Name="Chart3_CategoryGroup">
                     <GroupExpressions>
-                      <GroupExpression>=Fields!Title.Value</GroupExpression>
+                      <GroupExpression>=Fields!HobbyName.Value</GroupExpression>
                     </GroupExpressions>
                   </Group>
                   <SortExpressions>
                     <SortExpression>
-                      <Value>=Fields!Title.Value</Value>
+                      <Value>=Fields!HobbyName.Value</Value>
                     </SortExpression>
                   </SortExpressions>
-                  <Label>=Fields!Title.Value</Label>
+                  <Label>=Fields!HobbyName.Value</Label>
                 </ChartMember>
               </ChartMembers>
             </ChartCategoryHierarchy>
             <ChartSeriesHierarchy>
               <ChartMembers>
                 <ChartMember>
-                  <Label>Total Time</Label>
+                  <Label>Total Time Hobby</Label>
                 </ChartMember>
               </ChartMembers>
             </ChartSeriesHierarchy>
             <ChartData>
               <ChartSeriesCollection>
-                <ChartSeries Name="Series">
+                <ChartSeries Name="TotalTimeHobby">
                   <ChartDataPoints>
                     <ChartDataPoint>
                       <ChartDataPointValues>
-                        <Y>=Fields!TotalTime.Value/3600</Y>
+                        <Y>=Sum(Fields!TotalTimeHobby.Value)</Y>
                       </ChartDataPointValues>
                       <ChartDataLabel>
                         <Style />
+                        <Label>#PERCENT</Label>
+                        <Visible>true</Visible>
                       </ChartDataLabel>
+                      <ToolTip>=Sum(Fields!TotalTimeHobby.Value)</ToolTip>
                       <Style />
                       <ChartMarker>
                         <Style />
@@ -83,7 +86,7 @@
                       <DataElementOutput>Output</DataElementOutput>
                     </ChartDataPoint>
                   </ChartDataPoints>
-                  <Type>Bar</Type>
+                  <Type>Shape</Type>
                   <Style />
                   <ChartEmptyPoints>
                     <Style />
@@ -122,7 +125,6 @@
                         <Color>#5c5c5c</Color>
                       </Style>
                     </ChartAxisTitle>
-                    <Interval>1</Interval>
                     <ChartMajorGridLines>
                       <Enabled>False</Enabled>
                       <Style>
@@ -158,7 +160,6 @@
                     <CrossAt>NaN</CrossAt>
                     <Minimum>NaN</Minimum>
                     <Maximum>NaN</Maximum>
-                    <LabelsAutoFitDisabled>true</LabelsAutoFitDisabled>
                     <ChartAxisScaleBreak>
                       <Style />
                     </ChartAxisScaleBreak>
@@ -228,7 +229,6 @@
                         <Style>None</Style>
                       </Border>
                       <FontSize>8pt</FontSize>
-                      <Format>0 h</Format>
                       <Color>#5c5c5c</Color>
                     </Style>
                     <ChartAxisTitle>
@@ -344,7 +344,6 @@
                   <BackgroundGradientType>None</BackgroundGradientType>
                   <FontSize>8pt</FontSize>
                 </Style>
-                <Position>TopLeft</Position>
                 <ChartLegendTitle>
                   <Caption />
                   <Style>
@@ -359,7 +358,7 @@
             </ChartLegends>
             <ChartTitles>
               <ChartTitle Name="Default">
-                <Caption />
+                <Caption>Time spent on hobbies</Caption>
                 <Style>
                   <BackgroundGradientType>None</BackgroundGradientType>
                   <FontSize>9pt</FontSize>
@@ -388,11 +387,10 @@
                 <VerticalAlign>Top</VerticalAlign>
               </Style>
             </ChartNoDataMessage>
-            <DataSetName>DataSet2</DataSetName>
-            <Top>0.79057cm</Top>
-            <Left>1.24037cm</Left>
-            <Height>15.795cm</Height>
-            <Width>24.08937cm</Width>
+            <DataSetName>DataSetTimeHobbies</DataSetName>
+            <Top>0.92287cm</Top>
+            <Height>15.50396cm</Height>
+            <Width>23.375cm</Width>
             <Style>
               <Border>
                 <Color>LightGrey</Color>
@@ -403,10 +401,10 @@
             </Style>
           </Chart>
         </ReportItems>
-        <Height>7.03125in</Height>
+        <Height>6.92559in</Height>
         <Style />
       </Body>
-      <Width>10.50359in</Width>
+      <Width>12.04291in</Width>
       <Page>
         <PageHeight>29.7cm</PageHeight>
         <PageWidth>21cm</PageWidth>
@@ -426,5 +424,5 @@
     </GridLayoutDefinition>
   </ReportParametersLayout>
   <rd:ReportUnitType>Cm</rd:ReportUnitType>
-  <rd:ReportID>fb4ab46a-a20d-4b0a-b291-06c52bc7ee61</rd:ReportID>
+  <rd:ReportID>299ab27f-21d3-4e00-8c20-005e46e17b46</rd:ReportID>
 </Report>

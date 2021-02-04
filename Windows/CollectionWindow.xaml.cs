@@ -1077,6 +1077,8 @@ namespace Backlogger.Windows
             addStatusUpdateDialog.ShowDialog();
 
             RefreshGrid();
+            DeleteObsoleteFilters();
+            InitializeFilters();
         }
 
         private void DeleteStatusUpdate_Click(object sender, RoutedEventArgs e)

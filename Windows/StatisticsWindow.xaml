@@ -7,35 +7,35 @@
         x:Name="statisticsWindow"
         mc:Ignorable="d"
         Closing="StatisticsWindow_Closing"
-        Title="Statistics" Height="800" MinHeight="800" Width="1200" MinWidth="1000"
+        Title="Statistics" Height="900" MinHeight="800" Width="1200" MinWidth="1000"
         xmlns:rep="clr-namespace:Microsoft.Reporting.WinForms;assembly=Microsoft.ReportViewer.WinForms"
         WindowStartupLocation="CenterScreen">
     <TabControl x:Name="tabControl">
         <TabItem Header="Time per hobby">
             <Grid x:Name="TimeHobbiesGrid">
-                <WindowsFormsHost Name="WindowsFormsHost">
-                    <rep:ReportViewer x:Name="RepViewer" Load="ReportViewer_Load" />
+                <WindowsFormsHost>
+                    <rep:ReportViewer x:Name="RepViewerTimeHobbies" Load="RepViewerTimeHobbies_Load" />
                 </WindowsFormsHost>
             </Grid>
         </TabItem>
         <TabItem Header="Time per material">
             <Grid x:Name="TimeMaterialsGrid">
-                <WindowsFormsHost Name="WindowsFormsHost2">
-                    <rep:ReportViewer x:Name="RepViewer2" Load="ReportViewer2_Load"/>
+                <WindowsFormsHost>
+                    <rep:ReportViewer x:Name="RepViewerTimeMaterials" Load="RepViewerTimeMaterials_Load"/>
                 </WindowsFormsHost>
             </Grid>
         </TabItem>
         <TabItem Header="Complete report">
             <Grid x:Name="ReportGrid">
-                <WindowsFormsHost Name="WindowsFormsHost3">
-                    <rep:ReportViewer x:Name="RepViewer3" Load="ReportViewer3_Load"/>
+                <WindowsFormsHost>
+                    <rep:ReportViewer x:Name="RepViewerFullReport" Load="RepViewerFullReport_Load"/>
                 </WindowsFormsHost>
             </Grid>
         </TabItem>
         <TabItem Header="Spendings">
             <Grid x:Name="SpendingsGrid">
-                <WindowsFormsHost Name="WindowsFormsHost4">
-                    <rep:ReportViewer x:Name="RepViewer4" Load="ReportViewer4_Load"/>
+                <WindowsFormsHost>
+                    <rep:ReportViewer x:Name="RepViewerSpendings" Load="RepViewerSpendings_Load"/>
                 </WindowsFormsHost>
             </Grid>
         </TabItem>

@@ -111,16 +111,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>BackloggerDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="BackloggerDataSet2.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BackloggerDataSet2.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="BackloggerDataSet3.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>BackloggerDataSet3.xsd</DependentUpon>
-    </Compile>
     <Compile Include="Model\MaterialsFullReport.cs">
       <DependentUpon>Backlogger_model.tt</DependentUpon>
     </Compile>
@@ -293,10 +283,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Reports\MainReport.rdlc" />
-    <EmbeddedResource Include="Reports\MainReport2.rdlc" />
-    <EmbeddedResource Include="Reports\MainReport3.rdlc" />
-    <EmbeddedResource Include="Reports\MainReport4.rdlc" />
+    <EmbeddedResource Include="Reports\Spendings.rdlc" />
+    <EmbeddedResource Include="Reports\TimeSpentHobbies.rdlc" />
+    <EmbeddedResource Include="Reports\CompleteReport.rdlc" />
     <EntityDeploy Include="Model\Backlogger_model.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>Backlogger_model.Designer.cs</LastGenOutput>
@@ -311,28 +300,6 @@
     </None>
     <None Include="BackloggerDataSet.xss">
       <DependentUpon>BackloggerDataSet.xsd</DependentUpon>
-    </None>
-    <None Include="BackloggerDataSet2.xsc">
-      <DependentUpon>BackloggerDataSet2.xsd</DependentUpon>
-    </None>
-    <None Include="BackloggerDataSet2.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>BackloggerDataSet2.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="BackloggerDataSet2.xss">
-      <DependentUpon>BackloggerDataSet2.xsd</DependentUpon>
-    </None>
-    <None Include="BackloggerDataSet3.xsc">
-      <DependentUpon>BackloggerDataSet3.xsd</DependentUpon>
-    </None>
-    <None Include="BackloggerDataSet3.xsd">
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>BackloggerDataSet3.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </None>
-    <None Include="BackloggerDataSet3.xss">
-      <DependentUpon>BackloggerDataSet3.xsd</DependentUpon>
     </None>
     <None Include="Model\Backlogger_model.edmx.diagram">
       <DependentUpon>Backlogger_model.edmx</DependentUpon>
@@ -367,6 +334,7 @@
       <DependentUpon>Backlogger_model.edmx</DependentUpon>
       <LastGenOutput>Backlogger_model.cs</LastGenOutput>
     </Content>
+    <EmbeddedResource Include="Reports\TimeSpentMaterials.rdlc" />
     <Content Include="SqlServerTypes\readme.htm" />
     <Content Include="SqlServerTypes\x64\msvcr120.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

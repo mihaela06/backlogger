@@ -109,9 +109,9 @@ namespace Backlogger.Windows
             string fileName = App.projectPath + @"\Resources\Images\" + editID.ToString();
             List<string> extensions = new List<string> { ".png", ".jpg", ".jpeg", ".gif" };
 
-            foreach(var e in extensions)
+            foreach (var e in extensions)
             {
-                if(File.Exists(fileName + e))
+                if (File.Exists(fileName + e))
                 {
                     var s = fileName + e;
                     wholePath = s;
@@ -127,6 +127,33 @@ namespace Backlogger.Windows
 
         private void ButtonSaveNew_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
+                string message = null;
+                if (TextBoxTitle.Text.Length < 1)
+                    message += "- You must specify a title!\n";
+                if (TextBoxAuthor.Text.Length < 1)
+                    message += "- You must specify at least one author (separated by commas)!\n";
+                if (TextBoxGenre.Text.Length < 1)
+                    message += "- You must specify at least one genre (separated by commas)!\n";
+                if (DatePickerDateReleased.SelectedDate != null)
+                    if (DatePickerDateReleased.SelectedDate > System.DateTime.Now)
+                        message += "- The release date cannot be after the current date!\n";
+                if (DatePickerDateAdded.Value != null)
+                    if (DatePickerDateAdded.Value > System.DateTime.Now)
+                        message += "- The date of adding cannot be after the current date!\n";
+                if (DatePickerDateAdded.Value != null && DatePickerDateReleased.SelectedDate != null)
+                    if (DatePickerDateAdded.Value < DatePickerDateReleased.SelectedDate)
+                        message += "- The date of adding cannot be before the date of release!\n";
+                if (message != null)
+                    throw new Exception(message);
+            }
+            catch (Exception exception)
+            {
+                MessageBox.Show(exception.Message, "Warning", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
             using (BackloggerEntities context = new BackloggerEntities())
             {
                 context.Hobbies.Load();
@@ -204,7 +231,7 @@ namespace Backlogger.Windows
                 foreach (var a in TextBoxGenre.Text.Split(','))
                 {
                     var strTrimmed = a.Trim();
-                    int id; 
+                    int id;
                     try
                     {
                         id = (from o in context.Genres.Local where o.GenreName == strTrimmed select o).FirstOrDefault().GenreID;
@@ -225,7 +252,6 @@ namespace Backlogger.Windows
                 Material newMaterial = null;
 
                 if (editID == -1)
-
                 {
                     newMaterial = new Material()
                     {
@@ -265,10 +291,10 @@ namespace Backlogger.Windows
 
                     var obsoleteAuthors = new ObservableCollection<Author>();
 
-                    foreach(Author a in newMaterial.Authors)
+                    foreach (Author a in newMaterial.Authors)
                         if (authors.IndexOf(a) == -1)
                             obsoleteAuthors.Add(a);
-                  
+
                     foreach (Author a in obsoleteAuthors)
                         newMaterial.Authors.Remove(a);
 
@@ -305,7 +331,7 @@ namespace Backlogger.Windows
                                                 where o.StatusID == statusID && o.MaterialID == editID
                                                 select o).FirstOrDefault();
 
-                    if(addedUpdate.DateModified != (DateTime)DatePickerDateAdded.Value)
+                    if (addedUpdate.DateModified != (DateTime)DatePickerDateAdded.Value)
                         addedUpdate.DateModified = (DateTime)DatePickerDateAdded.Value;
 
                     context.SaveChanges();
@@ -332,12 +358,13 @@ namespace Backlogger.Windows
                     {
                         var fileExtension = System.IO.Path.GetExtension(wholePath);
 
-                        if(wholePath != App.projectPath + @"\Resources\Images\" + id + fileExtension)
+                        if (wholePath != App.projectPath + @"\Resources\Images\" + id + fileExtension)
                             File.Copy(wholePath, App.projectPath + @"\Resources\Images\" + id + fileExtension);
                     }
                 }
                 this.Close();
             }
+
         }
 
         private void ButtonCancelNew_Click(object sender, RoutedEventArgs e)
@@ -389,6 +416,11 @@ namespace Backlogger.Windows
                 else
                     LabelFileSelected.Content = s.Substring(0, 40) + "..." + s.Substring(s.Length - 25);
             }
+        }
+
+        private void TextBoxTitle_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
         }
     }
 }

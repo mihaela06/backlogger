@@ -210,7 +210,7 @@ INSERT INTO Hobbies VALUES
 ('Books'), ('Movies'), ('Games')
 
 INSERT INTO Statuses VALUES
-('Added'), ('In progress'), ('Dropped'), ('On hold'), ('Finished');
+('Added'), ('In progress'), ('Dropped'), ('Finished'), ('On hold');
 
 IF OBJECT_ID('ConcatenateAuthors', 'IF') IS NOT NULL
 DROP FUNCTION ConcatenateAuthors
@@ -456,7 +456,10 @@ AS
 
 	IF (@sID <> 5)
 	BEGIN
-		RETURN 0
+		IF (@sID <> 4)
+		BEGIN
+			RETURN 0
+		END
 	END
 
 	SELECT TOP 1 
